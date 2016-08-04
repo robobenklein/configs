@@ -58,7 +58,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git command-not-found github gpg-agent python cp colored-man-pages tmux z)
+plugins=(git command-not-found github gpg-agent python cp colored-man-pages z)
 
 # User configuration
 
