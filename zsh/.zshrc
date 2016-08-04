@@ -58,7 +58,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git command-not-found github gpg-agent python cp colored-man-pages z)
+plugins=(git command-not-found github gpg-agent python cp colored-man-pages zsh-syntax-highlighting z)
 
 # User configuration
 
@@ -109,4 +109,4 @@ alias n="nautilus"
 [ -f /home/robo/.travis/travis.sh ] && source /home/robo/.travis/travis.sh
 
 # EOF
-
+ZSHRC_LOADED=1
