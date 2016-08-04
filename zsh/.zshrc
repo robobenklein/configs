@@ -58,11 +58,11 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git command-not-found github gpg-agent python cp colored-man-pages robobenklein-launchpad tmux z)
+plugins=(git command-not-found github gpg-agent python cp colored-man-pages tmux z)
 
 # User configuration
 
-[ -d ~/bin ] && path=('~/bin' $path) # Dir bin in home
+[ -d /home/robo/bin ] && path=('/home/robo/bin' $path) # Dir bin in home
 # export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 # export MANPATH="/usr/local/man:$MANPATH"
 export PATH
@@ -97,6 +97,7 @@ alias gpg-message="gpg2 -a -es -r"
 alias gpg-sign="gpg2 -a -s"
 alias v="vim"
 alias a="atom"
+alias n="nautilus"
 
 # Makes username dissapear :<
 #DEFAULT_USER="robo"
