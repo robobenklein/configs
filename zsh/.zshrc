@@ -58,7 +58,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git command-not-found github gpg-agent python cp colored-man-pages zsh-syntax-highlighting z)
+plugins=(git command-not-found github gpg-agent python cp colored-man-pages zsh-syntax-highlighting golang z)
 
 # User configuration
 
@@ -98,6 +98,10 @@ alias gpg-sign="gpg2 -a -s"
 alias v="vim"
 alias a="atom"
 alias n="nautilus"
+
+# Go environment
+[ -d /home/robo/code/go ] && export GOPATH=$HOME/code/go
+[ -d /home/robo/code/go/bin ] && path=($path '/home/robo/code/go/bin')
 
 # Makes username dissapear :<
 #DEFAULT_USER="robo"
