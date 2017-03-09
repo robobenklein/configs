@@ -18,6 +18,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Add or remove your Bundles here:
 NeoBundle 'bling/vim-airline'
 NeoBundle 'edkolev/tmuxline.vim'
+NeoBundle 'nvie/vim-flake8'
 
 " Required:
 call neobundle#end()
@@ -44,4 +45,7 @@ set ttimeoutlen=50
 
 " Why is this not on for me by default?
 syntax enable
+
+" Fixes the weird characters
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 0
 
