@@ -63,6 +63,8 @@ plugins=(git command-not-found github python cp colored-man-pages zsh-syntax-hig
 # User configuration
 
 [ -d /home/robo/bin ] && path=('/home/robo/bin' $path) # Dir bin in home
+[ -d /home/robo/code/ieee-robotics ] && export ieee=~/code/ieee-robotics
+[[ -s $HOME/.pythonz/etc/bashrc ]] && source $HOME/.pythonz/etc/bashrc
 # export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 # export MANPATH="/usr/local/man:$MANPATH"
 export PATH
