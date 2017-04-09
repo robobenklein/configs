@@ -3,18 +3,10 @@ export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-
 # If the shell is a login shell, use fishy theme to avoid font problems.
-# If shell is tmux or not login, use agnoster
+# If shell is tmux or not login, use agnoster (fonts available)
 [[ -o login ]] && ZSH_THEME="fishy" || ZSH_THEME="agnoster"
-[ -n "$TMUX" ] && ZSH_THEME="agnoster" 
-
-# Autostart a tmux session by tmux plugin:
-ZSH_TMUX_FIXTERM_WITHOUT_256COLOR="screen-256color"
-ZSH_TMUX_AUTOSTART="false"
-ZSH_TMUX_AUTOCONNECT="false"
+[ -n "$TMUX" ] && ZSH_THEME="agnoster"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -41,51 +33,53 @@ ENABLE_CORRECTION="true"
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
 plugins=(git command-not-found github python cp colored-man-pages zsh-syntax-highlighting golang z)
 
-# User configuration
+#--------------------#
+# User configuration #
+#--------------------#
 
-[ -d /home/robo/bin ] && path=('/home/robo/bin' $path) # Dir bin in home
-[ -d /home/robo/code/ieee-robotics ] && export ieee=~/code/ieee-robotics
+# Tmux plugin:
+ZSH_TMUX_FIXTERM_WITHOUT_256COLOR="screen-256color"
+ZSH_TMUX_AUTOSTART="false"
+ZSH_TMUX_AUTOCONNECT="false"
+
 [[ -s $HOME/.pythonz/etc/bashrc ]] && source $HOME/.pythonz/etc/bashrc
-# export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
-# export MANPATH="/usr/local/man:$MANPATH"
-export PATH
+[ -d $HOME/code/ieee-robotics ] && export ieee=$HOME/code/ieee-robotics
+
+# Go environment
+[ -d $HOME/code/go ] && export GOPATH=$HOME/code/go
+[ -d $HOME/code/go/bin ] && path+=($HOME/code/go/bin)
+
+# added by travis gem
+[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+# Editor
+if command -v nvim > /dev/null 2>&1; then
+  export EDITOR='nvim'
+elif command -v vim > /dev/null 2>&1; then
+  export EDITOR='vim'
+else
+  export EDITOR='vi'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -101,18 +95,17 @@ alias v="vim"
 alias a="atom"
 alias n="nautilus"
 
-# Go environment
-[ -d /home/robo/code/go ] && export GOPATH=$HOME/code/go
-[ -d /home/robo/code/go/bin ] && path=($path '/home/robo/code/go/bin')
-
 # Makes username dissapear :<
 #DEFAULT_USER="robo"
 
-# Add powerline plugin:
-#source ~/.local/lib/python3.5/site-packages/powerline/bindings/zsh/powerline.zsh
+### PATH configuration
+# Keep this clean!
+typeset -U path # unique items only in path array
 
-# added by travis gem
-[ -f /home/robo/.travis/travis.sh ] && source /home/robo/.travis/travis.sh
+# Place home bin at front of path
+[ -d $HOME/bin ] && path[1,0]=$HOME/bin
+
+export PATH
 
 # EOF
 ZSHRC_LOADED=1
