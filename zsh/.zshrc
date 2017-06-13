@@ -43,7 +43,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git command-not-found github python cp colored-man-pages zsh-syntax-highlighting golang z)
+plugins=(git command-not-found github python cp colored-man-pages zsh-syntax-highlighting z)
 
 #--------------------#
 # User configuration #
@@ -55,15 +55,24 @@ ZSH_TMUX_AUTOSTART="false"
 ZSH_TMUX_AUTOCONNECT="false"
 
 [[ -s $HOME/.pythonz/etc/bashrc ]] && source $HOME/.pythonz/etc/bashrc
-[ -d $HOME/code/ieee-robotics ] && export ieee=$HOME/code/ieee-robotics
 
 # Go environment
 [ -d $HOME/code/go ] && export GOPATH=$HOME/code/go
 [ -d $HOME/code/go/bin ] && path+=($HOME/code/go/bin)
 
+# NVM nodejs
+if [ -d $HOME/.nvm ]; then
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi
+
 # added by travis gem
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
+#----------------#
+# Load oh-my-zsh #
+#----------------#
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
@@ -74,12 +83,12 @@ if command -v nvim > /dev/null 2>&1; then
   export EDITOR='nvim'
 elif command -v vim > /dev/null 2>&1; then
   export EDITOR='vim'
-else
+elif command -v vi > /dev/null 2>&1; then
   export EDITOR='vi'
+elif command -v nano > /dev/null 2>&1; then
+  export EDITOR='nano'
 fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+alias v="$EDITOR"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -91,12 +100,8 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias gpg-message="gpg2 -a -es -r"
 alias gpg-sign="gpg2 -a -s"
-alias v="vim"
 alias a="atom"
 alias n="nautilus"
-
-# Makes username dissapear :<
-#DEFAULT_USER="robo"
 
 ### PATH configuration
 # Keep this clean!
