@@ -3,16 +3,37 @@ export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
-# If the shell is a login shell, use fishy theme to avoid font problems.
-# If shell is tmux or not login, use agnoster (fonts available)
-[[ -o login ]] && ZSH_THEME="fishy" || ZSH_THEME="agnoster"
-[ -n "$TMUX" ] && ZSH_THEME="agnoster"
+
+platform='Linux'
+unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+  # Get the terminal emulator
+  TERM_PROGRAM=$(basename "/"$(ps -f -p $(cat /proc/$(echo $$)/stat | cut -d \  -f 4) | tail -1 | sed 's/^.* //'))
+elif [[ "$unamestr" == 'Darwin' ]]; then
+  # TERM_PROGRAM should already be set
+fi
+
+# Default in case we don't know if terminal has powerline fonts.
+ZSH_THEME="fishy"
+case "$TERM_PROGRAM" in
+  'guake.main'|\
+  'terminator'|\
+  'iTerm.app'|\
+  'gnome-terminal-server'|\
+  'tmux'|\
+  '0') # for some reason we get zero from SSH connections
+    ZSH_THEME="agnoster"
+    ;;
+  default)
+    ZSH_THEME="fishy"
+    ;;
+esac
 
 ENABLE_CORRECTION="true"
 COMPLETION_WAITING_DOTS="true"
 
 # oh-my-zsh plugins
-plugins=(git command-not-found github python cp colored-man-pages zsh-syntax-highlighting z)
+plugins=(git command-not-found git-flow-completion python cp colored-man-pages zsh-syntax-highlighting z)
 typeset -U plugins
 # antigen bundle plugins
 antigenplugins=(git command-not-found cp z zsh-users/zsh-syntax-highlighting)

@@ -20,6 +20,7 @@ NeoBundle 'bling/vim-airline'
 NeoBundle 'edkolev/tmuxline.vim'
 NeoBundle 'nvie/vim-flake8'
 NeoBundle 'hkupty/nvimux'
+NeoBundle 'tpope/vim-fugitive'
 
 " Required:
 call neobundle#end()
