@@ -19,6 +19,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'edkolev/tmuxline.vim'
 NeoBundle 'nvie/vim-flake8'
+NeoBundle 'hkupty/nvimux'
 
 " Required:
 call neobundle#end()
