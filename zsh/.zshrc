@@ -70,6 +70,7 @@ fi
 
 # If ~/.antigen, then use that instead of oh-my-zsh
 if [ -d $HOME/.antigen ]; then
+  ANTIGEN_CACHE=$HOME/.antigen/init-${TERM_PROGRAM}.zsh
   source $HOME/.antigen/antigen.zsh
   antigen use oh-my-zsh
   for plugin in $antigenplugins; do
