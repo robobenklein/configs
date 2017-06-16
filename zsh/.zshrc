@@ -8,7 +8,9 @@ platform='Linux'
 unamestr=`uname`
 if [[ "$unamestr" == 'Linux' ]]; then
   # Get the terminal emulator
-  TERM_PROGRAM=$(basename "/"$(ps -f -p $(cat /proc/$(echo $$)/stat | cut -d \  -f 4) | tail -1 | sed 's/^.* //'))
+  if [ -z $TERM_PROGRAM ]; then
+    TERM_PROGRAM=$(ps -f -o comm -p $(cat /proc/$(echo $$)/stat | cut -d \  -f 4) | tail -1 | sed -r 's;:.*$;;gm' | sed -r 's/[-\/]*$//g')
+  fi
 elif [[ "$unamestr" == 'Darwin' ]]; then
   # TERM_PROGRAM should already be set
 fi
@@ -16,15 +18,15 @@ fi
 # Default in case we don't know if terminal has powerline fonts.
 ZSH_THEME="fishy"
 case "$TERM_PROGRAM" in
-  'guake.main'|\
+  'python2'|\
   'terminator'|\
   'iTerm.app'|\
-  'gnome-terminal-server'|\
+  'gnome-terminal'|\
   'tmux'|\
-  '0') # for some reason we get zero from SSH connections
+  'sshd')
     ZSH_THEME="agnoster"
     ;;
-  default)
+  'login')
     ZSH_THEME="fishy"
     ;;
 esac
@@ -64,13 +66,29 @@ fi
 # added by travis gem
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
+# Fix that guake doesn't set TERM properly
+# it actually does have 256color...
+if [ $TERM_PROGRAM = "python2" ] && [ $TERM = "xterm" ]; then
+  TERM=xterm-256color
+fi
+
 #----------------#
 # Load framework #
 #----------------#
 
 # If ~/.antigen, then use that instead of oh-my-zsh
 if [ -d $HOME/.antigen ]; then
-  ANTIGEN_CACHE=$HOME/.antigen/init-${TERM_PROGRAM}.zsh
+  if [ -d ~/.antigen/bundles/bhilburn/powerlevel9k ] && [ $ZSH_THEME = "agnoster" ]; then
+    # More power
+    ZSH_THEME="bhilburn/powerlevel9k"
+    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir_writable dir vcs)
+    POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time root_indicator background_jobs battery time)
+    # Specifics
+    POWERLEVEL9K_BATTERY_LOW_THRESHOLD=30
+    POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=0
+    POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="white"
+  fi
+  ANTIGEN_CACHE=$HOME/.antigen/init-${TERM_PROGRAM}-$( echo $ZSH_THEME | tr -cd '[[:alnum:]]').zsh
   source $HOME/.antigen/antigen.zsh
   antigen use oh-my-zsh
   for plugin in $antigenplugins; do

@@ -48,8 +48,8 @@ set ttimeoutlen=50
 " Why is this not on for me by default?
 syntax enable
 " Dark on dark doesn't work...
-set background=dark
 colorscheme cobalt
+set background=dark
 
 " Fixes the weird characters
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 0
