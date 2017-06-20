@@ -17,6 +17,10 @@ fi
 
 # Default in case we don't know if terminal has powerline fonts.
 ZSH_THEME="fishy"
+if [[ "$TERM_PROGRAM" == 'zsh' ]]; then
+  # Once nested: look at parent's process
+  TERM_PROGRAM=$(ps -f -o comm -p $(cat /proc/$(echo $PPID)/stat | cut -d \  -f 4) | tail -1 | sed -r 's;:.*$;;gm' | sed -r 's/[-\/]*$//g')
+fi
 case "$TERM_PROGRAM" in
   'python2'|\
   'terminator'|\
@@ -27,6 +31,9 @@ case "$TERM_PROGRAM" in
     ZSH_THEME="agnoster"
     ;;
   'login')
+    ZSH_THEME="fishy"
+    ;;
+  'zsh') # We are nested deeper
     ZSH_THEME="fishy"
     ;;
 esac
