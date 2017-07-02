@@ -8,9 +8,7 @@ platform='Linux'
 unamestr=`uname`
 if [[ "$unamestr" == 'Linux' ]]; then
   # Get the terminal emulator
-  if [ -z $TERM_PROGRAM ]; then
-    TERM_PROGRAM=$(ps -f -o comm -p $(cat /proc/$(echo $$)/stat | cut -d \  -f 4) | tail -1 | sed -r 's;:.*$;;gm' | sed -r 's/[-\/]*$//g')
-  fi
+  TERM_PROGRAM=$(ps -f -o comm -p $(cat /proc/$(echo $$)/stat | cut -d \  -f 4) | tail -1 | sed -r 's;:.*$;;gm' | sed -r 's/[-\/]*$//g')
 elif [[ "$unamestr" == 'Darwin' ]]; then
   # TERM_PROGRAM should already be set
 fi
