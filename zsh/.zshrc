@@ -118,6 +118,14 @@ fi
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 # Editor
 if command -v nvim > /dev/null 2>&1; then
   export EDITOR='nvim'
@@ -130,14 +138,37 @@ elif command -v nano > /dev/null 2>&1; then
 fi
 alias v="$EDITOR"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+# ls shortcuts
+if command -v exa > /dev/null 2>&1; then
+  export Z_LSBASE='exa'
+  export Z_LSARGEXTRA='--git'
+else
+  export Z_LSBASE='ls'
+fi
+
+# ls long, but not too long
+# complicated fix to not show too many dotfiles for just 'l'
+function lslbntl() {
+  z_tmp_args=()
+  for arg in "$@"; do
+    if [[ ! "$arg" =~ ^- ]]; then
+      z_tmp_args+=($arg)
+    fi
+  done
+  Z_TMP_DOTCOUNT="$(ls -A1 $z_tmp_args | grep '^\.' | wc -l)"
+  if [[ "$Z_TMP_DOTCOUNT" -gt "$(tput lines)" ]]; then # there are too many dotfiles lol
+    echo "Not showing $Z_TMP_DOTCOUNT hidden listings for $z_tmp_args."
+    Z_LSARGS="-lh"
+  else
+    Z_LSARGS="-lah"
+  fi
+  $Z_LSBASE $Z_LSARGEXTRA $Z_LSARGS $@
+}
+
+alias l="lslbntl"
+alias ll="$Z_LSBASE -lh"
+alias la="$Z_LSBASE -lah"
+
 alias gpg-message="gpg2 -a -es -r"
 alias gpg-sign="gpg2 -a -s"
 alias a="atom"
