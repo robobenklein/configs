@@ -143,11 +143,12 @@ if command -v exa > /dev/null 2>&1; then
   export Z_LSBASE='exa'
   export Z_LSARGEXTRA='--git'
 else
-  export Z_LSBASE='ls'
+  export Z_LSBASE='ls --color=tty'
 fi
 
 # ls long, but not too long
 # complicated fix to not show too many dotfiles for just 'l'
+# does not show hidden files if there are more hidden files than terminal height
 function lslbntl() {
   z_tmp_args=()
   for arg in "$@"; do
