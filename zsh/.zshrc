@@ -143,7 +143,8 @@ if command -v exa > /dev/null 2>&1; then
   export Z_LSBASE='exa'
   export Z_LSARGEXTRA='--git'
 else
-  export Z_LSBASE='ls --color=tty'
+  export Z_LSBASE='ls'
+  export Z_LSARGEXTRA='--color=tty'
 fi
 
 # ls long, but not too long
@@ -167,8 +168,8 @@ function lslbntl() {
 }
 
 alias l="lslbntl"
-alias ll="$Z_LSBASE -lh"
-alias la="$Z_LSBASE -lah"
+alias ll="$Z_LSBASE $Z_LSARGEXTRA -lh"
+alias la="$Z_LSBASE $Z_LSARGEXTRA -lah"
 
 alias gpg-message="gpg2 -a -es -r"
 alias gpg-sign="gpg2 -a -s"
