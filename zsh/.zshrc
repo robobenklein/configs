@@ -180,6 +180,9 @@ alias n="nautilus"
 # Keep this clean!
 typeset -U path # unique items only in path array
 
+# Add .local/bin to path with priority,
+[ -d $HOME/.local/bin ] && path[1,0]=$HOME/.local/bin
+
 # Place home bin at front of path
 [ -d $HOME/bin ] && path[1,0]=$HOME/bin
 
