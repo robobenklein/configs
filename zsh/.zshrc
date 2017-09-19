@@ -175,6 +175,7 @@ alias gpg-message="gpg2 -a -es -r"
 alias gpg-sign="gpg2 -a -s"
 alias a="atom"
 alias n="nautilus"
+alias m="make"
 
 ### PATH configuration
 # Keep this clean!
