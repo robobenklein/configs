@@ -17,7 +17,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Add or remove your Bundles here:
 NeoBundle 'bling/vim-airline'
-NeoBundle 'edkolev/tmuxline.vim'
+"NeoBundle 'edkolev/tmuxline.vim'
 NeoBundle 'nvie/vim-flake8'
 NeoBundle 'hkupty/nvimux'
 NeoBundle 'tpope/vim-fugitive'
