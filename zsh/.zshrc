@@ -43,7 +43,7 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(git command-not-found git-flow-completion python cp colored-man-pages zsh-syntax-highlighting z)
 typeset -U plugins
 # antigen bundle plugins
-antigenplugins=(git command-not-found cp z zsh-users/zsh-syntax-highlighting)
+antigenplugins=(git command-not-found cp z zsh-users/zsh-syntax-highlighting colored-man-pages)
 typeset -U antigenplugins
 
 #--------------------#
@@ -88,6 +88,7 @@ if [ -d $HOME/.antigen ]; then
     ZSH_THEME="bhilburn/powerlevel9k"
     POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir_writable dir vcs)
     POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time root_indicator background_jobs battery time)
+    #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS+=( vi_mode )
     # Specifics
     POWERLEVEL9K_BATTERY_LOW_THRESHOLD=30
     POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=1
@@ -99,6 +100,7 @@ if [ -d $HOME/.antigen ]; then
     POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND="black"
     POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND="242" # dimm gray
     POWERLEVEL9K_EXECUTION_TIME_ICON="⏲ "
+    POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON="⇗ "
   fi
   ANTIGEN_CACHE=$HOME/.antigen/init-${TERM_PROGRAM}-$( echo $ZSH_THEME | tr -cd '[[:alnum:]]').zsh
   source $HOME/.antigen/antigen.zsh
