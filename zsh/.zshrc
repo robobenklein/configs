@@ -4,13 +4,14 @@ export ZSH=~/.oh-my-zsh
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 
-platform='Linux'
 unamestr=`uname`
 if [[ "$unamestr" == 'Linux' ]]; then
   # Get the terminal emulator
+  platform='Linux'
   TERM_PROGRAM=$(ps -f -o comm -p $(cat /proc/$(echo $$)/stat | cut -d \  -f 4) | tail -1 | sed -r 's;:.*$;;gm' | sed -r 's/[-\/]*$//g')
 elif [[ "$unamestr" == 'Darwin' ]]; then
   # TERM_PROGRAM should already be set
+  platform='Darwin'
 fi
 
 # Default in case we don't know if terminal has powerline fonts.
@@ -146,7 +147,11 @@ if command -v exa > /dev/null 2>&1; then
   export Z_LSARGEXTRA='--git'
 else
   export Z_LSBASE='ls'
-  export Z_LSARGEXTRA='--color=tty'
+  if [[ "$platform" == "Linux" ]]; then
+    export Z_LSARGEXTRA='--color=tty'
+  elif [[ "$platform" == "Darwin" ]]; then
+    export Z_LSARGEXTRA='-G'
+  fi
 fi
 
 # ls long, but not too long
