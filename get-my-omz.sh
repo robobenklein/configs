@@ -8,7 +8,7 @@ popd
 mkdir -p ~/Downloads
 pushd ~/Downloads
 curl -fsSL https://github.com/powerline/fonts/raw/master/UbuntuMono/Ubuntu%20Mono%20derivative%20Powerline.ttf > Ubuntu\ Mono\ derivative\ Powerline.ttf
-gnome-font-viewer Ubuntu\ Mono\ derivative\ Powerline.ttf
+#gnome-font-viewer Ubuntu\ Mono\ derivative\ Powerline.ttf
 popd
 mv ~/.zshrc ~/.zshrc.old
 ln -s ~/code/configs/zsh/.zshrc ~/.zshrc
