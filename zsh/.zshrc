@@ -14,6 +14,19 @@ elif [[ "$unamestr" == 'Darwin' ]]; then
   platform='Darwin'
 fi
 
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+  # on Ubuntu it's in vte-2.91.sh for whatever reason?
+  if [[ -s '/etc/profile.d/vte.sh' ]]; then
+    Z_VTE_CONF_SETUP_FILE='/etc/profile.d/vte.sh'
+  elif [[ -s '/etc/profile.d/vte-2.91.sh' ]]; then
+    Z_VTE_CONF_SETUP_FILE='/etc/profile.d/vte-2.91.sh'
+  fi
+
+  if [[ -n "$Z_VTE_CONF_SETUP_FILE" ]]; then
+    source $Z_VTE_CONF_SETUP_FILE
+  fi
+fi
+
 # Default in case we don't know if terminal has powerline fonts.
 ZSH_THEME="fishy"
 if [[ "$TERM_PROGRAM" == 'zsh' ]]; then
@@ -26,6 +39,7 @@ case "$TERM_PROGRAM" in
   'iTerm.app'|\
   'gnome-terminal'|\
   'tmux'|\
+  'tilix'|\
   'sshd')
     ZSH_THEME="agnoster"
     ;;
@@ -198,3 +212,4 @@ export PATH
 
 # EOF
 ZSHRC_LOADED=1
+
