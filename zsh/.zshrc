@@ -70,13 +70,10 @@ antigenplugins=(
 #  zsh-users/zsh-syntax-highlighting
   colored-man-pages
   peterhurford/git-it-on.zsh
+  Tarrasch/zsh-bd
   zdharma/fast-syntax-highlighting
 )
 typeset -U antigenplugins
-if command -v bd >/dev/null 2>&1; then
-  # bd 'back dir'
-  antigenplugins+=(Tarrasch/zsh-bd)
-fi
 
 #--------------------#
 # User configuration #
@@ -115,7 +112,7 @@ fi
 
 # If ~/.antigen, then use that instead of oh-my-zsh
 if [ -d $HOME/.antigen ]; then
-  if [ -d ~/.antigen/bundles/bhilburn/powerlevel9k ] && [ $ZSH_THEME = "agnoster" ]; then
+  if [ -d ~/.antigen/bundles/bhilburn/powerlevel9k ] && [ $ZSH_THEME = "$Z_DEFAULT_POWERLINE_THEME" ]; then
     # More power
     ZSH_THEME="bhilburn/powerlevel9k"
     POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir_writable dir vcs)
