@@ -29,6 +29,7 @@ fi
 
 # Default in case we don't know if terminal has powerline fonts.
 ZSH_THEME="fishy"
+Z_DEFAULT_POWERLINE_THEME="agnoster"
 if [[ "$TERM_PROGRAM" == 'zsh' ]]; then
   # Once nested: look at parent's process
   TERM_PROGRAM=$(ps -f -o comm -p $(cat /proc/$(echo $PPID)/stat | cut -d \  -f 4) | tail -1 | sed -r 's;:.*$;;gm' | sed -r 's/[-\/]*$//g')
@@ -41,7 +42,7 @@ case "$TERM_PROGRAM" in
   'tmux'|\
   'tilix'|\
   'sshd')
-    ZSH_THEME="agnoster"
+    ZSH_THEME="$Z_DEFAULT_POWERLINE_THEME"
     ;;
   'login')
     ZSH_THEME="fishy"
@@ -54,12 +55,28 @@ esac
 ENABLE_CORRECTION="true"
 COMPLETION_WAITING_DOTS="true"
 
-# oh-my-zsh plugins
+#---------#
+# PLUGINS #
+#---------#
+# oh-my-zsh
 plugins=(git command-not-found git-flow-completion python cp colored-man-pages zsh-syntax-highlighting z)
 typeset -U plugins
-# antigen bundle plugins
-antigenplugins=(git command-not-found cp z zsh-users/zsh-syntax-highlighting colored-man-pages)
+# antigen bundles
+antigenplugins=(
+  git
+  command-not-found
+  cp
+  z
+#  zsh-users/zsh-syntax-highlighting
+  colored-man-pages
+  peterhurford/git-it-on.zsh
+  zdharma/fast-syntax-highlighting
+)
 typeset -U antigenplugins
+if command -v bd >/dev/null 2>&1; then
+  # bd 'back dir'
+  antigenplugins+=(Tarrasch/zsh-bd)
+fi
 
 #--------------------#
 # User configuration #
