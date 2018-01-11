@@ -15,5 +15,6 @@
       path: zsh/zshrc
 
   # Neovim
-    ~/.config/nvim:
+    ~/.config/nvim/init.vim:
       create: true
+      path: nvim/init.vim
