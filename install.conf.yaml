@@ -1,0 +1,19 @@
+- defaults:
+    link:
+      relink: true
+
+- link:
+  # Tmux
+    ~/.tmux.conf: tmux/tmux.conf
+    ~/.config/tmux:
+      create: true
+      path: tmux
+
+  # Zsh
+    ~/.zshrc:
+      force: true
+      path: zsh/zshrc
+
+  # Neovim
+    ~/.config/nvim:
+      create: true
