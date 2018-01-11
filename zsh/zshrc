@@ -194,7 +194,7 @@ function lslbntl() {
   done
   Z_TMP_DOTCOUNT="$(ls -A1 $z_tmp_args | grep '^\.' | wc -l)"
   if [[ "$Z_TMP_DOTCOUNT" -gt "$(tput lines)" ]]; then # there are too many dotfiles lol
-    echo "Not showing $Z_TMP_DOTCOUNT hidden listings for $z_tmp_args."
+    echo "Not showing $Z_TMP_DOTCOUNT hidden listings" #for $z_tmp_args."
     Z_LSARGS="-lh"
   else
     Z_LSARGS="-lah"
