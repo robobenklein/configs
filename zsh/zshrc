@@ -131,7 +131,7 @@ if [ -d $HOME/.antigen ]; then
     POWERLEVEL9K_EXECUTION_TIME_ICON="⧖ "
     POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON="⇗ "
   fi
-  ANTIGEN_CACHE=$HOME/.antigen/init-${TERM_PROGRAM}-$( echo $ZSH_THEME | tr -cd '[[:alnum:]]').zsh
+  ANTIGEN_CACHE=$HOME/.antigen/init-cache-${TERM_PROGRAM}-$( echo $ZSH_THEME | tr -cd '[[:alnum:]]').zsh
   source $HOME/.antigen/antigen.zsh
   antigen use oh-my-zsh
   for plugin in $antigenplugins; do
@@ -147,16 +147,10 @@ else
 fi
 
 # You may need to manually set your language environment
-export LANG=en_US.UTF-8
+#export LANG=en_US.UTF-8
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+### Personal shortcuts and aliases
+
 # Editor
 if command -v nvim > /dev/null 2>&1; then
   export EDITOR='nvim'
