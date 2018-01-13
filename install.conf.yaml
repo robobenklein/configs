@@ -13,6 +13,7 @@
   # Antigen
     ~/.antigen:
       create: true
+      force: true
       path: antigen
 
   # Zsh
