@@ -66,6 +66,7 @@ antigenplugins=(
   git
   command-not-found
   cp
+  robobenklein/k
   z
 #  zsh-users/zsh-syntax-highlighting
   colored-man-pages

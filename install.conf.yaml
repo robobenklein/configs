@@ -9,6 +9,11 @@
       create: true
       path: tmux
 
+  # Antigen
+    ~/.antigen:
+      create: true
+      path: antigen
+
   # Zsh
     ~/.zshrc:
       force: true
