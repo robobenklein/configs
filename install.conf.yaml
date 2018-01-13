@@ -3,6 +3,7 @@
       relink: true
 
 - link:
+
   # Tmux
     ~/.tmux.conf: tmux/tmux.conf
     ~/.config/tmux:
@@ -23,3 +24,6 @@
     ~/.config/nvim/init.vim:
       create: true
       path: nvim/init.vim
+
+- shell:
+  - [git submodule update --init, Initializing submodules]
