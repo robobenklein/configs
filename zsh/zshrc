@@ -1,9 +1,7 @@
-# Path to your oh-my-zsh installation.
+# Path to oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-
+# OS & Terminal Emulator Detection
 unamestr=`uname`
 if [[ "$unamestr" == 'Linux' ]]; then
   # Get the terminal emulator
@@ -14,6 +12,7 @@ elif [[ "$unamestr" == 'Darwin' ]]; then
   platform='Darwin'
 fi
 
+# VTE Setup (nonlogin shells)
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
   # on Ubuntu it's in vte-2.91.sh for whatever reason?
   if [[ -s '/etc/profile.d/vte.sh' ]]; then
@@ -112,7 +111,7 @@ fi
 #----------------#
 
 # If ~/.antigen, then use that instead of oh-my-zsh
-if [ -d $HOME/.antigen ]; then
+if [[ -s $HOME/.antigen/antigen.zsh ]]; then
   if [ -d ~/.antigen/bundles/bhilburn/powerlevel9k ] && [ $ZSH_THEME = "$Z_DEFAULT_POWERLINE_THEME" ]; then
     # More power
     ZSH_THEME="bhilburn/powerlevel9k"
