@@ -140,7 +140,12 @@ if [[ -s $HOME/.antigen/antigen.zsh ]]; then
   antigen theme $ZSH_THEME
   antigen apply
   # Remove paths that start with $HOME/.antigen/
-  path=( ${path%$HOME/.antigen/*} )
+  if [[ "$platform" == 'Linux' ]]; then
+    antigen_fullpath=$(readlink -f $HOME/.antigen/ )
+  elif [[ "$platform" == 'Darwin' ]]; then
+    antigen_fullpath=$(readlink $HOME/.antigen/ )
+  fi
+  path=( ${path%${antigen_fullpath}/*} )
 else
   # Otherwise use oh-my-zsh
   source $ZSH/oh-my-zsh.sh
