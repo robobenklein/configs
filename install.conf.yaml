@@ -4,6 +4,12 @@
 
 - link:
 
+  # Home bin
+    ~/bin/:
+      path: bin/*
+      # create: true
+      use_glob: true
+
   # Tmux
     ~/.tmux.conf: tmux/tmux.conf
     ~/.config/tmux:
@@ -12,7 +18,6 @@
 
   # Antigen
     ~/.antigen:
-      create: true
       force: true
       path: antigen
 
@@ -26,5 +31,13 @@
       create: true
       path: nvim/init.vim
 
+  # TF2
+    ~/unhexium/SteamLibrary/steamapps/common/Team Fortress 2/tf/cfg/:
+      create: false # don't want this on non-gaming systems
+      path: tf2/*
+      use_glob: true
+      force: true
+
 - shell:
   - [git submodule update --init, Initializing submodules]
+
