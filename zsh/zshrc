@@ -102,7 +102,7 @@ fi
 
 # Fix that guake doesn't set TERM properly
 # it actually does have 256color...
-if [ $TERM_PROGRAM = "python2" ] && [ $TERM = "xterm" ]; then
+if [[ $TERM_PROGRAM == "python2" ]] && [[ $TERM == "xterm" ]]; then
   TERM=xterm-256color
 fi
 
