@@ -7,7 +7,7 @@
   # Home bin
     ~/bin/:
       path: bin/*
-      # create: true
+      create: true
       use_glob: true
 
   # Tmux
