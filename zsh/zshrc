@@ -34,21 +34,13 @@ if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
 fi
 
 ### Keybinds
-# Up/down as history partial search
-bindkey "^[OA" up-line-or-beginning-search
-bindkey "^[OB" down-line-or-beginning-search
-# in vi command mode:
-bindkey -M vicmd '?' history-incremental-search-backward
-bindkey -M vicmd '/' history-incremental-search-forward
-bindkey -M vicmd "k" up-line-or-beginning-search
-bindkey -M vicmd "j" down-line-or-beginning-search
-bindkey -M vicmd "^V" edit-command-line
-export KEYTIMEOUT=1
 
 ### ZSH Theme selection
 ZSH_THEME="fishy"
 # Powerline available theme
 Z_DEFAULT_POWERLINE_THEME="agnoster"
+# Powerline theme only activated if it's installed
+Z_INSTALL_DETECT_POWERLINE_THEME="bhilburn/powerlevel9k"
 case "$TERM_PROGRAM" in
   'python2'|\
   'terminator'|\
@@ -120,7 +112,7 @@ fi
 # Check that antigen is installed
 if [[ -s $HOME/.antigen/antigen.zsh ]]; then
   # If powerlevel9k is installed, use it
-  if [ -d ~/.antigen/bundles/bhilburn/powerlevel9k ] && [ $ZSH_THEME = "$Z_DEFAULT_POWERLINE_THEME" ]; then
+  if [[ -d ~/.antigen/bundles/$Z_INSTALL_DETECT_POWERLINE_THEME ]] && [[ $ZSH_THEME == $Z_DEFAULT_POWERLINE_THEME ]]; then
     # More power
     ZSH_THEME="bhilburn/powerlevel9k"
     POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir_writable dir vcs)
@@ -169,6 +161,40 @@ fi
 # You may need to manually set your language environment
 #export LANG=en_US.UTF-8
 
+### Functions
+
+# ls long, but not too long
+# complicated fix to not show too many dotfiles for just 'l'
+# does not show hidden files if there are more hidden files than terminal height
+function lslbntl() {
+  local Z_TMP_LS_DOTSHOWN_SIZE=$($Z_LSBASE $Z_LSARGEXTRA -lah $@ 2>/dev/null | wc -l)
+  if [[ $Z_TMP_LS_DOTSHOWN_SIZE -gt $(tput lines) ]]; then # then don't show hidden files
+    echo "Not showing hidden files"
+    Z_LSARGS="-lh"
+  else
+    Z_LSARGS="-lah"
+  fi
+  $Z_LSBASE $Z_LSARGEXTRA $Z_LSARGS $@
+}
+
+# function which properly sets up vi mode things in order
+function start_vi_mode() {
+  export KEYTIMEOUT=1
+  antigen bundle vi-mode
+  #bindkey -v
+  POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS+=( vi_mode )
+  # in vi command mode:
+  bindkey -M vicmd '?' history-incremental-search-backward
+  bindkey -M vicmd '/' history-incremental-search-forward
+  bindkey -M vicmd "k" up-line-or-beginning-search
+  bindkey -M vicmd "j" down-line-or-beginning-search
+  bindkey -M vicmd "^V" edit-command-line
+  # Up/down as history partial search
+  bindkey "^[OA" up-line-or-beginning-search
+  bindkey "^[OB" down-line-or-beginning-search
+
+}
+
 ### Personal shortcuts and aliases
 
 # Editor
@@ -195,26 +221,6 @@ else
     export Z_LSARGEXTRA='-G'
   fi
 fi
-
-# ls long, but not too long
-# complicated fix to not show too many dotfiles for just 'l'
-# does not show hidden files if there are more hidden files than terminal height
-function lslbntl() {
-  z_tmp_args=()
-  for arg in "$@"; do
-    if [[ ! "$arg" =~ ^- ]]; then
-      z_tmp_args+=($arg)
-    fi
-  done
-  Z_TMP_DOTCOUNT="$(ls -A1 $z_tmp_args | grep '^\.' | wc -l)"
-  if [[ "$Z_TMP_DOTCOUNT" -gt "$(tput lines)" ]]; then # there are too many dotfiles lol
-    echo "Not showing $Z_TMP_DOTCOUNT hidden listings" #for $z_tmp_args."
-    Z_LSARGS="-lh"
-  else
-    Z_LSARGS="-lah"
-  fi
-  $Z_LSBASE $Z_LSARGEXTRA $Z_LSARGS $@
-}
 
 alias l="lslbntl"
 alias ll="$Z_LSBASE $Z_LSARGEXTRA -lh"
