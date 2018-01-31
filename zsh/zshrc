@@ -178,7 +178,7 @@ function lslbntl() {
 }
 
 # function which properly sets up vi mode things in order
-function start_vi_mode() {
+function zsh_start_vi_mode() {
   export KEYTIMEOUT=1
   antigen bundle vi-mode
   #bindkey -v
@@ -196,6 +196,8 @@ function start_vi_mode() {
 }
 
 ### Personal shortcuts and aliases
+
+alias zvi=zsh_start_vi_mode
 
 # Editor
 if command -v nvim > /dev/null 2>&1; then
