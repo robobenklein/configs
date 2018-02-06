@@ -31,6 +31,12 @@
       create: true
       path: nvim/init.vim
 
+  # Conky
+    ~/.conky/unseptium:
+      create: false
+      path: conky/unseptium
+      force: true
+
   # TF2
     ~/unhexium/SteamLibrary/steamapps/common/Team Fortress 2/tf/cfg/:
       create: false # don't want this on non-gaming systems
