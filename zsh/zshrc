@@ -132,6 +132,12 @@ if [[ -s $HOME/.antigen/antigen.zsh ]]; then
     POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND="242" # dimm gray
     POWERLEVEL9K_EXECUTION_TIME_ICON="⧖ "
     POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON="⇗ "
+    if command -v rtab > /dev/null 2>&1; then
+      POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \$(rtab -t -l)"
+      POWERLEVEL9K_CUSTOM_RTAB_DIR_FOREGROUND="black"
+      POWERLEVEL9K_CUSTOM_RTAB_DIR_BACKGROUND="blue"
+      POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir_writable custom_rtab_dir vcs)
+    fi
   fi
   ANTIGEN_CACHE=$HOME/.antigen/init-cache-${TERM_PROGRAM}-$( echo $ZSH_THEME | tr -cd '[[:alnum:]]').zsh
   source $HOME/.antigen/antigen.zsh
