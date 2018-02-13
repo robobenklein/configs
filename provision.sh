@@ -7,4 +7,7 @@ pushd configs
 ./install
 popd
 popd
-
+# this installs the bundles for first-time operation
+if command -v zsh; then
+  zsh -d -f -c 'source ~/.zshrc'
+fi
