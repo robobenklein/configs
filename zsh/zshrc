@@ -241,6 +241,9 @@ alias a="atom"
 alias n="nautilus"
 alias m="make"
 
+# normalized git branch name
+alias git_branch_norm="git symbolic-ref HEAD|cut -d'/' -f3-|sed -e 's;/;_;'"
+
 ### PATH configuration
 
 # Keep this clean!
