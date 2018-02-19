@@ -33,8 +33,6 @@ if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
   fi
 fi
 
-### Keybinds
-
 ### ZSH Theme selection
 ZSH_THEME="fishy"
 # Powerline available theme
@@ -114,7 +112,7 @@ if [[ -s $HOME/.antigen/antigen.zsh ]]; then
   # If powerlevel9k is installed, use it
   if [[ -d ~/.antigen/bundles/$Z_INSTALL_DETECT_POWERLINE_THEME ]] && [[ $ZSH_THEME == $Z_DEFAULT_POWERLINE_THEME ]]; then
     # More power
-    ZSH_THEME="bhilburn/powerlevel9k"
+    ZSH_THEME="$Z_INSTALL_DETECT_POWERLINE_THEME"
     POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir_writable dir vcs)
     POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time root_indicator background_jobs battery time)
     # Vim master race?
@@ -172,7 +170,7 @@ fi
 
 # ls long, but not too long
 # complicated fix to not show too many dotfiles for just 'l'
-# does not show hidden files if there are more hidden files than terminal height
+# does not show hidden files if the terminal height can't show everything
 function lslbntl() {
   local Z_TMP_LS_DOTSHOWN_SIZE=$($Z_LSBASE $Z_LSARGEXTRA -lah $@ 2>/dev/null | wc -l)
   if [[ $Z_TMP_LS_DOTSHOWN_SIZE -gt $(tput lines) ]]; then # then don't show hidden files
@@ -237,8 +235,12 @@ alias la="$Z_LSBASE $Z_LSARGEXTRA -lah"
 
 alias gpg-message="gpg2 -a -es -r"
 alias gpg-sign="gpg2 -a -s"
-alias a="atom"
-alias n="nautilus"
+if command -v atom > /dev/null 2>&1; then
+  alias a="atom"
+fi
+if command -v nautilus > /dev/null 2>&1; then
+  alias n="nautilus"
+fi
 alias m="make"
 
 # normalized git branch name
