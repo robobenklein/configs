@@ -30,6 +30,9 @@
     ~/.config/nvim/init.vim:
       create: true
       path: nvim/init.vim
+    ~/.config/nvim/colors:
+      create: true
+      path: nvim/colors
 
   # Conky
     ~/.conky/unseptium:

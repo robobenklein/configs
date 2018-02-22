@@ -14,7 +14,7 @@ let g:colors_name = "corobalt"
 "hi CTagsMember -- no settings --
 "hi CTagsGlobalConstant -- no settings --
 "hi Ignore -- no settings --
-hi Normal guifg=NONE guibg=NONE guisp=NONE gui=bold ctermfg=NONE ctermbg=NONE cterm=bold
+hi Normal guifg=NONE guibg=#121212 guisp=#121212 gui=bold ctermfg=NONE ctermbg=233 cterm=bold
 "hi CTagsImport -- no settings --
 "hi CTagsGlobalVariable -- no settings --
 "hi SpellRare -- no settings --
@@ -74,9 +74,9 @@ hi WarningMsg guifg=#080808 guibg=#ffcc00 guisp=#ffcc00 gui=NONE ctermfg=232 cte
 hi DiffDelete guifg=#ff0044 guibg=NONE guisp=NONE gui=NONE ctermfg=197 ctermbg=NONE cterm=NONE
 hi CursorColumn guifg=NONE guibg=#1d2a30 guisp=#1d2a30 gui=NONE ctermfg=NONE ctermbg=236 cterm=NONE
 hi Define guifg=#8b8a7c guibg=NONE guisp=NONE gui=NONE ctermfg=101 ctermbg=NONE cterm=NONE
-hi Function guifg=#40e0d0 guibg=NONE guisp=NONE gui=bold ctermfg=80 ctermbg=NONE cterm=bold
+hi Function guifg=#5fafff guibg=NONE guisp=NONE gui=bold ctermfg=75 ctermbg=NONE cterm=bold
 hi FoldColumn guifg=#1a1a1a guibg=#909da8 guisp=#909da8 gui=italic ctermfg=234 ctermbg=109 cterm=NONE
-hi PreProc guifg=#8700ff guibg=NONE guisp=NONE gui=NONE ctermfg=93 ctermbg=NONE cterm=NONE
+hi PreProc guifg=#00ffff guibg=NONE guisp=NONE gui=NONE ctermfg=14 ctermbg=NONE cterm=NONE
 hi Visual guifg=#1a1a1a guibg=#e4dfff guisp=#e4dfff gui=NONE ctermfg=234 ctermbg=189 cterm=NONE
 hi VertSplit guifg=#1a1a1a guibg=#536570 guisp=#536570 gui=bold ctermfg=234 ctermbg=66 cterm=bold
 hi Exception guifg=#d78700 guibg=NONE guisp=NONE gui=bold ctermfg=172 ctermbg=NONE cterm=bold
@@ -93,7 +93,7 @@ hi String guifg=#5fd700 guibg=NONE guisp=NONE gui=NONE ctermfg=76 ctermbg=NONE c
 hi PMenuThumb guifg=NONE guibg=#939aa8 guisp=#939aa8 gui=NONE ctermfg=NONE ctermbg=103 cterm=NONE
 hi MatchParen guifg=#ffffff guibg=#d70061 guisp=#d70061 gui=bold ctermfg=15 ctermbg=161 cterm=bold
 hi Repeat guifg=#ff9d00 guibg=NONE guisp=NONE gui=bold ctermfg=214 ctermbg=NONE cterm=bold
-hi Directory guifg=#2c355e guibg=NONE guisp=NONE gui=bold ctermfg=17 ctermbg=NONE cterm=bold
+hi Directory guifg=#5fafff guibg=NONE guisp=NONE gui=bold ctermfg=75 ctermbg=NONE cterm=bold
 hi Structure guifg=#ff9d00 guibg=NONE guisp=NONE gui=bold ctermfg=214 ctermbg=NONE cterm=bold
 hi Macro guifg=#ffdd00 guibg=NONE guisp=NONE gui=NONE ctermfg=220 ctermbg=NONE cterm=NONE
 hi DiffAdd guifg=NONE guibg=#3a3a3a guisp=#3a3a3a gui=NONE ctermfg=NONE ctermbg=237 cterm=NONE

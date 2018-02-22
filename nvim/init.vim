@@ -41,15 +41,15 @@ let g:airline#extensions#tmuxline#enabled = 1
 
 " Not sure if these even work,
 " Set color
-set t_Co=256
+"set t_Co=256
 " Set ESC timeout (turns out this was originally an issue with tmux)
 set ttimeoutlen=50
 
 " Why is this not on for me by default?
 syntax enable
 " Dark on dark doesn't work...
-colorscheme cobalt
 set background=dark
+colorscheme corobalt
 
 " Fixes the weird characters
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 0
