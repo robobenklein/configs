@@ -9,5 +9,6 @@ popd
 popd
 # this installs the bundles for first-time operation
 if command -v zsh; then
+  touch ~/.z
   zsh -d -f -c 'source ~/.zshrc'
 fi
