@@ -51,14 +51,12 @@ case "$TERM_PROGRAM" in
   'login')
     ZSH_THEME="fishy"
     ;;
-  'zsh')
-    # Try to keep the same theme as parent shell.
+  'zsh'|*)
+    # Try to keep the same theme if it's already set.
     if [[ -z "$ZSH_THEME" ]]; then
       ZSH_THEME="fishy"
     fi
     ;;
-  *) # idk where we are lol
-    ZSH_THEME="fishy"
 esac
 export ZSH_THEME
 
