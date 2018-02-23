@@ -34,14 +34,18 @@
       create: true
       path: nvim/colors
 
+- linkif:
+
   # Conky
     ~/.conky/unseptium:
+      if: conky --version
       create: false
       path: conky/unseptium
       force: true
 
   # TF2
     ~/unhexium/SteamLibrary/steamapps/common/Team Fortress 2/tf/cfg/:
+      if: '[[ -d ~/unhexium/SteamLibrary/steamapps/common/Team\ Fortress\ 2 ]]'
       create: false # don't want this on non-gaming systems
       path: tf2/*
       use_glob: true
