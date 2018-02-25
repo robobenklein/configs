@@ -1,0 +1,54 @@
+#!/bin/bash
+
+TMPDIR=/tmp/hydrausers
+TIMEOUT=10
+DEBUGLOG=${TMPDIR}/debug.log
+FAILURE=0
+
+mkdir -p $TMPDIR
+touch $DEBUGLOG
+declare -g -A failures
+declare -g -A hydrausers
+
+ssh hydra0 echo
+hydralist=$(echo hydra{0..30})
+
+# get all whos and put them into /tmp/hydrausers
+function gethydras() {
+  rm /tmp/hydrausers/hydra* 2>&1 >/dev/null
+  parallel-ssh -i -t $TIMEOUT -o /tmp/hydrausers -H "${hydralist}" \
+    'users' > $DEBUGLOG
+  FAILURE+=$(grep 'FAILURE' $DEBUGLOG | wc -l)
+  while read -r failedhost; do
+    # skip nothing, literally
+    if [[ $failedhost == "" ]]; then continue; fi
+    echo '!FAILURE' > $TMPDIR/$failedhost
+  done <<< $(grep 'FAILURE' $DEBUGLOG | cut -d' ' -f4 )
+  # failures+=( ["$(grep 'FAILURE' $DEBUGLOG | cut -d' ' -f4)"]="$(grep 'FAILURE' $DEBUGLOG )" )
+}
+
+gethydras
+
+for i in {0..30}; do
+  users=$(cat $TMPDIR/hydra$i )
+  if [[ $users == '!FAILURE' ]]; then
+    # rip
+    failures+=( ["hydra$i"]="$(cat $DEBUGLOG | grep hydra$i )" )
+  else
+    hydrausers+=( ["hydra$i"]="$(cat $TMPDIR/hydra$i )")
+  fi
+done
+
+for i in {0..30}; do
+  echo hydra$i: $(echo ${hydrausers[hydra$i]} | wc -w) users: ${hydrausers[hydra$i]}
+done
+
+for key in ${!failures[@]}; do
+    echo ${key} ${failures[${key}]}
+done
+
+# Total number of unique users:
+cat /tmp/hydrausers/hydra* | grep -v '!FAIL' | tr ' ' '\n' | sort | uniq | wc -l | xargs echo 'total users:'
+
+# Old hack command:
+# for i in {0..30};do timeout 2s ssh hydra${i} -o ConnectTimeout=1 -o ConnectionAttempts=1 -o PasswordAuthentication=no who | cut -d ' ' -f1 | xargs echo users on hydra${i}: ;done
