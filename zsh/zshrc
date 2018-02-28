@@ -67,6 +67,7 @@ COMPLETION_WAITING_DOTS="true"
 antigenplugins=(
 #  vi-mode
   git
+  git-flow
   command-not-found
   cp
   robobenklein/k
