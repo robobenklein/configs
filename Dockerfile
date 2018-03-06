@@ -18,6 +18,9 @@ ARG CACHEBUST=1
 
 USER ${LUSER}
 WORKDIR /home/${LUSER}
-COPY provision.sh /tmp/
-RUN bash /tmp/provision.sh
+RUN mkdir -p /home/${LUSER}/code/configs
+COPY --chown=901:901 ./ code/configs/
+COPY zsh/skel-virus-robo.zsh /etc/skel/.zshrc
+RUN /home/${LUSER}/code/configs/install
+RUN zsh -d -f -c 'source ~/.zshrc'
 
