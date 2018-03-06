@@ -7,6 +7,7 @@ pushd ~/code/configs
 popd
 if [ -z "$SKELVIRUS_TERM" ]; then
   export SKELVIRUS_TERM=1
+  touch ~/.z
   source ~/.zshrc
 fi
 
