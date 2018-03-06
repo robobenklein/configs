@@ -1,14 +1,14 @@
 FROM phusion/baseimage:0.10.0
 
 RUN install_clean \
-      rsync file curl wget git tmux zsh sudo vim
+ rsync file curl wget git tmux zsh sudo vim
 
 # user setup
 ARG luser=robo
 ENV LUSER=${luser}
 
 RUN groupadd -r ${LUSER} -g 901
-RUN useradd -m -u 901 -r -g 901 ${LUSER}
+RUN useradd -m -u 901 -r -g 901 -s /usr/bin/zsh ${LUSER}
 RUN adduser ${LUSER} sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
