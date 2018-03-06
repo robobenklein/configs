@@ -291,7 +291,8 @@ if command -v nautilus > /dev/null 2>&1; then
 fi
 alias m="make"
 
-# normalized git branch name
+alias cdg='cd $(git rev-parse --show-toplevel)'
+# normalized git branch name ('/' -> '_')
 alias git_branch_norm="git symbolic-ref HEAD|cut -d'/' -f3-|sed -e 's;/;_;'"
 
 ### PATH configuration
