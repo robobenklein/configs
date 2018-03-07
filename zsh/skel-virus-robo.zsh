@@ -6,8 +6,8 @@ cp -R ~robo/code/configs ~/code
 pushd ~/code/configs >$LOGFILE
 ./install >$LOGFILE
 popd >$LOGFILE
-if sudo -v >$LOGFILE 2>&1 ; then
-  sudo chsh ${USER} -s $(which zsh)
+if sudo -n -v >$LOGFILE 2>&1 ; then
+  sudo -n chsh ${USER} -s $(which zsh)
 fi
 if [ -z "$SKELVIRUS_TERM" ]; then
   export SKELVIRUS_TERM=1
