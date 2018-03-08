@@ -1,7 +1,7 @@
 FROM phusion/baseimage:0.10.0
 
 RUN install_clean \
- rsync file curl wget git tmux zsh sudo vim
+ rsync file curl time wget git tmux zsh sudo vim
 
 # user setup
 ARG luser=robo
