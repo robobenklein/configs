@@ -17,7 +17,7 @@ conky.config = {
 	draw_shades = false,
 
 	gap_x = 150,
-	gap_y = 10,
+	gap_y = 0,
 	net_avg_samples = 2,
 	no_buffers = true,
 	out_to_console = false,

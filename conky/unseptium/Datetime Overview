@@ -28,7 +28,7 @@ conky.config = {
 	default_outline_color = 'green',
 	alignment = 'bottom_right',
 	gap_x = 0,
-	gap_y = 10,
+	gap_y = 0,
 	no_buffers = true,
 	uppercase = false,
 	cpu_avg_samples = 2,
@@ -48,6 +48,7 @@ ${voffset 12}${offset 12}${font Ubuntu:pixelsize=12}${color2}RAM ${offset 7}$col
 ${offset 30}${color2}/:${offset 7}$color${fs_free /} / ${fs_size /} \
 ${offset 20}${color2}~/u:${offset 7}$color${fs_free /home/robo/unhexium} / ${fs_size /home/robo/unhexium} \
 ${offset 20}${color2}~/h:${offset 7}$color${fs_free /home/robo/h} / ${fs_size /home/robo/h} \
+
 
 
 
