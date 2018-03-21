@@ -38,7 +38,7 @@
 
   # Conky
     ~/.conky/unseptium:
-      if: conky --version
+      if: 'conky --version && [[ $(hostname) == "robo-unseptium" ]]'
       create: false
       path: conky/unseptium
       force: true
