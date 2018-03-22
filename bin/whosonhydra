@@ -10,7 +10,7 @@ touch $DEBUGLOG
 declare -g -A failures
 declare -g -A hydrausers
 
-ssh hydra0 echo
+ssh hydra0 echo >/dev/null 2>&1
 hydralist=$(echo hydra{0..30})
 
 # get all whos and put them into /tmp/hydrausers

@@ -32,6 +32,9 @@ case $cpuprog in
     ;;
 esac
 
+hwrange="$(($(cat /sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_min_freq | uniq) / 1000 )) - $(($(cat /sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_max_freq | uniq) / 1000 ))"
+scalerange="$(($(cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_min_freq | uniq) / 1000)) - $(($(cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq | uniq) / 1000))"
+
 echo "HWRANGE $hwrange"
 echo "SFRANGE $scalerange"
 
