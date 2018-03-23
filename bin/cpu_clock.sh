@@ -12,7 +12,7 @@ cpuprog=$(whiptail --title "Choose Action" \
   $(( LINES - 4 )) $(( COLUMNS - 18 )) $(( $LINES - 12 )) \
   "cancel" "Do nothing." \
   "set_minfreq" "Set the minimum scale frequency." \
-  "set_maxfreq" "Build the rip_rpi Pi emulator and dependency container." \
+  "set_maxfreq" "Set the maximum scale frequency." \
   3>&1 1>&2 2>&3
 )
 fi
