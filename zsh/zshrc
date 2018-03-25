@@ -281,6 +281,15 @@ alias l="lslbntl"
 alias ll="$Z_LSBASE $Z_LSARGEXTRA -lh"
 alias la="$Z_LSBASE $Z_LSARGEXTRA -lah"
 
+unalias d
+function d () {
+  if [[ -n $1 ]]; then
+    dirs "$@"
+  else
+    dirs -v | head -10
+  fi
+}
+
 alias gpg-message="gpg2 -a -es -r"
 alias gpg-sign="gpg2 -a -s"
 if command -v atom > /dev/null 2>&1; then
