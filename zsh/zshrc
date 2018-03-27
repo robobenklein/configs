@@ -289,6 +289,12 @@ function d () {
     dirs -v | head -10
   fi
 }
+compdef _dirs d
+
+function cprp () {
+  rsync -br --info=progress2 "$@"
+}
+compdef _rsync cprp
 
 alias gpg-message="gpg2 -a -es -r"
 alias gpg-sign="gpg2 -a -s"
