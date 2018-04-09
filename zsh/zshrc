@@ -281,7 +281,9 @@ alias l="lslbntl"
 alias ll="$Z_LSBASE $Z_LSARGEXTRA -lh"
 alias la="$Z_LSBASE $Z_LSARGEXTRA -lah"
 
-unalias d
+if command -v d > /dev/null 2>&1; then
+  unalias d >/dev/null 2>&1
+fi
 function d () {
   if [[ -n $1 ]]; then
     dirs "$@"
@@ -292,7 +294,7 @@ function d () {
 compdef _dirs d
 
 function cprp () {
-  rsync -br --info=progress2 "$@"
+  rsync -r --info=progress2 --delay-updates --partial-dir=.rsync-partial "$@"
 }
 compdef _rsync cprp
 
@@ -305,6 +307,7 @@ if command -v nautilus > /dev/null 2>&1; then
   alias n="nautilus"
 fi
 alias m="make"
+alias c="cat"
 
 alias cdg='cd $(git rev-parse --show-toplevel)'
 # normalized git branch name ('/' -> '_')
