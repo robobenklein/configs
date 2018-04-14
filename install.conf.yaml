@@ -34,8 +34,6 @@
       create: true
       path: nvim/colors
 
-- linkif:
-
   # Conky
     ~/.conky/unseptium:
       if: 'conky --version && [[ $(hostname) == "robo-unseptium" ]]'
