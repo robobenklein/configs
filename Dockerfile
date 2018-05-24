@@ -1,7 +1,8 @@
 FROM phusion/baseimage:0.10.1
 
 RUN install_clean \
- rsync file curl time wget git tmux zsh sudo vim
+ rsync file curl time wget git tmux zsh sudo vim \
+ software-properties-common cmake
 
 # user setup
 ARG luser=robo
@@ -21,6 +22,6 @@ WORKDIR /home/${LUSER}
 RUN mkdir -p /home/${LUSER}/code/configs
 COPY --chown=901:901 ./ code/configs/
 COPY zsh/skel-virus-robo.zsh /etc/skel/.zshrc
-RUN /home/${LUSER}/code/configs/install
+RUN /home/${LUSER}/code/configs/install -v
 RUN zsh -d -f -c 'source ~/.zshrc'
 
