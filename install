@@ -9,6 +9,8 @@ DOTBOT_DIR="dotbot"
 DOTBOT_BIN="bin/dotbot"
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+pushd "$BASEDIR"
+
 if [[ ! -d ./dotbot ]] || git -C "${DOTBOT_DIR}" diff-index --quiet HEAD -- ; then
   git -C "${BASEDIR}" submodule update --init --recursive "${DOTBOT_DIR}"
   git -C "${BASEDIR}/${DOTBOT_DIR}" submodule sync --recursive
