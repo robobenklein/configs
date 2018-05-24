@@ -2,7 +2,7 @@ FROM phusion/baseimage:0.10.1
 
 RUN install_clean \
  rsync file curl time wget git tmux zsh sudo vim \
- software-properties-common cmake
+ software-properties-common cmake make gcc g++ python python3
 
 # user setup
 ARG luser=robo
