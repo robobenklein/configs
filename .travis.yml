@@ -1,0 +1,16 @@
+
+language: python
+
+jobs:
+  include:
+  - os: linux
+    sudo: false
+    script:
+      - ./install -v
+  - os: linux
+    sudo: 9000
+    services:
+      - docker
+    script:
+      - docker build --tag robobenklein/home:travis_${TRAVIS_BRANCH} .
+
