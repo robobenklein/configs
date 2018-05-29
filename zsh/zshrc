@@ -306,6 +306,9 @@ fi
 if command -v nautilus > /dev/null 2>&1; then
   alias n="nautilus"
 fi
+if command -v git-lfs > /dev/null 2>&1; then
+  alias glfs="git-lfs"
+fi
 alias m="make"
 alias c="cat"
 

@@ -44,7 +44,7 @@
   # TF2
     ~/unhexium/SteamLibrary/steamapps/common/Team Fortress 2/tf/cfg/:
       if: '[[ -d ~/unhexium/SteamLibrary/steamapps/common/Team\ Fortress\ 2 ]]'
-      create: false # don't want this on non-gaming systems
+      create: false # don't want this created on any other systems
       path: tf2/*
       glob: true
       force: true
