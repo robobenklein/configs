@@ -16,5 +16,5 @@ if [[ ! -d ./dotbot ]] || git -C "${DOTBOT_DIR}" diff-index --quiet HEAD -- ; th
   git -C "${BASEDIR}/${DOTBOT_DIR}" submodule sync --recursive
 fi
 
-"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${BASEDIR}/${CONFIG}" "${@}"
+"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
 
