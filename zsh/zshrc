@@ -309,6 +309,9 @@ fi
 if command -v git-lfs > /dev/null 2>&1; then
   alias glfs="git-lfs"
 fi
+if command -v bfg.jar > /dev/null 2>&1 && command -v java > /dev/null 2>&1; then
+  alias bfg="java -jar $(which bfg.jar )"
+fi
 alias m="make"
 alias c="cat"
 
