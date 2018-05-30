@@ -19,6 +19,12 @@ elif [[ "$unamestr" == 'Darwin' ]]; then
   platform='Darwin'
 fi
 
+### Configs install location detection
+[ -d $HOME/bin ] && path[1,0]=$HOME/bin
+_ZSHRC_SCRIPTPATH="${(%):-%N}"
+_ZSHRC_INSTALL_LOC=$(rllink -f "$_ZSHRC_SCRIPTPATH" 2>/dev/null || readlink -f "$_ZSHRC_SCRIPTPATH" 2>/dev/null || perl -MCwd -le 'print Cwd::abs_path(shift)' "$_ZSHRC_SCRIPTPATH")
+_ZSHRC_INSTALL_DIR="${_ZSHRC_INSTALL_LOC%/*}"
+
 ### VTE Setup (nonlogin shell problem)
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
   # on Ubuntu it's in vte-2.91.sh sometimes for whatever reason?
@@ -63,6 +69,14 @@ export ZSH_THEME
 ENABLE_CORRECTION="true"
 COMPLETION_WAITING_DOTS="true"
 
+# used for a few plunks
+export Z_LSBASE='ls'
+if [[ "$platform" == "Linux" ]]; then
+  export Z_LSARGEXTRA='--color=tty'
+elif [[ "$platform" == "Darwin" ]]; then
+  export Z_LSARGEXTRA='-G'
+fi
+
 ### PLUGINS
 antigenplugins=(
 #  vi-mode
@@ -79,6 +93,11 @@ antigenplugins=(
   zdharma/fast-syntax-highlighting
 )
 typeset -U antigenplugins
+plunks=(
+  lca # last command arguments
+  lslbntl # ls long, but not too long
+  presenter-mode # zsh for presenting to groups
+)
 
 ### User configuration
 
@@ -175,21 +194,14 @@ fi
 # You may need to manually set your language environment
 #export LANG=en_US.UTF-8
 
-### Functions
+### Load Plunks
+# little bits of plugins that I plop down
+# PLugin chUNKS
+for plunk in "${plunks[@]}"; do
+  source $_ZSHRC_INSTALL_DIR/plunks/${plunk}.zsh
+done
 
-# ls long, but not too long
-# complicated fix to not show too many dotfiles for just 'l'
-# does not show hidden files if the terminal height can't show everything
-function lslbntl() {
-  local Z_TMP_LS_DOTSHOWN_SIZE=$($Z_LSBASE $Z_LSARGEXTRA -lah $@ 2>/dev/null | wc -l)
-  if [[ $Z_TMP_LS_DOTSHOWN_SIZE -gt $(tput lines) ]]; then # then don't show hidden files
-    echo "Not showing hidden files"
-    Z_LSARGS="-lh"
-  else
-    Z_LSARGS="-lah"
-  fi
-  $Z_LSBASE $Z_LSARGEXTRA $Z_LSARGS $@
-}
+### Functions
 
 # function which properly sets up vi mode things in order
 function zsh_start_vi_mode() {
@@ -206,51 +218,16 @@ function zsh_start_vi_mode() {
   # Up/down as history partial search
   bindkey "^[OA" up-line-or-beginning-search
   bindkey "^[OB" down-line-or-beginning-search
-
-}
-
-# function which sets up the terminal for use during demos and explainers
-function zsh_presenter_mode_start() {
-  # function that prints the expanded command right-aligned before running it
-  # (e.x. shows aliases in expanded form so peeps aren't lost)
-  function preshow_expanded_command() {
-    printf "%$(($(tput cols)))b\n" "expanded: \033[0;1m$3\033[0;0m"
-  }
-  Z_PRESENTER_PREEXEC_FUNCTIONS_BACKUP=$preexec_functions
-  echo "Backed up preexec array: $Z_PRESENTER_PREEXEC_FUNCTIONS_BACKUP"
-  preexec_functions+=(preshow_expanded_command)
-  Z_PRESENTER_MODE_ENABLED=1
-  # set terminal background to black to improve contrast:
-  echo -e "\033]11;#000000\a"
-  # switch toggle command
-  alias zsh-presenter-toggle=zsh_presenter_mode_stop
-  sleep 1
-  clear
-  echo ""
-  title="PRESENTATION MODE"
-  printf "%*s\n" $(((${#title}+$(tput cols))/2)) "$title"
-  echo ""
-}
-function zsh_presenter_mode_stop() {
-  echo -e "\033]11;${TERM_EMULATOR_BG_DEFAULT}\a"
-  # Check that we're not gonna accidentally set the preexec array blank
-  if (( $+Z_PRESENTER_MODE_ENABLED )) && (( $+Z_PRESENTER_PREEXEC_FUNCTIONS_BACKUP )); then
-    preexec_functions=($Z_PRESENTER_PREEXEC_FUNCTIONS_BACKUP)
-    echo "restored preexec array: $preexec_functions"
-    unset Z_PRESENTER_MODE_ENABLED
-    unset Z_PRESENTER_PREEXEC_FUNCTIONS_BACKUP
-    alias zsh-presenter-toggle=zsh_presenter_mode_start
-  else
-    >&2 echo "Presenter mode not enabled."
-    return 1
-  fi
 }
 
 ### Personal shortcuts and aliases
 
 alias zvi=zsh_start_vi_mode
 
-alias zsh-presenter-toggle=zsh_presenter_mode_start
+if command -v exa > /dev/null 2>&1; then
+  export Z_LSBASE='exa'
+  export Z_LSARGEXTRA='--git'
+fi
 
 # Editor
 if command -v nvim > /dev/null 2>&1; then
@@ -265,19 +242,8 @@ fi
 alias v="$EDITOR"
 
 # ls shortcuts
-if command -v exa > /dev/null 2>&1; then
-  export Z_LSBASE='exa'
-  export Z_LSARGEXTRA='--git'
-else
-  export Z_LSBASE='ls'
-  if [[ "$platform" == "Linux" ]]; then
-    export Z_LSARGEXTRA='--color=tty'
-  elif [[ "$platform" == "Darwin" ]]; then
-    export Z_LSARGEXTRA='-G'
-  fi
-fi
 
-alias l="lslbntl"
+alias l="lslbntl" # from the plunk
 alias ll="$Z_LSBASE $Z_LSARGEXTRA -lh"
 alias la="$Z_LSBASE $Z_LSARGEXTRA -lah"
 
@@ -334,4 +300,3 @@ export PATH
 
 # EOF
 ZSHRC_LOADED=1
-
