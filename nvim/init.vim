@@ -54,3 +54,6 @@ colorscheme corobalt
 " Fixes the weird characters
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 0
 
+command! -bang -range=% -complete=file -nargs=* W <line1>,<line2>write<bang> <args>
+command! -bang Q quit<bang>
+

@@ -98,6 +98,7 @@ plunks=(
   lslbntl # ls long, but not too long
   presenter-mode # zsh for presenting to groups
 )
+typeset -U plunks
 
 ### User configuration
 
