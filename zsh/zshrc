@@ -281,6 +281,8 @@ if command -v bfg.jar > /dev/null 2>&1 && command -v java > /dev/null 2>&1; then
 fi
 alias m="make"
 alias c="cat"
+alias pu="pushd"
+alias po="popd"
 
 alias cdg='cd $(git rev-parse --show-toplevel)'
 # normalized git branch name ('/' -> '_')
