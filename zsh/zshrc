@@ -69,12 +69,15 @@ export ZSH_THEME
 ENABLE_CORRECTION="true"
 COMPLETION_WAITING_DOTS="true"
 
-# used for a few plunks
-export Z_LSBASE='ls'
-if [[ "$platform" == "Linux" ]]; then
-  export Z_LSARGEXTRA='--color=tty'
-elif [[ "$platform" == "Darwin" ]]; then
-  export Z_LSARGEXTRA='-G'
+if [[ "${Z_LSBASE}" == "" ]]; then
+  # used for a few plunks
+  export Z_LSBASE='ls'
+  if [[ "$platform" == "Linux" ]]; then
+    export Z_LSARGEXTRA='--color=tty'
+    export Z_LSARG_FORCE_COLOR='--color=always'
+  elif [[ "$platform" == "Darwin" ]]; then
+    export Z_LSARGEXTRA='-G'
+  fi
 fi
 
 ### PLUGINS
@@ -202,6 +205,9 @@ for plunk in "${plunks[@]}"; do
   source $_ZSHRC_INSTALL_DIR/plunks/${plunk}.zsh
 done
 
+### Load extra completions
+[ -d "$_ZSHRC_INSTALL_DIR/fpath" ] && fpath+=("$_ZSHRC_INSTALL_DIR/fpath")
+
 ### Functions
 
 # function which properly sets up vi mode things in order
@@ -228,6 +234,7 @@ alias zvi=zsh_start_vi_mode
 if command -v exa > /dev/null 2>&1; then
   export Z_LSBASE='exa'
   export Z_LSARGEXTRA='--git'
+  export Z_LSARG_FORCE_COLOR='--color=always'
 fi
 
 # Editor
@@ -284,9 +291,12 @@ alias c="cat"
 alias pu="pushd"
 alias po="popd"
 
+# CD Git root
 alias cdg='cd $(git rev-parse --show-toplevel)'
 # normalized git branch name ('/' -> '_')
-alias git_branch_norm="git symbolic-ref HEAD|cut -d'/' -f3-|sed -e 's;/;_;'"
+function git_branch_norm() {
+  git symbolic-ref HEAD|cut -d'/' -f3-|sed -e 's;/;_;'
+}
 
 ### PATH configuration
 
@@ -294,10 +304,10 @@ alias git_branch_norm="git symbolic-ref HEAD|cut -d'/' -f3-|sed -e 's;/;_;'"
 typeset -U path # unique items only in path array
 
 # Add .local/bin to path with priority,
-[ -d $HOME/.local/bin ] && path[1,0]=$HOME/.local/bin
+[ -d "$HOME/.local/bin" ] && path[1,0]="$HOME/.local/bin"
 
 # Place home bin at front of path
-[ -d $HOME/bin ] && path[1,0]=$HOME/bin
+[ -d "$HOME/bin" ] && path[1,0]="$HOME/bin"
 
 export PATH
 

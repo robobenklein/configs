@@ -13,6 +13,7 @@
 # $ lca vim
 # replaces the current command buffer with:
 # $ vim /path/to/long/file.c
+# note: depends on history availablility
 
 function lca () {
   lastcmd=$history[$(( $HISTCMD - 1 ))]
