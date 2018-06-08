@@ -96,10 +96,11 @@ antigenplugins=(
   zdharma/fast-syntax-highlighting
 )
 typeset -U antigenplugins
-plunks=(
+plunks=( # PLugin chUNKS
   lca # last command arguments
   lslbntl # ls long, but not too long
   presenter-mode # zsh for presenting to groups
+  git-lfs-completion
 )
 typeset -U plunks
 
@@ -198,6 +199,9 @@ fi
 # You may need to manually set your language environment
 #export LANG=en_US.UTF-8
 
+### Load extra completions
+[ -d "$_ZSHRC_INSTALL_DIR/fpath" ] && fpath+=("$_ZSHRC_INSTALL_DIR/fpath")
+
 ### Load Plunks
 # little bits of plugins that I plop down
 # PLugin chUNKS
@@ -205,8 +209,7 @@ for plunk in "${plunks[@]}"; do
   source $_ZSHRC_INSTALL_DIR/plunks/${plunk}.zsh
 done
 
-### Load extra completions
-[ -d "$_ZSHRC_INSTALL_DIR/fpath" ] && fpath+=("$_ZSHRC_INSTALL_DIR/fpath")
+compinit
 
 ### Functions
 
