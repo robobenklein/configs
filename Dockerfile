@@ -4,6 +4,9 @@ RUN install_clean \
  rsync file curl time wget git tmux zsh sudo vim \
  software-properties-common cmake make gcc g++ python python3
 
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
+RUN install_clean git-lfs
+
 # user setup
 ARG luser=robo
 ENV LUSER=${luser}
