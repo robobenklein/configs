@@ -149,8 +149,8 @@ if [[ -s $HOME/.antigen/antigen.zsh ]]; then
     [[ $ZSH_THEME == $Z_INSTALL_DETECT_POWERLINE_THEME ]]; then
     # More power
     ZSH_THEME="$Z_INSTALL_DETECT_POWERLINE_THEME"
-    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir_writable dir vcs)
-    POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time root_indicator background_jobs battery time)
+    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable dir vcs)
+    POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time background_jobs battery time)
     # Vim master race?
     #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS+=( vi_mode )
     POWERLEVEL9K_VI_INSERT_MODE_STRING="I"
@@ -171,7 +171,7 @@ if [[ -s $HOME/.antigen/antigen.zsh ]]; then
       POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \$(rtab -t -l)"
       POWERLEVEL9K_CUSTOM_RTAB_DIR_FOREGROUND="black"
       POWERLEVEL9K_CUSTOM_RTAB_DIR_BACKGROUND="blue"
-      POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir_writable custom_rtab_dir vcs)
+      POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable custom_rtab_dir vcs)
     fi
   fi
   ANTIGEN_CACHE=$HOME/.antigen/init-cache-${TERM_PROGRAM}-$( echo $ZSH_THEME | tr -cd '[[:alnum:]]').zsh
