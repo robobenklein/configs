@@ -47,14 +47,6 @@ _git-lfs ()
     (options)
       case $line[1] in
 
-        # (init)
-        # 	_arguments \
-        # 		-f'[Force setting of gitflow branches, even if already configured]'
-        # 	;;
-
-        # (version)
-        # ;;
-
       (env)
         # no arguments.
         ;;
@@ -117,7 +109,21 @@ _git-lfs ()
         ;;
     esac
     ;;
-esac
+  esac
+}
+
+__git-lfs-checkout () {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+}
+
+__git-lfs-clone () {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
 }
 
 __git-lfs-fetch () {
@@ -135,6 +141,64 @@ __git-lfs-fetch () {
 
 }
 
+__git-lfs-install () {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+}
+
+__git-lfs-lock () {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+}
+
+__git-lfs-locks () {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+}
+
+__git-lfs-logs () {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+}
+
+__git-lfs-ls-files () {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  _arguments -C -s \
+    '1:Target Ref:__git_heads_local' \
+    "(-l --long)"{-l,--long}'[Show the entire 64 character OID, instead of just first 10.]' \
+    "(-s --size)"{-s,--size}'[Show the size of the LFS objects.]' \
+    "(-d --debug)"{-d,--debug}'[Show as much information as possible about a LFS file.]' \
+    '--deleted[Show the full history of a reference, including deleted objects.]' \
+    "(-a --all)"{-a,--all}'[Inspect the full history of the repository.]' \
+    "(-I --include=)"{-I,--include=}'[Include paths matching only these patterns.]:included files:_files' \
+    "(-X --exclude=)"{-X,--exclude=}'[Exclude paths matching any of these patterns.]:excluded files:_files'
+
+}
+
+__git-lfs-migrate () {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+}
+
+__git-lfs-prune () {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+}
+
 __git-lfs-push () {
   local curcontext="$curcontext" state line
   typeset -A opt_args
@@ -143,12 +207,45 @@ __git-lfs-push () {
     '1:Remote Origin:__git_remotes' \
     '*:Target Refs:__git_heads_local' \
     '--all[Push all objects referenced by any commit that is reachable]' \
-    '--dry-run[Print the files that would be pushed, without actually pushing them.]' \
-    # "(-p --prune)"{-p,--prune}'[Prune old and unreferenced objects after fetching.]' \
-    # "(-I --include=)"{-I,--include=}'[Specify lfs.fetchinclude just for this invocation.]:included files:_files' \
-    # "(-X --exclude=)"{-X,--exclude=}'[Specify lfs.fetchexclude just for this invocation.]:excluded files:_files'
+    '--dry-run[Print the files that would be pushed, without actually pushing them.]'
 
 }
+
+__git-lfs-track () {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+}
+
+__git-lfs-uninstall () {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+}
+
+__git-lfs-unlock () {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+}
+
+__git-lfs-untrack () {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+}
+
+__git-lfs-update () {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+}
+
 
 # __git_remotes () {
 #   local expl gitdir remotes
@@ -187,3 +284,11 @@ __git-lfs-push () {
 
 zstyle ':completion:*:*:git:*' user-commands lfs:'access to large file storage controls'
 _git-lfs "$@"
+
+# Local Variables:
+# mode: Shell-Script
+# sh-indentation: 2
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# End:
+# vim: ft=zsh sw=2 ts=2 et
