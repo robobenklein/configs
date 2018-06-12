@@ -155,5 +155,5 @@ __git_command_successful () {
   return 0
 }
 
-compdef '_git-lfs' 'git-lfs'
 zstyle ':completion:*:*:git:*' user-commands lfs:'access to large file storage controls'
+_git-lfs "$@"

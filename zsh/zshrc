@@ -80,20 +80,23 @@ if [[ "${Z_LSBASE}" == "" ]]; then
   fi
 fi
 
+### Load extra completions
+[ -d "$_ZSHRC_INSTALL_DIR/fpath" ] && fpath+=("$_ZSHRC_INSTALL_DIR/fpath")
+
 ### PLUGINS
 antigenplugins=(
-#  vi-mode
+  # vi-mode
+  # colored-man-pages
+  # peterhurford/git-it-on.zsh
   git
   git-flow
   command-not-found
-  cp
   robobenklein/k
   z
-#  zsh-users/zsh-syntax-highlighting
-  colored-man-pages
-  peterhurford/git-it-on.zsh
   Tarrasch/zsh-bd
+  zsh-users/zsh-completions
   zdharma/fast-syntax-highlighting
+  # zsh-users/zsh-syntax-highlighting
 )
 typeset -U antigenplugins
 plunks=( # PLugin chUNKS
@@ -199,9 +202,6 @@ fi
 # You may need to manually set your language environment
 #export LANG=en_US.UTF-8
 
-### Load extra completions
-[ -d "$_ZSHRC_INSTALL_DIR/fpath" ] && fpath+=("$_ZSHRC_INSTALL_DIR/fpath")
-
 ### Load Plunks
 # little bits of plugins that I plop down
 # PLugin chUNKS
@@ -209,7 +209,7 @@ for plunk in "${plunks[@]}"; do
   source $_ZSHRC_INSTALL_DIR/plunks/${plunk}.zsh
 done
 
-compinit
+# compinit
 
 ### Functions
 
