@@ -89,12 +89,13 @@ antigenplugins=(
   # colored-man-pages
   # peterhurford/git-it-on.zsh
   git
-  git-flow
+  # git-flow
   command-not-found
   robobenklein/k
   z
   Tarrasch/zsh-bd
   zsh-users/zsh-completions
+  zdharma/history-search-multi-word
   zdharma/fast-syntax-highlighting
   # zsh-users/zsh-syntax-highlighting
 )
@@ -210,6 +211,26 @@ for plunk in "${plunks[@]}"; do
 done
 
 # compinit
+
+# Whitelist chroma functions because some misbehave
+FAST_HIGHLIGHT=(
+  chroma-example chroma/-example.ch
+  chroma-docker chroma/-docker.ch
+  chroma-make chroma/-make.ch
+  chroma-perl chroma/-perl.ch
+  chroma-printf chroma/-printf.ch
+
+  chroma-git chroma/-git.ch
+
+  chroma-grep chroma/-grep.ch
+  chroma-egrep chroma/-grep.ch
+  chroma-fgrep chroma/-grep.ch
+
+  chroma-awk chroma/-awk.ch
+  chroma-gawk chroma/-awk.ch
+  chroma-mawk chroma/-awk.ch
+)
+typeset -U FAST_HIGHLIGHT
 
 ### Functions
 

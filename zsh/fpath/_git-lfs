@@ -120,40 +120,70 @@ _git-lfs ()
 esac
 }
 
-__git_remotes () {
-  local expl gitdir remotes
+__git-lfs-fetch () {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
 
-  gitdir=$(_call_program gitdir git rev-parse --git-dir 2>/dev/null)
-  __git_command_successful || return
+  _arguments -C -s \
+    '1:Remote Origin:__git_remotes' \
+    '*:Target Refs:__git_remote_branch_names_noprefix' \
+    '--all[Download all objects referenced by any commit that is reachable]' \
+    '--recent[Download objects referenced by recent branches & commits in addition to the normal fetch.]' \
+    "(-p --prune)"{-p,--prune}'[Prune old and unreferenced objects after fetching.]' \
+    "(-I --include=)"{-I,--include=}'[Specify lfs.fetchinclude just for this invocation.]:included files:_files' \
+    "(-X --exclude=)"{-X,--exclude=}'[Specify lfs.fetchexclude just for this invocation.]:excluded files:_files'
 
-  remotes=(${${(f)"$(_call_program remotes git config --get-regexp '"^remote\..*\.url$"')"}//#(#b)remote.(*).url */$match[1]})
-  __git_command_successful || return
-
-  # TODO: Should combine the two instead of either or.
-  if (( $#remotes > 0 )); then
-    _wanted remotes expl remote compadd $* - $remotes
-  else
-    _wanted remotes expl remote _files $* - -W "($gitdir/remotes)" -g "$gitdir/remotes/*"
-  fi
 }
 
-__git_branch_names () {
-  local expl
-  declare -a branch_names
+__git-lfs-push () {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
 
-  branch_names=(${${(f)"$(_call_program branchrefs git for-each-ref --format='"%(refname)"' refs/heads 2>/dev/null)"}#refs/heads/})
-  __git_command_successful || return
+  _arguments -C -s \
+    '1:Remote Origin:__git_remotes' \
+    '*:Target Refs:__git_heads_local' \
+    '--all[Push all objects referenced by any commit that is reachable]' \
+    '--dry-run[Print the files that would be pushed, without actually pushing them.]' \
+    # "(-p --prune)"{-p,--prune}'[Prune old and unreferenced objects after fetching.]' \
+    # "(-I --include=)"{-I,--include=}'[Specify lfs.fetchinclude just for this invocation.]:included files:_files' \
+    # "(-X --exclude=)"{-X,--exclude=}'[Specify lfs.fetchexclude just for this invocation.]:excluded files:_files'
 
-  _wanted branch-names expl branch-name compadd $* - $branch_names
 }
 
-__git_command_successful () {
-  if (( ${#pipestatus:#0} > 0 )); then
-    _message 'not a git repository'
-    return 1
-  fi
-  return 0
-}
+# __git_remotes () {
+#   local expl gitdir remotes
+#
+#   gitdir=$(_call_program gitdir git rev-parse --git-dir 2>/dev/null)
+#   __git_command_successful || return
+#
+#   remotes=(${${(f)"$(_call_program remotes git config --get-regexp '"^remote\..*\.url$"')"}//#(#b)remote.(*).url */$match[1]})
+#   __git_command_successful || return
+#
+#   # TODO: Should combine the two instead of either or.
+#   if (( $#remotes > 0 )); then
+#     _wanted remotes expl remote compadd $* - $remotes
+#   else
+#     _wanted remotes expl remote _files $* - -W "($gitdir/remotes)" -g "$gitdir/remotes/*"
+#   fi
+# }
+
+# __git_branch_names () {
+#   local expl
+#   declare -a branch_names
+#
+#   branch_names=(${${(f)"$(_call_program branchrefs git for-each-ref --format='"%(refname)"' refs/heads 2>/dev/null)"}#refs/heads/})
+#   __git_command_successful || return
+#
+#   _wanted branch-names expl branch-name compadd $* - $branch_names
+# }
+
+# __git_command_successful () {
+#   if (( ${#pipestatus:#0} > 0 )); then
+#     _message 'not a git repository'
+#     return 1
+#   fi
+#   return 0
+# }
 
 zstyle ':completion:*:*:git:*' user-commands lfs:'access to large file storage controls'
 _git-lfs "$@"
