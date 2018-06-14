@@ -189,7 +189,7 @@ if [[ -s $HOME/.antigen/antigen.zsh ]]; then
   elif [[ "$platform" == 'Darwin' ]]; then
     antigen_fullpath=$(readlink $HOME/.antigen/ )
   fi
-  path=( ${path%${antigen_fullpath}/*} )
+  path=( ${path%"${antigen_fullpath}/*"} )
 else
   # Where did antigen go?
   echo -e "\033[0;31mZSHRC: Couldn't find ~/.antigen/antigen.zsh!\033[0m"
