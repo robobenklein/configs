@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/bin/zsh
 ## vim:ft=zsh
 ## reverse tabbing, useful in the prompt
 ## Copyright (C) 2008 by Daniel Friesel <derf@xxxxxxxxxxxxxxxxxx>
