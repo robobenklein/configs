@@ -81,7 +81,7 @@ readlink(){
     [ -$readlink_realpath- = -- ] && [ -$readlink_verbose- = -- ] && exit 1 ||
     [ -$readlink_realpath- = -- ] && [ -$readlink_verbose- != -- ] &&
       echo "$@ is not a link." >&2  && exit 1
-    
+
     [ -$readlink_realpath- != -- ]                         &&
       readlink_canonical="$(readlink_canonicalize "$@")"   &&
         $readlink_print "$readlink_canonical$readlink_sep" && exit 0
@@ -93,7 +93,7 @@ readlink(){
             [ -b "$@" ] && readlink_file_type="block special file"         ||
               [ -c "$@" ] && readlink_file_type="character special file"   ||
                 [ -S "$@" ] && readlink_file_type="socket"
-      echo "$(basename "$0"): "$@": is a $readlink_file_type." >&2; exit 1 
+      echo "$(basename "$0"): "$@": is a $readlink_file_type." >&2; exit 1
     }
   }
 

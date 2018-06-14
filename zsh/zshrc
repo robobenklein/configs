@@ -1,3 +1,6 @@
+#!/bin/zsh
+
+[ -d "$HOME/bin" ] && path=("$HOME/bin" $path )
 
 ### OS & Terminal Emulator Detection
 unamestr=`uname`
@@ -19,10 +22,31 @@ elif [[ "$unamestr" == 'Darwin' ]]; then
   platform='Darwin'
 fi
 
+# Set zrllink utility.
+if command -v rllink >/dev/null 2>&1; then
+  function zrllink() {
+    rllink -f $1
+  }
+elif command -v readlink >/dev/null 2>&1; then
+  function zrllink() {
+    readlink -f $1
+  }
+  if [ "$platform" == "Darwin" ]; then
+    function zrllink() {
+      readlink $1
+    }
+  fi
+elif command -v perl >/dev/null 2>&1; then
+  function zrllink() {
+    perl -MCwd -le 'print Cwd::abs_path(shift)' $1
+  }
+else
+  echo -e "\033[0;31mZSHRC: Couldn't find a valid readlink! ZSHRC may not load correctly!\033[0m"
+fi
+
 ### Configs install location detection
-[ -d $HOME/bin ] && path[1,0]=$HOME/bin
 _ZSHRC_SCRIPTPATH="${(%):-%N}"
-_ZSHRC_INSTALL_LOC=$(rllink -f "$_ZSHRC_SCRIPTPATH" 2>/dev/null || readlink -f "$_ZSHRC_SCRIPTPATH" 2>/dev/null || perl -MCwd -le 'print Cwd::abs_path(shift)' "$_ZSHRC_SCRIPTPATH")
+_ZSHRC_INSTALL_LOC=$(zrllink "$_ZSHRC_SCRIPTPATH")
 _ZSHRC_INSTALL_DIR="${_ZSHRC_INSTALL_LOC%/*}"
 
 ### VTE Setup (nonlogin shell problem)
@@ -118,36 +142,36 @@ ZSH_TMUX_FIXTERM_WITHOUT_256COLOR="screen-256color"
 ZSH_TMUX_AUTOSTART="false"
 ZSH_TMUX_AUTOCONNECT="false"
 
-[[ -s $HOME/.pythonz/etc/bashrc ]] && source $HOME/.pythonz/etc/bashrc
+[[ -s "$HOME/.pythonz/etc/bashrc" ]] && source "$HOME/.pythonz/etc/bashrc"
 
 # Go environment
-[ -d $HOME/code/go ] && export GOPATH=$HOME/code/go
-[ -d $HOME/code/go/bin ] && path+=($HOME/code/go/bin)
+[ -d "$HOME/code/go" ] && export GOPATH="$HOME/code/go"
+[ -d "$HOME/code/go/bin" ] && path+=("$HOME/code/go/bin")
 
 # NVM nodejs
-if [ -d $HOME/.nvm ]; then
+if [ -d "$HOME/.nvm" ]; then
   export NVM_DIR="$HOME/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
 
 # added by travis gem
-[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
+[ -f "$HOME/.travis/travis.sh" ] && source "$HOME/.travis/travis.sh"
 
 # Fix that guake doesn't set TERM properly
 # it actually does have 256color...
-if [[ $TERM_PROGRAM == "python2" ]] && [[ $TERM == "xterm" ]]; then
+if [[ "$TERM_PROGRAM" == "python2" ]] && [[ "$TERM" == "xterm" ]]; then
   TERM=xterm-256color
 fi
 
 ### Load framework
 
 # Check that antigen is installed
-if [[ -s $HOME/.antigen/antigen.zsh ]]; then
+if [[ -s "$HOME/.antigen/antigen.zsh" ]]; then
   # If powerlevel9k is installed, use it
-  if [[ -d ~/.antigen/bundles/$Z_INSTALL_DETECT_POWERLINE_THEME ]] && \
-    [[ $ZSH_THEME == $Z_DEFAULT_POWERLINE_THEME ]] || \
-    [[ $ZSH_THEME == $Z_INSTALL_DETECT_POWERLINE_THEME ]]; then
+  if [[ -d "$HOME/.antigen/bundles/$Z_INSTALL_DETECT_POWERLINE_THEME" ]] && \
+    [[ "$ZSH_THEME" == "$Z_DEFAULT_POWERLINE_THEME" ]] || \
+    [[ "$ZSH_THEME" == "$Z_INSTALL_DETECT_POWERLINE_THEME" ]]; then
     # More power
     ZSH_THEME="$Z_INSTALL_DETECT_POWERLINE_THEME"
     POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable dir vcs)
@@ -176,27 +200,23 @@ if [[ -s $HOME/.antigen/antigen.zsh ]]; then
     fi
   fi
   ANTIGEN_CACHE=$HOME/.antigen/init-cache-${TERM_PROGRAM}-$( echo $ZSH_THEME | tr -cd '[[:alnum:]]').zsh
-  source $HOME/.antigen/antigen.zsh
+  source "$HOME/.antigen/antigen.zsh"
   antigen use oh-my-zsh
   for plugin in $antigenplugins; do
     antigen bundle "$plugin"
   done
-  antigen theme $ZSH_THEME
+  antigen theme "$ZSH_THEME"
   antigen apply
   # Remove paths that start with $HOME/.antigen/
-  if [[ "$platform" == 'Linux' ]]; then
-    antigen_fullpath=$(readlink -f $HOME/.antigen/ )
-  elif [[ "$platform" == 'Darwin' ]]; then
-    antigen_fullpath=$(readlink $HOME/.antigen/ )
-  fi
+  antigen_fullpath=$(zrllink "$HOME/.antigen/" )
   path=( ${path%"${antigen_fullpath}/*"} )
 else
   # Where did antigen go?
   echo -e "\033[0;31mZSHRC: Couldn't find ~/.antigen/antigen.zsh!\033[0m"
   # Do we have OMZ?
-  if [[ -s $HOME/.oh-my-zsh/oh-my-zsh.sh ]]; then
-    export ZSH=$HOME/.oh-my-zsh
-    source $ZSH/oh-my-zsh.sh
+  if [[ -s "$HOME/.oh-my-zsh/oh-my-zsh.sh" ]]; then
+    export ZSH="$HOME/.oh-my-zsh"
+    source "$ZSH/oh-my-zsh.sh"
   fi
 fi
 
@@ -207,7 +227,7 @@ fi
 # little bits of plugins that I plop down
 # PLugin chUNKS
 for plunk in "${plunks[@]}"; do
-  source $_ZSHRC_INSTALL_DIR/plunks/${plunk}.zsh
+  source "$_ZSHRC_INSTALL_DIR/plunks/${plunk}.zsh"
 done
 
 # compinit
@@ -230,7 +250,6 @@ FAST_HIGHLIGHT=(
   chroma-gawk chroma/-awk.ch
   chroma-mawk chroma/-awk.ch
 )
-typeset -U FAST_HIGHLIGHT
 
 ### Functions
 
