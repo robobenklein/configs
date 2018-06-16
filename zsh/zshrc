@@ -107,7 +107,7 @@ if [[ "${Z_LSBASE}" == "" ]]; then
     export Z_LSARGEXTRA='--color=tty'
     export Z_LSARG_FORCE_COLOR='--color=always'
   elif [[ "$platform" == "Darwin" ]]; then
-    export Z_LSARGEXTRA='-G'
+    export Z_LSARG_FORCE_COLOR='-G'
   fi
 fi
 
@@ -138,38 +138,6 @@ plunks=( # PLugin chUNKS
   git-lfs-completion
 )
 typeset -U plunks
-
-### User configuration
-
-# the background color for the terminal emulator
-TERM_EMULATOR_BG_DEFAULT="#444444"
-
-# Tmux plugin:
-ZSH_TMUX_FIXTERM_WITHOUT_256COLOR="screen-256color"
-ZSH_TMUX_AUTOSTART="false"
-ZSH_TMUX_AUTOCONNECT="false"
-
-[[ -s "$HOME/.pythonz/etc/bashrc" ]] && source "$HOME/.pythonz/etc/bashrc"
-
-# Go environment
-[ -d "$HOME/code/go" ] && export GOPATH="$HOME/code/go"
-[ -d "$HOME/code/go/bin" ] && path+=("$HOME/code/go/bin")
-
-# NVM nodejs
-if [ -d "$HOME/.nvm" ]; then
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-fi
-
-# added by travis gem
-[ -f "$HOME/.travis/travis.sh" ] && source "$HOME/.travis/travis.sh"
-
-# Fix that guake doesn't set TERM properly
-# it actually does have 256color...
-if [[ "$TERM_PROGRAM" == "python2" ]] && [[ "$TERM" == "xterm" ]]; then
-  TERM=xterm-256color
-fi
 
 ### Load framework
 
@@ -237,6 +205,30 @@ else
   # Try to install it
   echo -e "\033[0;31mZSHRC: Couldn't find ~/.zplugin/bin/zplugin.zsh!\033[0m"
 
+fi
+
+### User configuration
+
+# the background color for the terminal emulator
+TERM_EMULATOR_BG_DEFAULT="#444444"
+
+[[ -s "$HOME/.pythonz/etc/bashrc" ]] && source "$HOME/.pythonz/etc/bashrc"
+
+# Go environment
+[ -d "$HOME/code/go" ] && export GOPATH="$HOME/code/go"
+[ -d "$HOME/code/go/bin" ] && path+=("$HOME/code/go/bin")
+
+# NVM nodejs
+if [ -d "$HOME/.nvm" ]; then
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi
+
+# Fix that guake doesn't set TERM properly
+# it actually does have 256color...
+if [[ "$TERM_PROGRAM" == "python2" ]] && [[ "$TERM" == "xterm" ]]; then
+  TERM=xterm-256color
 fi
 
 # You may need to manually set your language environment

@@ -19,6 +19,7 @@
   # Zplugin
     ~/.zplugin/bin:
       force: true
+      create: true
       path: zplugin
 
   # Zsh
