@@ -16,10 +16,10 @@
       create: true
       path: tmux
 
-  # Antigen
-    ~/.antigen:
+  # Zplugin
+    ~/.zplugin/bin:
       force: true
-      path: antigen
+      path: zplugin
 
   # Zsh
     ~/.zshrc:
@@ -51,4 +51,3 @@
 
 - shell:
   - [git submodule update --init, Initializing submodules]
-
