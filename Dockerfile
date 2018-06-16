@@ -2,7 +2,7 @@ FROM phusion/baseimage:0.10.1
 
 RUN install_clean \
  rsync file curl time wget git tmux zsh sudo vim \
- software-properties-common cmake make gcc g++ python python3
+ software-properties-common cmake make gcc g++ python python3 gdb
 
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
 RUN install_clean git-lfs
