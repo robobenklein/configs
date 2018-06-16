@@ -72,9 +72,7 @@ fi
 
 ### ZSH Theme selection
 # Powerline available theme
-Z_DEFAULT_POWERLINE_THEME="agnoster"
-# Powerline theme only activated if it's installed
-Z_INSTALL_DETECT_POWERLINE_THEME="bhilburn/powerlevel9k"
+Z_DEFAULT_POWERLINE_THEME="p9k"
 case "$TERM_PROGRAM" in
   'python2'|\
   'terminator'|\
@@ -149,34 +147,44 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   ### Dependencies
   zplugin snippet OMZ::lib/git.zsh
   zplugin snippet OMZ::plugins/git/git.plugin.zsh
+  zplugin snippet OMZ::lib/termsupport.zsh
+  zplugin snippet OMZ::lib/spectrum.zsh
+  zplugin snippet OMZ::lib/theme-and-appearance.zsh
 
   ### Theme
-  zplugin light bhilburn/powerlevel9k
-  # More power
-  # ZSH_THEME="$Z_INSTALL_DETECT_POWERLINE_THEME"
-  POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable dir vcs)
-  POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time background_jobs battery time)
-  # Vim master race?
-  #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS+=( vi_mode )
-  POWERLEVEL9K_VI_INSERT_MODE_STRING="I"
-  POWERLEVEL9K_VI_COMMAND_MODE_STRING="CMD"
-  # Specifics
-  POWERLEVEL9K_BATTERY_LOW_THRESHOLD=30
-  POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=1
-  POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="white"
-  POWERLEVEL9K_BATTERY_ICON=""
-  POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
-  POWERLEVEL9K_SHORTEN_DELIMITER=""
-  POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
-  POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND="black"
-  POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND="242" # dimm gray
-  POWERLEVEL9K_EXECUTION_TIME_ICON="⧖ "
-  POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON="⇗ "
-  if command -v rtab > /dev/null 2>&1; then
-    POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \$(rtab -t -l)"
-    POWERLEVEL9K_CUSTOM_RTAB_DIR_FOREGROUND="black"
-    POWERLEVEL9K_CUSTOM_RTAB_DIR_BACKGROUND="blue"
-    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable custom_rtab_dir vcs)
+  if [[ "$ZSH_THEME" == "p9k" ]]; then
+    zplugin light bhilburn/powerlevel9k
+    # More power
+    # ZSH_THEME="$Z_INSTALL_DETECT_POWERLINE_THEME"
+    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable dir vcs)
+    POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time background_jobs battery time)
+    # Vim master race?
+    #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS+=( vi_mode )
+    POWERLEVEL9K_VI_INSERT_MODE_STRING="I"
+    POWERLEVEL9K_VI_COMMAND_MODE_STRING="CMD"
+    # Specifics
+    POWERLEVEL9K_BATTERY_LOW_THRESHOLD=30
+    POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=1
+    POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="white"
+    POWERLEVEL9K_BATTERY_ICON=""
+    POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
+    POWERLEVEL9K_SHORTEN_DELIMITER=""
+    POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
+    POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND="black"
+    POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND="242" # dimm gray
+    POWERLEVEL9K_EXECUTION_TIME_ICON="⧖ "
+    POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON="⇗ "
+    if command -v rtab > /dev/null 2>&1; then
+      POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \$(rtab -t -l)"
+      POWERLEVEL9K_CUSTOM_RTAB_DIR_FOREGROUND="black"
+      POWERLEVEL9K_CUSTOM_RTAB_DIR_BACKGROUND="blue"
+      POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable custom_rtab_dir vcs)
+    fi
+  elif [[ "$ZSH_THEME" == "fishy" ]]; then
+    zplugin snippet OMZ::themes/fishy.zsh-theme
+  else
+    # gotta have something...
+    zplugin snippet OMZ::themes/fishy.zsh-theme
   fi
 
   ### Normal Plugins
@@ -189,7 +197,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" blockf
   zplugin light zsh-users/zsh-completions
 
-  zplugin ice from"gh"
+  zplugin ice from"gh" wait'0'
   zplugin light robobenklein/k
 
   zplugin ice from"gh"
