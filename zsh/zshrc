@@ -149,6 +149,10 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin snippet OMZ::plugins/git/git.plugin.zsh
   zplugin snippet OMZ::lib/termsupport.zsh
   zplugin snippet OMZ::lib/spectrum.zsh
+  zplugin snippet OMZ::lib/history.zsh
+  zplugin snippet OMZ::lib/key-bindings.zsh
+  zplugin snippet OMZ::lib/grep.zsh
+  zplugin snippet OMZ::lib/directories.zsh
   zplugin snippet OMZ::lib/theme-and-appearance.zsh
 
   ### Theme
@@ -197,7 +201,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" blockf
   zplugin light zsh-users/zsh-completions
 
-  zplugin ice from"gh" wait'0'
+  zplugin ice from"gh" wait'0' lucid
   zplugin light robobenklein/k
 
   zplugin ice from"gh"
