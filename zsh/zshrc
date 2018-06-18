@@ -155,41 +155,48 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin snippet OMZ::lib/directories.zsh
   zplugin snippet OMZ::lib/theme-and-appearance.zsh
 
+  zplugin light zdharma/zui
+
   ### Theme
-  if [[ "$ZSH_THEME" == "p9k" ]]; then
-    zplugin light bhilburn/powerlevel9k
-    # More power
-    # ZSH_THEME="$Z_INSTALL_DETECT_POWERLINE_THEME"
-    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable dir vcs)
-    POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time background_jobs battery time)
-    # Vim master race?
-    #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS+=( vi_mode )
-    POWERLEVEL9K_VI_INSERT_MODE_STRING="I"
-    POWERLEVEL9K_VI_COMMAND_MODE_STRING="CMD"
-    # Specifics
-    POWERLEVEL9K_BATTERY_LOW_THRESHOLD=30
-    POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=1
-    POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="white"
-    POWERLEVEL9K_BATTERY_ICON=""
-    POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
-    POWERLEVEL9K_SHORTEN_DELIMITER=""
-    POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
-    POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND="black"
-    POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND="242" # dimm gray
-    POWERLEVEL9K_EXECUTION_TIME_ICON="⧖ "
-    POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON="⇗ "
-    if command -v rtab > /dev/null 2>&1; then
-      POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \$(rtab -t -l)"
-      POWERLEVEL9K_CUSTOM_RTAB_DIR_FOREGROUND="black"
-      POWERLEVEL9K_CUSTOM_RTAB_DIR_BACKGROUND="blue"
-      POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable custom_rtab_dir vcs)
-    fi
-  elif [[ "$ZSH_THEME" == "fishy" ]]; then
-    zplugin snippet OMZ::themes/fishy.zsh-theme
-  else
-    # gotta have something...
-    zplugin snippet OMZ::themes/fishy.zsh-theme
+
+  zplugin ice from"gh" if'[[ "$ZSH_THEME" == "p9k" ]]'
+  zplugin light bhilburn/powerlevel9k
+
+  # More power
+  # ZSH_THEME="$Z_INSTALL_DETECT_POWERLINE_THEME"
+  POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable dir vcs)
+  POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time background_jobs battery time)
+  # Vim master race?
+  #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS+=( vi_mode )
+  POWERLEVEL9K_VI_INSERT_MODE_STRING="I"
+  POWERLEVEL9K_VI_COMMAND_MODE_STRING="CMD"
+  # Specifics
+  POWERLEVEL9K_BATTERY_LOW_THRESHOLD=30
+  POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=1
+  POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="white"
+  POWERLEVEL9K_BATTERY_ICON=""
+  POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
+  POWERLEVEL9K_SHORTEN_DELIMITER=""
+  POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
+  POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND="black"
+  POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND="242" # dimm gray
+  POWERLEVEL9K_EXECUTION_TIME_ICON="⧖ "
+  POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON="⇗ "
+  if command -v rtab > /dev/null 2>&1; then
+    POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \$(rtab -t -l)"
+    POWERLEVEL9K_CUSTOM_RTAB_DIR_FOREGROUND="black"
+    POWERLEVEL9K_CUSTOM_RTAB_DIR_BACKGROUND="blue"
+    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable custom_rtab_dir vcs)
   fi
+
+  zplugin ice if'[[ "$ZSH_THEME" == "fishy" ]]'
+  zplugin snippet OMZ::themes/fishy.zsh-theme
+
+  zplugin ice if'[[ "$ZSH_THEME" == "" ]]'
+  zplugin snippet OMZ::themes/fishy.zsh-theme
+
+  # gotta have something...
+  zplugin snippet OMZ::themes/fishy.zsh-theme
 
   ### Normal Plugins
 
@@ -210,13 +217,19 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" wait'0' lucid
   zplugin light zdharma/fast-syntax-highlighting
 
+  zplugin ice from"gh" as"program" pick"bin/git-dsf"
+  zplugin light zdharma/zsh-diff-so-fancy
+
+  # zplugin ice from"gh" wait'0' lucid
+  # zplugin light zdharma/zplugin-crasis
+
   # Remove paths that start with $HOME/.antigen/
   antigen_fullpath=$(zrllink "$HOME/.antigen/" )
   path=( ${path%"${antigen_fullpath}/*"} )
 else
   # Try to install it
   echo -e "\033[0;31mZSHRC: Couldn't find ~/.zplugin/bin/zplugin.zsh!\033[0m"
-
+  if [ -s "$_ZSHRC_INSTALL_DIR" ]
 fi
 
 ### User configuration
