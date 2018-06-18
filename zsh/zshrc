@@ -71,6 +71,24 @@ if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
 fi
 
 ### ZSH Theme selection
+# ZSH Theme emulating the Fish shell's default prompt.
+
+_fishy_collapsed_wd() {
+  echo $(pwd | perl -pe '
+   BEGIN {
+      binmode STDIN,  ":encoding(UTF-8)";
+      binmode STDOUT, ":encoding(UTF-8)";
+   }; s|^$ENV{HOME}|~|g; s|/([^/.])[^/]*(?=/)|/$1|g; s|/\.([^/])[^/]*(?=/)|/.$1|g
+')
+}
+
+local user_color='green'; [ $UID -eq 0 ] && user_color='red'
+PROMPT='%n@%m %{$fg[$user_color]%}$(_fishy_collapsed_wd)%{$reset_color%}%(!.#.>) '
+PROMPT2='%{$fg[red]%}\ %{$reset_color%}'
+
+local return_status="%{$fg_bold[red]%}%(?..%?)%{$reset_color%}"
+RPROMPT='${return_status}$(git_prompt_info)$(git_prompt_status)%{$reset_color%}'
+
 # Powerline available theme
 Z_DEFAULT_POWERLINE_THEME="p9k"
 case "$TERM_PROGRAM" in
@@ -145,22 +163,29 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   source "$HOME/.zplugin/bin/zplugin.zsh"
 
   ### Dependencies
-  zplugin snippet OMZ::lib/git.zsh
-  zplugin snippet OMZ::plugins/git/git.plugin.zsh
-  zplugin snippet OMZ::lib/termsupport.zsh
-  zplugin snippet OMZ::lib/spectrum.zsh
-  zplugin snippet OMZ::lib/history.zsh
-  zplugin snippet OMZ::lib/key-bindings.zsh
-  zplugin snippet OMZ::lib/grep.zsh
-  zplugin snippet OMZ::lib/directories.zsh
-  zplugin snippet OMZ::lib/theme-and-appearance.zsh
+
+  # OMZ libraries
+  local _ZSHRC_OMZ_LIBS=(
+    termsupport.zsh
+    spectrum.zsh
+    history.zsh
+    key-bindings.zsh
+    grep.zsh
+    git.zsh
+    compfix.zsh
+    completion.zsh
+    theme-and-appearance.zsh
+  )
+
+  zplugin ice pick"directories.zsh" atload'local f; for f in ${_ZSHRC_OMZ_LIBS}; do source lib/$f; done'
+  zplugin light robbyrussell/oh-my-zsh
 
   zplugin light zdharma/zui
 
   ### Theme
 
   zplugin ice from"gh" if'[[ "$ZSH_THEME" == "p9k" ]]'
-  zplugin light bhilburn/powerlevel9k
+  zplugin load bhilburn/powerlevel9k
 
   # More power
   # ZSH_THEME="$Z_INSTALL_DETECT_POWERLINE_THEME"
@@ -189,16 +214,12 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable custom_rtab_dir vcs)
   fi
 
-  zplugin ice if'[[ "$ZSH_THEME" == "fishy" ]]'
-  zplugin snippet OMZ::themes/fishy.zsh-theme
-
-  zplugin ice if'[[ "$ZSH_THEME" == "" ]]'
-  zplugin snippet OMZ::themes/fishy.zsh-theme
-
   # gotta have something...
   zplugin snippet OMZ::themes/fishy.zsh-theme
 
   ### Normal Plugins
+
+  zplugin snippet OMZ::plugins/git/git.plugin.zsh
 
   zplugin ice wait'0' lucid
   zplugin snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
@@ -209,7 +230,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin light zsh-users/zsh-completions
 
   zplugin ice from"gh" wait'0' lucid
-  zplugin light robobenklein/k
+  zplugin load robobenklein/k
 
   zplugin ice from"gh"
   zplugin light zdharma/history-search-multi-word
