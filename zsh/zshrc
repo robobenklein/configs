@@ -1,4 +1,5 @@
 #!/bin/zsh
+## vim:ft=zsh
 
 [ -d "$HOME/bin" ] && path=("$HOME/bin" $path )
 
@@ -27,6 +28,9 @@ elif [[ "$unamestr" == 'Darwin' ]]; then
       fi
     done
   fi
+else
+  # Unsupported OS!
+  echo -e "\033[0;31mZSHRC: Unsupported operating system! Some things may break, or you might be missing functionality!\033[0m"
 fi
 
 # Set zrllink utility.
@@ -166,19 +170,22 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
   # OMZ libraries
   local _ZSHRC_OMZ_LIBS=(
-    termsupport.zsh
-    spectrum.zsh
-    history.zsh
-    key-bindings.zsh
-    grep.zsh
-    git.zsh
     compfix.zsh
     completion.zsh
+    directories.zsh
+    functions.zsh
+    grep.zsh
+    history.zsh
+    key-bindings.zsh
+    misc.zsh
+    spectrum.zsh
+    termsupport.zsh
     theme-and-appearance.zsh
   )
 
-  zplugin ice pick"directories.zsh" atload'local f; for f in ${_ZSHRC_OMZ_LIBS}; do source lib/$f; done'
+  zplugin ice from"gh" pick"lib/git.zsh" atload'local f; for f in ${_ZSHRC_OMZ_LIBS}; do source lib/$f; done'
   zplugin light robbyrussell/oh-my-zsh
+  zplugin cdclear -q
 
   zplugin light zdharma/zui
 
@@ -219,14 +226,14 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
   ### Normal Plugins
 
-  zplugin snippet OMZ::plugins/git/git.plugin.zsh
-
   zplugin ice wait'0' lucid
   zplugin snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
 
   zplugin snippet OMZ::plugins/z/z.sh
 
-  zplugin ice from"gh" blockf
+  zplugin snippet OMZ::plugins/git/git.plugin.zsh
+
+  zplugin ice from"gh"
   zplugin light zsh-users/zsh-completions
 
   zplugin ice from"gh" wait'0' lucid
