@@ -52,7 +52,7 @@ elif command -v perl >/dev/null 2>&1; then
     perl -MCwd -le 'print Cwd::abs_path(shift)' $1
   }
 else
-  echo -e "\033[0;31mZSHRC: Couldn't find a valid readlink! ZSHRC may not load correctly!\033[0m"
+  echo -e "\033[0;31mZSHRC: Couldn't find a valid symlink resolver! ZSHRC may not load correctly!\033[0m"
 fi
 
 ### Configs install location detection
@@ -419,4 +419,4 @@ typeset -U path # unique items only in path array
 export PATH
 
 # EOF
-ZSHRC_LOADED=1
+ZSHRC_LOADED=true
