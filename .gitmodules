@@ -4,3 +4,4 @@
 [submodule "zplugin"]
 	path = zplugin
 	url = https://github.com/zdharma/zplugin.git
+	branch = master
