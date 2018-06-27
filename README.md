@@ -4,8 +4,8 @@
 | Sv | At |
 |-|-|
 | Shell | zsh |
-| Shell Framework | Antigen |
-| Shell theme | Powerlevel9k |
+| Shell Framework | Zplugin |
+| Shell theme | Powerlevel9k, Fishy |
 | DE | Gnome, Unity, i3 |
 | CLI Editor | Vim (Neovim) |
 | IDE (General Purpose) | Atom |
@@ -25,4 +25,3 @@
 ### Docker
 
 `robobenklein/home` is a docker container with a base system set up (phusion baseimage) that has general utilities and programs installed, along with the configs from this repo.
-

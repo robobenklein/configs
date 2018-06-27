@@ -191,6 +191,9 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
   ### Theme
 
+  # gotta have something...
+  zplugin snippet OMZ::themes/fishy.zsh-theme
+
   zplugin ice from"gh" if'[[ "$ZSH_THEME" == "p9k" ]]'
   zplugin load bhilburn/powerlevel9k
 
@@ -220,9 +223,6 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     POWERLEVEL9K_CUSTOM_RTAB_DIR_BACKGROUND="blue"
     POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable custom_rtab_dir vcs)
   fi
-
-  # gotta have something...
-  zplugin snippet OMZ::themes/fishy.zsh-theme
 
   ### Normal Plugins
 
