@@ -21,8 +21,11 @@ if [[ "$unamestr" == 'Linux' ]]; then
 elif [[ "$unamestr" == 'Darwin' ]]; then
   # TERM_PROGRAM should already be set
   platform='Darwin'
+  # Fix for some missing paths
   if [ -s /etc/paths ]; then
-    for pathitem in $(/bin/cat "/etc/paths" ); do
+    local etcpaths
+    declare -a etcpaths; etcpaths=( ${(f)"$(</etc/paths)"} )
+    for pathitem in ${etcpaths} ; do
       if [[ ! ${path[(r)$pathitem]} == "$pathitem" ]]; then
         path+=($pathitem)
       fi
