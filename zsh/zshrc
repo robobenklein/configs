@@ -226,7 +226,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" if'[[ "$ZSH_THEME" == "p9k" ]]'
   zplugin load bhilburn/powerlevel9k
 
-  zplugin cdreplay -q
+  zpcompinit
 
   ### Normal Plugins
   # wait'0' plugins are after-prompt loaded.
