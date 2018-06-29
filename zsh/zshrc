@@ -186,9 +186,10 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     theme-and-appearance.zsh
   )
 
-  zplugin ice from"gh" pick"lib/git.zsh" nocompletions atload'local f; for f in ${_ZSHRC_OMZ_LIBS}; do source lib/$f; done'
+  zplugin ice from"gh" pick"lib/git.zsh" nocompletions blockf atload'!local f; for f in ${_ZSHRC_OMZ_LIBS}; do source lib/$f; done'
   zplugin load robbyrussell/oh-my-zsh
 
+  zplugin ice from"gh" blockf
   zplugin light zdharma/zui
 
   ### Theme
@@ -238,7 +239,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
   zplugin snippet OMZ::plugins/git/git.plugin.zsh
 
-  zplugin ice from"gh"
+  zplugin ice from"gh" blockf
   zplugin light zsh-users/zsh-completions
 
   zplugin ice from"gh" wait'0' lucid
