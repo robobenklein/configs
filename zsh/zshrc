@@ -3,6 +3,8 @@
 
 [ -d "$HOME/bin" ] && path=("$HOME/bin" $path )
 
+# printf '%b\n' "\033[0;31mZSHRC: Hello! \033[0;0m"
+
 ### OS & Terminal Emulator Detection
 unamestr=`uname`
 if [[ "$unamestr" == 'Linux' ]]; then
@@ -33,7 +35,7 @@ elif [[ "$unamestr" == 'Darwin' ]]; then
   fi
 else
   # Unsupported OS!
-  echo -e "\033[0;31mZSHRC: Unsupported operating system! Some things may break, or you might be missing functionality!\033[0m"
+  printf '%b\n' "\033[0;31mZSHRC: Unsupported operating system! Some things may break, or you might be missing functionality!\033[0m"
 fi
 
 # Set zrllink utility.
@@ -55,7 +57,7 @@ elif command -v perl >/dev/null 2>&1; then
     perl -MCwd -le 'print Cwd::abs_path(shift)' $1
   }
 else
-  echo -e "\033[0;31mZSHRC: Couldn't find a valid symlink resolver! ZSHRC may not load correctly!\033[0m"
+  printf '%b\n' "\033[0;31mZSHRC: Couldn't find a valid symlink resolver! ZSHRC may not load correctly!\033[0m"
 fi
 
 ### Configs install location detection
@@ -137,24 +139,9 @@ fi
 ### Load extra completions
 [ -d "$_ZSHRC_INSTALL_DIR/fpath" ] && fpath+=("$_ZSHRC_INSTALL_DIR/fpath")
 
-### PLUGINS
-antigenplugins=(
-  # vi-mode
-  # colored-man-pages
-  # peterhurford/git-it-on.zsh
-  git
-  # git-flow
-  command-not-found
-  robobenklein/k
-  z
-  Tarrasch/zsh-bd
-  zsh-users/zsh-completions
-  zdharma/history-search-multi-word
-  zdharma/fast-syntax-highlighting
-  # zsh-users/zsh-syntax-highlighting
-)
-typeset -U antigenplugins
-plunks=( # PLugin chUNKS
+### Plunks
+# PLugin chUNKS
+plunks=(
   lca # last command arguments
   lslbntl # ls long, but not too long
   presenter-mode # zsh for presenting to groups
@@ -217,7 +204,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND="242" # dimm gray
   POWERLEVEL9K_EXECUTION_TIME_ICON="⧖ "
   POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON="⇗ "
-  if command -v rtab > /dev/null 2>&1; then
+  if (( ${+commands[rtab]} )); then
     POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \$(rtab -t -l)"
     POWERLEVEL9K_CUSTOM_RTAB_DIR_FOREGROUND="black"
     POWERLEVEL9K_CUSTOM_RTAB_DIR_BACKGROUND="blue"
@@ -261,8 +248,10 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
 else
   # Try to install it
-  echo -e "\033[0;31mZSHRC: Couldn't find ~/.zplugin/bin/zplugin.zsh!\033[0m"
-  if [ -s "$_ZSHRC_INSTALL_DIR" ]
+  printf '%b\n' "\033[0;31mZSHRC: Couldn't find ~/.zplugin/bin/zplugin.zsh!\033[0m"
+  if [ -s "$_ZSHRC_INSTALL_DIR/../install" ]; then
+    printf '%b\n' "Try installing the configs repo at $_ZSHRC_INSTALL_DIR ?"
+  fi
 fi
 
 ### User configuration
@@ -325,7 +314,13 @@ FAST_HIGHLIGHT=(
 # function which properly sets up vi mode things in order
 function zsh_start_vi_mode() {
   export KEYTIMEOUT=1
-  antigen bundle vi-mode
+
+  # zplugin ice wait'0' \
+  #   load'[[ ${POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS[(r)vi-mode]} == "vi-mode" ]]' \
+  #   unload'[[ ! ${POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS[(r)vi-mode]} == "vi-mode" ]]'
+  #   # if'[[ ${POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS[(r)vi-mode]} == "vi-mode" ]]' \
+  zplugin snippet OMZ::plugins/vi-mode/vi-mode.plugin.zsh
+
   #bindkey -v
   POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS+=( vi_mode )
   # in vi command mode:
@@ -343,20 +338,20 @@ function zsh_start_vi_mode() {
 
 alias zvi=zsh_start_vi_mode
 
-if command -v exa > /dev/null 2>&1; then
+if (( ${+commands[exa]} )); then
   export Z_LSBASE='exa'
   export Z_LSARGEXTRA='--git'
   export Z_LSARG_FORCE_COLOR='--color=always'
 fi
 
 # Editor
-if command -v nvim > /dev/null 2>&1; then
+if (( ${+commands[nvim]} )); then
   export EDITOR='nvim'
-elif command -v vim > /dev/null 2>&1; then
+elif (( ${+commands[vim]} )); then
   export EDITOR='vim'
-elif command -v vi > /dev/null 2>&1; then
+elif (( ${+commands[vi]} )); then
   export EDITOR='vi'
-elif command -v nano > /dev/null 2>&1; then
+elif (( ${+commands[nano]} )); then
   export EDITOR='nano'
 fi
 alias v="$EDITOR"
@@ -367,6 +362,7 @@ alias l="lslbntl" # from the plunk
 alias ll="$Z_LSBASE $Z_LSARGEXTRA -lh"
 alias la="$Z_LSBASE $Z_LSARGEXTRA -lah"
 
+# cannot ((${+commands})) because it is an alias
 if command -v d > /dev/null 2>&1; then
   unalias d >/dev/null 2>&1
 fi
@@ -386,16 +382,16 @@ compdef _rsync cprp
 
 alias gpg-message="gpg2 -a -es -r"
 alias gpg-sign="gpg2 -a -s"
-if command -v atom > /dev/null 2>&1; then
+if (( ${+commands[atom]} )); then
   alias a="atom"
 fi
-if command -v nautilus > /dev/null 2>&1; then
+if (( ${+commands[nautilus]} )); then
   alias n="nautilus"
 fi
-if command -v git-lfs > /dev/null 2>&1; then
+if (( ${+commands[git-lfs]} )); then
   alias glfs="git-lfs"
 fi
-if command -v bfg.jar > /dev/null 2>&1 && command -v java > /dev/null 2>&1; then
+if command -v bfg.jar > /dev/null 2>&1 && (( ${+commands[java]} )); then
   alias bfg="java -jar $(which bfg.jar )"
 fi
 alias m="make"
