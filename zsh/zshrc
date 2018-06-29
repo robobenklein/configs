@@ -186,7 +186,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     theme-and-appearance.zsh
   )
 
-  zplugin ice from"gh" pick"lib/git.zsh" atload'local f; for f in ${_ZSHRC_OMZ_LIBS}; do source lib/$f; done'
+  zplugin ice from"gh" pick"lib/git.zsh" nocompletions atload'local f; for f in ${_ZSHRC_OMZ_LIBS}; do source lib/$f; done'
   zplugin load robbyrussell/oh-my-zsh
 
   zplugin light zdharma/zui
