@@ -3,14 +3,17 @@
 
 [[ -d "$HOME/bin" ]] && path=("$HOME/bin" $path )
 
+(( ${+_ZSHRC_ZPROF} )) && zmodload zsh/zprof
 # printf '%b\n' "\033[0;31mZSHRC: Hello! \033[0;0m"
 
 ### OS & Terminal Emulator Detection
 unamestr=`uname`
+unamearch=`uname -m`
 if [[ "$unamestr" == 'Linux' ]]; then
   # Get the terminal emulator
   platform='Linux'
   if (( $PPID > 0 )); then
+    # TODO replace with ZSH-native scripting instead of callouts
     TERM_PROGRAM=$(ps -f -o comm -p $PPID | tail -1 | sed -r 's;:.*$;;gm' | sed -r 's/[-\/]*$//g')
   else
     # we have no parent process
@@ -35,7 +38,8 @@ elif [[ "$unamestr" == 'Darwin' ]]; then
   fi
 else
   # Unsupported OS!
-  printf '%b\n' "\033[0;31mZSHRC: Unsupported operating system! Some things may break, or you might be missing functionality!\033[0m"
+  printf '%b\n' "\033[0;31mZSHRC: Unsupported operating system!\
+  Some things may break, or you might be missing functionality!\033[0m"
 fi
 
 # Set zrllink utility.
@@ -145,7 +149,7 @@ plunks=(
   lca # last command arguments
   lslbntl # ls long, but not too long
   presenter-mode # zsh for presenting to groups
-  git-lfs-completion
+  fancy-docker # for when you really just want a progress bar
 )
 typeset -U plunks
 
@@ -173,7 +177,9 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     theme-and-appearance.zsh
   )
 
-  zplugin ice from"gh" pick"lib/git.zsh" nocompletions blockf atload'!local f; for f in ${_ZSHRC_OMZ_LIBS}; do source lib/$f; done'
+  zplugin ice from"gh" pick"lib/git.zsh" nocompletions blockf \
+    atload'!local f; for f in ${_ZSHRC_OMZ_LIBS}; do source lib/$f; done' \
+    compile"lib/(${(j.|.)_ZSHRC_OMZ_LIBS})"
   zplugin load robbyrussell/oh-my-zsh
 
   zplugin ice from"gh" blockf
@@ -212,7 +218,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   fi
 
   zplugin ice from"gh" if'[[ "$ZSH_THEME" == "p9k" ]]'
-  zplugin load bhilburn/powerlevel9k
+  zplugin light bhilburn/powerlevel9k
 
   zpcompinit
 
@@ -227,24 +233,35 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin snippet OMZ::plugins/git/git.plugin.zsh
 
   zplugin ice from"gh" blockf
-  zplugin light zsh-users/zsh-completions
+  zplugin load zsh-users/zsh-completions
+
+  # exa is only available for 64bit Linux & MacOS (by github release)
+  if [[ $unamearch == "x86_64" ]]; then
+    if [[ $unamestr == "Linux" ]]; then
+      zplugin ice nocompletions from"gh-r" bpick"*-linux-$unamearch-*" \
+        as"program" mv"exa-linux-* -> exa" pick"exa"
+    elif [[ $unamestr == "Darwin" ]]; then
+      zplugin ice nocompletions from"gh-r" bpick"*-macos-$unamearch-*" \
+        as"program" mv"exa-macos-* -> exa" pick"exa"
+    else
+      zplugin ice nocompletions from"gh-r" bpick"*-$unamestr-$unamearch-*" \
+        as"program" mv"exa-* -> exa" pick"exa"
+      printf '%b\n' "\033[0;33mZSHRC: Warning: EXA auto-install probably not available.\033[0;0m"
+    fi
+    zplugin load ogham/exa
+  fi
 
   zplugin ice from"gh" wait'0' lucid
   zplugin load robobenklein/k
 
-  zplugin ice from"gh"
-  zplugin light zdharma/history-search-multi-word
+  zplugin ice from"gh" wait'0' lucid
+  zplugin load zdharma/history-search-multi-word
 
-  zplugin ice from"gh" as"program" pick"bin/git-dsf"
-  zplugin light zdharma/zsh-diff-so-fancy
+  zplugin ice from"gh" wait'1' lucid as"program" pick"bin/git-dsf"
+  zplugin load zdharma/zsh-diff-so-fancy
 
-  # zplugin ice from"gh" wait'0' lucid
-  # zplugin light zdharma/zplugin-crasis
-
-  ### Delayed start plugins
-
-  zplugin ice from"gh" wait'1' lucid atload'zpcompinit'
-  zplugin light zdharma/fast-syntax-highlighting
+  zplugin ice from"gh" wait'0' lucid atload'zpcompinit'
+  zplugin load zdharma/fast-syntax-highlighting
 
 else
   # Try to install it
@@ -315,10 +332,6 @@ FAST_HIGHLIGHT=(
 function zsh_start_vi_mode() {
   export KEYTIMEOUT=1
 
-  # zplugin ice wait'0' \
-  #   load'[[ ${POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS[(r)vi-mode]} == "vi-mode" ]]' \
-  #   unload'[[ ! ${POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS[(r)vi-mode]} == "vi-mode" ]]'
-  #   # if'[[ ${POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS[(r)vi-mode]} == "vi-mode" ]]' \
   zplugin snippet OMZ::plugins/vi-mode/vi-mode.plugin.zsh
 
   #bindkey -v
