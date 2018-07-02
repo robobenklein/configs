@@ -1,6 +1,18 @@
 
 # ls long, but not too long
 
+if [[ ! -v Z_LSBASE ]]; then
+  Z_LSARG_FORCE_COLOR='--color=always'
+  if (( ${+commands[exa]} )); then
+    Z_LSBASE="exa"
+  else
+    Z_LSBASE="ls"
+    if [[ "$(uname)" == "Darwin" ]]; then
+      export Z_LSARG_FORCE_COLOR='-G'
+    fi
+  fi
+fi
+
 # complicated fix to not show too many dotfiles for just 'l'
 # does not show hidden files if the terminal height can't show everything
 function lslbntl() {
@@ -20,3 +32,5 @@ function lslbntl() {
     printf '%b\n' "$Z_TMP_LS_DOTSHOWN"
   fi
 }
+
+# recommended to `alias l=lslbntl`
