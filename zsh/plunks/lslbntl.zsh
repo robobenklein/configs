@@ -1,7 +1,7 @@
 
 # ls long, but not too long
 
-if [[ ! -v Z_LSBASE ]]; then
+if (( ${+Z_LSBASE} )); then
   Z_LSARG_FORCE_COLOR='--color=always'
   if (( ${+commands[exa]} )); then
     Z_LSBASE="exa"
