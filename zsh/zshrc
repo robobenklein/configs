@@ -158,8 +158,7 @@ typeset -U plunks
 # Check that zplugin is installed
 if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
-  source "$HOME/.zplugin/bin/zplugin.zsh" \
-   || printf '%b\n' "\033[0;31mZSHRC: Zplugin did not load!\033[0m"
+  source "$HOME/.zplugin/bin/zplugin.zsh"
 
   ### Dependencies
 
