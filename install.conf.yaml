@@ -27,6 +27,13 @@
       force: true
       path: zsh/zshrc
 
+  # Vim
+    ~/.vimrc:
+      path: nvim/init.vim
+    ~/.vim/colors:
+      create: true
+      path: nvim/colors
+
   # Neovim
     ~/.config/nvim/init.vim:
       create: true
