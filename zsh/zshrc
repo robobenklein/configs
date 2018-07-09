@@ -95,6 +95,7 @@ _fishy_collapsed_wd() {
 ')
 }
 
+setopt promptsubst
 local user_color='green'; [ $UID -eq 0 ] && user_color='red'
 PROMPT='%n@%m %{$fg[$user_color]%}$(_fishy_collapsed_wd)%{$reset_color%}%(!.#.>) '
 PROMPT2='%{$fg[red]%}\ %{$reset_color%}'
