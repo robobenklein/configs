@@ -13,7 +13,7 @@ pushd "$BASEDIR"
 
 if [[ ! -d ./dotbot ]] || git --work-tree="${DOTBOT_DIR}" --git-dir="${DOTBOT_DIR}/.git" diff-index --quiet HEAD -- ; then
   git submodule update --init --recursive "${DOTBOT_DIR}"
-  git --work-tree="${DOTBOT_DIR}" --git-dir="${DOTBOT_DIR}/.git" submodule sync --recursive
+  git submodule sync --recursive
 fi
 
 "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
