@@ -34,13 +34,13 @@ for i in {0..30}; do
   if [[ $users == '!FAILURE' ]]; then
     # rip
     failures+=( ["hydra$i"]="$(cat $DEBUGLOG | grep hydra$i )" )
-  else
-    hydrausers+=( ["hydra$i"]="$(cat $TMPDIR/hydra$i )")
+  # else
   fi
+  hydrausers+=( ["hydra$i"]="$(cat $TMPDIR/hydra$i )")
 done
 
 for i in {0..30}; do
-  echo hydra$i: $(echo ${hydrausers[hydra$i]} | wc -w) users: ${hydrausers[hydra$i]}
+  echo hydra$i: $(echo ${hydrausers[hydra$i]} | grep -v '!FAILURE' | wc -w) users: ${hydrausers[hydra$i]}
 done
 
 for key in ${!failures[@]}; do
