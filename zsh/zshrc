@@ -163,7 +163,8 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   ### Dependencies
 
   # OMZ libraries
-  local _ZSHRC_OMZ_LIBS=(
+  local _ZSHRC_OMZ_LIBS
+  _ZSHRC_OMZ_LIBS=(
     compfix.zsh
     completion.zsh
     directories.zsh
