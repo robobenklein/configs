@@ -352,7 +352,7 @@ function zsh_start_vi_mode() {
 
 alias zvi=zsh_start_vi_mode
 
-if (( ${+commands[exa]} )) && command exa -v >/dev/null; then
+if (( ${+commands[exa]} )) && command exa -v >/dev/null 2>&1; then
   export Z_LSBASE='exa'
   export Z_LSARGEXTRA='--git'
   export Z_LSARG_FORCE_COLOR='--color=always'

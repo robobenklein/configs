@@ -3,7 +3,7 @@
 
 if (( ${+Z_LSBASE} )); then
   Z_LSARG_FORCE_COLOR='--color=always'
-  if (( ${+commands[exa]} )); then
+  if (( ${+commands[exa]} )) && command exa -v >/dev/null 2>&1; then
     Z_LSBASE="exa"
   else
     Z_LSBASE="ls"
