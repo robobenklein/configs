@@ -13,8 +13,8 @@ if [[ "$unamestr" == 'Linux' ]]; then
   # Get the terminal emulator
   platform='Linux'
   if (( $PPID > 0 )); then
-    # TODO replace with ZSH-native scripting instead of callouts
-    TERM_PROGRAM=$(ps -f -o comm -p $PPID | tail -1 | sed -r 's;:.*$;;gm' | sed -r 's/[-\/]*$//g')
+    TERM_PROGRAM=$(ps -fo cmd -hwcp $PPID )
+    [[ ${TERM_PROGRAM[-1]} == '-' ]] && TERM_PROGRAM=${TERM_PROGRAM[0,-2]}
   else
     # we have no parent process
     # are we in docker?:
