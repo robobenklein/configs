@@ -1,6 +1,7 @@
 #!/bin/zsh
 
-N=200000
+N=${1:-200000}
+echo "testing $N times each..."
 local SOME_VARIABLE
 SOME_VARIABLE="something"
 
