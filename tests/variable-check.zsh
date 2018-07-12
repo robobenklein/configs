@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-N=2000000
+N=200000
 local SOME_VARIABLE
 SOME_VARIABLE="something"
 
