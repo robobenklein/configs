@@ -2,6 +2,8 @@
 
 N=${1:-200000}
 echo "testing $N times each..."
+echo "system: $(uname -a)"
+echo "zsh: $(zsh --version)"
 local SOME_VARIABLE
 SOME_VARIABLE="something"
 
