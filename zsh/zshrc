@@ -180,11 +180,11 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     plugins/z/z.sh
     plugins/git/git.plugin.zsh
 
+    themes/fishy.zsh-theme
   )
 
-  zplugin ice from"gh" pick"lib/git.zsh" depth"1" nocompletions blockf \
-    multisrc"${_ZSHRC_OMZ_SRCS}" \
-    compile"${(j.|.)_ZSHRC_OMZ_SRCS})"
+  zplugin ice from"gh" pick"lib/git.zsh" nocompletions blockf \
+    multisrc"${_ZSHRC_OMZ_SRCS}"
   zplugin load robbyrussell/oh-my-zsh
 
   zplugin ice from"gh" blockf
@@ -192,10 +192,8 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
   ### Theme
 
-  # gotta have something...
-  zplugin snippet OMZ::themes/fishy.zsh-theme
-
   # More power
+  zplugin env-whitelist 'POWERLEVEL9K_*'
   # ZSH_THEME="$Z_INSTALL_DETECT_POWERLINE_THEME"
   POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable dir vcs)
   POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time background_jobs battery time)
