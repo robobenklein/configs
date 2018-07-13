@@ -163,24 +163,28 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   ### Dependencies
 
   # OMZ libraries
-  local _ZSHRC_OMZ_LIBS
-  _ZSHRC_OMZ_LIBS=(
-    compfix.zsh
-    completion.zsh
-    directories.zsh
-    functions.zsh
-    grep.zsh
-    history.zsh
-    key-bindings.zsh
-    misc.zsh
-    spectrum.zsh
-    termsupport.zsh
-    theme-and-appearance.zsh
+  local _ZSHRC_OMZ_SRCS
+  _ZSHRC_OMZ_SRCS=(
+    lib/compfix.zsh
+    lib/completion.zsh
+    lib/directories.zsh
+    lib/functions.zsh
+    lib/grep.zsh
+    lib/history.zsh
+    lib/key-bindings.zsh
+    lib/misc.zsh
+    lib/spectrum.zsh
+    lib/termsupport.zsh
+    lib/theme-and-appearance.zsh
+
+    plugins/z/z.sh
+    plugins/git/git.plugin.zsh
+
   )
 
-  zplugin ice from"gh" pick"lib/git.zsh" nocompletions blockf \
-    atload'!local f; for f in ${_ZSHRC_OMZ_LIBS}; do source lib/$f; done' \
-    compile"lib/(${(j.|.)_ZSHRC_OMZ_LIBS})"
+  zplugin ice from"gh" pick"lib/git.zsh" depth"1" nocompletions blockf \
+    multisrc"${_ZSHRC_OMZ_SRCS}" \
+    compile"${(j.|.)_ZSHRC_OMZ_SRCS})"
   zplugin load robbyrussell/oh-my-zsh
 
   zplugin ice from"gh" blockf
@@ -250,10 +254,6 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
   zplugin ice wait'0' lucid
   zplugin snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
-
-  zplugin snippet OMZ::plugins/z/z.sh
-
-  zplugin snippet OMZ::plugins/git/git.plugin.zsh
 
   zplugin ice from"gh" blockf
   zplugin load zsh-users/zsh-completions
