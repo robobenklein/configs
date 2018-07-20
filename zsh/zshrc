@@ -243,10 +243,15 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   POWERLEVEL9K_EXECUTION_TIME_ICON="⧖ "
   POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON="⇗ "
   if (( ${+functions[rtab]} )); then
-    POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \$(rtab -t -l)"
+    POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \$RTAB_PWD"
     POWERLEVEL9K_CUSTOM_RTAB_DIR_FOREGROUND="black"
     POWERLEVEL9K_CUSTOM_RTAB_DIR_BACKGROUND="blue"
     POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable custom_rtab_dir vcs)
+    typeset -a chpwd_functions
+    chpwd_functions+=(_rtab_pwd_update)
+    function _rtab_pwd_update() {
+      RTAB_PWD=$(rtab -l -t)
+    }
   fi
 
   zplugin ice from"gh" if'[[ "$ZSH_THEME" == "p9k" ]]'
