@@ -85,6 +85,7 @@ fi
 
 ### ZSH Theme selection
 # ZSH Theme emulating the Fish shell's default prompt.
+# Note this is the barebones version just as a fallback
 
 _fishy_collapsed_wd() {
   echo $(pwd | perl -pe '
@@ -255,7 +256,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   ### Normal Plugins
   # wait'0' plugins are after-prompt loaded.
 
-  zplugin ice wait'0' lucid
+  zplugin ice wait'0' lucid nocompletions
   zplugin snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
 
   zplugin ice from"gh" blockf
