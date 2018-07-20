@@ -21,7 +21,6 @@
 
 # stat module faster than external call
 zmodload zsh/stat
-autoload -U zargs
 
 # required variables are set?
 (( ${+Z_LSBASE} )) && \
