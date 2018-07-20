@@ -377,7 +377,8 @@ if (( ${+commands[exa]} )) && command exa -v >/dev/null 2>&1; then
   export Z_LSBASE='exa'
   export Z_LSARG_HUMAN='--git'
   export Z_LSARG_LONG='--long'
-  export Z_LSARG_ALL='--all'
+  export Z_LSARG_ALL='-aa'
+  export Z_LSARG_DEFAULTS='-g'
   export Z_LSARG_FORCE_COLOR='--color=always'
 fi
 
@@ -419,8 +420,8 @@ alias v="$EDITOR"
 # ls shortcuts
 
 alias l="lslbntl" # from the plunk
-alias ll="$Z_LSBASE $Z_LSARG_HUMAN $Z_LSARG_LONG"
-alias la="$Z_LSBASE $Z_LSARG_HUMAN $Z_LSARG_LONG $Z_LSARG_ALL"
+alias ll="$Z_LSBASE $Z_LSARG_HUMAN $Z_LSARG_LONG $Z_LSARG_DEFAULTS"
+alias la="$Z_LSBASE $Z_LSARG_HUMAN $Z_LSARG_LONG $Z_LSARG_ALL $Z_LSARG_DEFAULTS"
 
 # cannot ((${+commands})) because it is an alias
 if command -v d > /dev/null 2>&1; then
