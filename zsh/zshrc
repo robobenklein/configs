@@ -3,7 +3,7 @@
 
 [[ -d "$HOME/bin" ]] && path=("$HOME/bin" $path )
 
-(( ${+_ZSHRC_ZPROF} )) && zmodload zsh/zprof
+(( ${+_ZSHRC_ZPROF} )) && zmodload zsh/zprof # && printf 'Start\n' && date --iso-8601=ns
 # printf '%b\n' "\033[0;31mZSHRC: Hello! \033[0;0m"
 
 ### OS & Terminal Emulator Detection
@@ -154,6 +154,7 @@ plunks=(
   lslbntl # ls long, but not too long
   presenter-mode # zsh for presenting to groups
   fancy-docker # for when you really just want a progress bar
+  rtabfunc # rtab with fixes as a zsh function
 )
 typeset -U plunks
 
@@ -241,7 +242,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND="242" # dimm gray
   POWERLEVEL9K_EXECUTION_TIME_ICON="⧖ "
   POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON="⇗ "
-  if (( ${+commands[rtab]} )); then
+  if (( ${+functions[rtab]} )); then
     POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \$(rtab -t -l)"
     POWERLEVEL9K_CUSTOM_RTAB_DIR_FOREGROUND="black"
     POWERLEVEL9K_CUSTOM_RTAB_DIR_BACKGROUND="blue"
@@ -251,16 +252,16 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" if'[[ "$ZSH_THEME" == "p9k" ]]'
   zplugin light bhilburn/powerlevel9k
 
-  zpcompinit
+  # zpcompinit
 
   ### Normal Plugins
   # wait'0' plugins are after-prompt loaded.
 
-  zplugin ice wait'0' lucid nocompletions
-  zplugin snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
-
   zplugin ice from"gh" blockf
   zplugin load zsh-users/zsh-completions
+
+  zplugin ice wait'1' lucid nocompletions
+  zplugin snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
 
   # exa is only available for 64bit Linux & MacOS (by github release)
   if [[ $unamearch == "x86_64" ]]; then
@@ -390,6 +391,13 @@ alias 7='cd -7'
 alias 8='cd -8'
 alias 9='cd -9'
 alias md='mkdir -p'
+
+if [[ ${precmd_functions[(r)_z_precmd]} == "_z_precmd" ]]; then
+  # move the _z_precmd to the prexec, so it only adds with commands executed,
+  # not with prompts drawn
+  precmd_functions=(${precmd_functions%_z_precmd})
+  preexec_functions+=(_z_precmd)
+fi
 
 # Editor
 if (( ${+commands[nvim]} )); then
