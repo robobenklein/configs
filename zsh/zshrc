@@ -127,7 +127,7 @@ esac
 export ZSH_THEME
 
 ENABLE_CORRECTION="true"
-COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="false"
 
 if [[ "${Z_LSBASE}" == "" ]]; then
   # used for a few plunks
@@ -168,7 +168,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   # OMZ libraries
   local _ZSHRC_OMZ_SRCS
   _ZSHRC_OMZ_SRCS=(
-    lib/compfix.zsh
+    # lib/compfix.zsh
     lib/completion.zsh
     # lib/directories.zsh
     lib/functions.zsh
@@ -287,7 +287,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin load zdharma/zsh-diff-so-fancy
 
   zplugin ice from"gh" wait'0' lucid atload'zpcompinit'
-  zplugin load zdharma/fast-syntax-highlighting
+  zplugin light zdharma/fast-syntax-highlighting
 
 else
   # Try to install it
@@ -311,8 +311,8 @@ TERM_EMULATOR_BG_DEFAULT="#444444"
 # NVM nodejs
 if [[ -d "$HOME/.nvm" ]]; then
   export NVM_DIR="$HOME/.nvm"
-  [[ -s "$NVM_DIR/nvm.sh" ]] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [[ -s "$NVM_DIR/bash_completion" ]] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  [[ -s "$NVM_DIR/nvm.sh" ]] && \. "$NVM_DIR/nvm.sh"
+  [[ -s "$NVM_DIR/bash_completion" ]] && \. "$NVM_DIR/bash_completion"
 fi
 
 # Fix that guake doesn't set TERM properly
@@ -337,8 +337,6 @@ function plunkcompile {
   autoload -U zargs
   zargs -L1 -- $_ZSHRC_INSTALL_DIR/plunks/*.zsh -- builtin zcompile
 }
-
-# compinit
 
 # Remove chroma functions that misbehave
 unset "FAST_HIGHLIGHT[chroma-vim]"
