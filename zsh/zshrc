@@ -96,7 +96,7 @@ _fishy_collapsed_wd() {
 }
 
 setopt promptsubst
-local user_color='green'; [ $UID -eq 0 ] && user_color='red'
+local user_color='green'; [[ $UID == 0 ]] && user_color='red'
 PROMPT='%n@%m %{$fg[$user_color]%}$(_fishy_collapsed_wd)%{$reset_color%}%(!.#.>) '
 PROMPT2='%{$fg[red]%}\ %{$reset_color%}'
 
@@ -135,10 +135,10 @@ if [[ "${Z_LSBASE}" == "" ]]; then
   export Z_LSARG_LONG='-l'
   export Z_LSARG_ALL='-a'
   if [[ "$platform" == "Linux" ]]; then
-    export Z_LSARGEXTRA='--color=tty -h'
+    export Z_LSARG_HUMAN='--color=tty -h'
     export Z_LSARG_FORCE_COLOR='--color=always'
   elif [[ "$platform" == "Darwin" ]]; then
-    export Z_LSARGEXTRA='-h'
+    export Z_LSARG_HUMAN='-h'
     export Z_LSARG_FORCE_COLOR='-G'
   fi
 fi
@@ -328,8 +328,15 @@ fi
 # little bits of plugins that I plop down
 # PLugin chUNKS
 for plunk in "${plunks[@]}"; do
-  source "$_ZSHRC_INSTALL_DIR/plunks/${plunk}.zsh"
+  local plunkfile="$_ZSHRC_INSTALL_DIR/plunks/${plunk}.zsh"
+  # [[ -s ${plunkfile} ]] || zcompile "${plunkfile}"
+  source "${plunkfile}"
 done
+
+function plunkcompile {
+  autoload -U zargs
+  zargs -L1 -- $_ZSHRC_INSTALL_DIR/plunks/*.zsh -- builtin zcompile
+}
 
 # compinit
 
@@ -363,7 +370,7 @@ alias zvi=zsh_start_vi_mode
 
 if (( ${+commands[exa]} )) && command exa -v >/dev/null 2>&1; then
   export Z_LSBASE='exa'
-  export Z_LSARGEXTRA='--git'
+  export Z_LSARG_HUMAN='--git'
   export Z_LSARG_LONG='--long'
   export Z_LSARG_ALL='--all'
   export Z_LSARG_FORCE_COLOR='--color=always'
@@ -400,8 +407,8 @@ alias v="$EDITOR"
 # ls shortcuts
 
 alias l="lslbntl" # from the plunk
-alias ll="$Z_LSBASE $Z_LSARGEXTRA $Z_LSARG_LONG"
-alias la="$Z_LSBASE $Z_LSARGEXTRA $Z_LSARG_LONG $Z_LSARG_ALL"
+alias ll="$Z_LSBASE $Z_LSARG_HUMAN $Z_LSARG_LONG"
+alias la="$Z_LSBASE $Z_LSARG_HUMAN $Z_LSARG_LONG $Z_LSARG_ALL"
 
 # cannot ((${+commands})) because it is an alias
 if command -v d > /dev/null 2>&1; then

@@ -1,40 +1,63 @@
+#!/bin/zsh
+### LSLBNTL: ls long, but not too long
+# Complicated fix to show just what I want from ls
+#
+# Because I got tired of typing `l` in my home directory and getting spammed
+# with the amount of hidden names filling the screen space.
+# Also only shows group if different than user or between file/folder arguments
+#
+# Recommended usage:
+#
+# ```
+# alias l="lslbntl" # automatic
+# alias ll="$Z_LSBASE <your other args> $Z_LSARG_LONG"
+# alias la="$Z_LSBASE <your other args> $Z_LSARG_LONG $Z_LSARG_ALL"
+# ```
+#
+# BUG(s):
+# Automatic hide/show of group will not check the group for file arguments
+# beginning with a `-` at the beginning
+#  ($@ args beginning with '-' are ignored for the call to zstat)
 
-# ls long, but not too long
+# stat module faster than external call
+zmodload zsh/stat
+autoload -U zargs
 
-if (( ${+Z_LSBASE} )); then
-  Z_LSARG_FORCE_COLOR='--color=always'
-  if (( ${+commands[exa]} )) && command exa -v >/dev/null 2>&1; then
-    Z_LSBASE="exa"
-  else
-    Z_LSBASE="ls"
-    if [[ "$(uname)" == "Darwin" ]]; then
-      export Z_LSARG_FORCE_COLOR='-G'
-    fi
-  fi
-fi
+# required variables are set?
+(( ${+Z_LSBASE} )) && \
+(( ${+Z_LSARG_LONG} )) && \
+(( ${+Z_LSARG_ALL} )) || \
+printf '%b\n' "\033[0;31mlslbntl: missing a required Z_LS* envvar!\033[0m"
 
-# complicated fix to not show too many dotfiles for just 'l'
-# does not show hidden files if the terminal height can't show everything
 function lslbntl() {
-  # TODO enforce that variables are set
-  local Z_LSARGS
-  local Z_LSARGS_ALL
-  Z_LSARGS="-lh"
-  Z_LSARGS_ALL="-lah"
   local Z_TMP_LS_DOTSHOWN
+  local Z_TMP_STAT_GIDU
+  local Z_TMP_GRP
+  typeset -U Z_TMP_STAT_GIDU
   if [ -t 1 ]; then
-    Z_TMP_LS_DOTSHOWN=$($Z_LSBASE $Z_LSARGEXTRA $Z_LSARG_LONG $Z_LSARG_ALL $Z_LSARG_FORCE_COLOR "$@" 2>&1 )
+    # collect list of groups for current directory and specified target args
+    builtin zstat -s -A Z_TMP_STAT_GIDU +gid . "${@:#-*}"
+    # display group if there are differences
+    if (( ${#Z_TMP_STAT_GIDU} > 1 )) || [[ ${Z_TMP_STAT_GIDU[1]} != $USER ]]; then
+      Z_TMP_GRP=''
+      [[ $Z_LSBASE == 'exa' ]] && Z_TMP_GRP='-g'
+    else
+      Z_TMP_GRP='-g'
+      [[ $Z_LSBASE == 'exa' ]] && Z_TMP_GRP=''
+    fi
+    # force color on
+    Z_TMP_LS_DOTSHOWN=$($Z_LSBASE $Z_TMP_GRP $Z_LSARG_HUMAN $Z_LSARG_LONG $Z_LSARG_ALL $Z_LSARG_FORCE_COLOR "$@" 2>&1 )
   else
-    Z_TMP_LS_DOTSHOWN=$($Z_LSBASE $Z_LSARGEXTRA $Z_LSARG_LONG $Z_LSARG_ALL "$@" 2>&1 )
+    # no color for non-tty
+    Z_TMP_LS_DOTSHOWN=$($Z_LSBASE $Z_LSARG_HUMAN $Z_LSARG_LONG $Z_LSARG_ALL "$@" 2>&1 )
   fi
   local Z_TMP_LS_DOTSHOWN_SIZE
   Z_TMP_LS_DOTSHOWN_SIZE=$(echo "$Z_TMP_LS_DOTSHOWN" | wc -l)
-  if [[ "$Z_TMP_LS_DOTSHOWN_SIZE" -gt "$(tput lines)" ]]; then # then don't show hidden files
+  # does not show hidden files if the terminal height can't show everything
+  if [[ "$Z_TMP_LS_DOTSHOWN_SIZE" -gt "${LINES}" ]]; then
     echo "Not showing hidden files"
-    $Z_LSBASE $Z_LSARGEXTRA $Z_LSARGS "$@"
+    $Z_LSBASE $Z_TMP_GRP $Z_LSARG_HUMAN $Z_LSARG_LONG "$@"
   else
     printf '%b\n' "$Z_TMP_LS_DOTSHOWN"
   fi
 }
-
-# recommended to `alias l=lslbntl`
