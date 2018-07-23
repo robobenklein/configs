@@ -158,6 +158,20 @@ plunks=(
 )
 typeset -U plunks
 
+### Load Plunks
+# little bits of plugins that I plop down
+# PLugin chUNKS
+for plunk in "${plunks[@]}"; do
+  local plunkfile="$_ZSHRC_INSTALL_DIR/plunks/${plunk}.zsh"
+  # [[ -s ${plunkfile} ]] || zcompile "${plunkfile}"
+  source "${plunkfile}"
+done
+
+function plunkcompile {
+  autoload -U zargs
+  zargs -L1 -- $_ZSHRC_INSTALL_DIR/plunks/*.zsh -- builtin zcompile
+}
+
 ### Load framework
 
 # Check that zplugin is installed
@@ -243,15 +257,16 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   POWERLEVEL9K_EXECUTION_TIME_ICON="⧖ "
   POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON="⇗ "
   if (( ${+functions[rtab]} )); then
-    POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \$RTAB_PWD"
+    POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \${RTAB_PWD}"
     POWERLEVEL9K_CUSTOM_RTAB_DIR_FOREGROUND="black"
     POWERLEVEL9K_CUSTOM_RTAB_DIR_BACKGROUND="blue"
     POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable custom_rtab_dir vcs)
     typeset -a chpwd_functions
     chpwd_functions+=(_rtab_pwd_update)
     function _rtab_pwd_update() {
-      RTAB_PWD=$(rtab -l -t)
+      export RTAB_PWD=$(rtab -l -t)
     }
+    _rtab_pwd_update
   fi
 
   zplugin ice from"gh" if'[[ "$ZSH_THEME" == "p9k" ]]'
@@ -330,20 +345,6 @@ fi
 
 # You may need to manually set your language environment
 #export LANG=en_US.UTF-8
-
-### Load Plunks
-# little bits of plugins that I plop down
-# PLugin chUNKS
-for plunk in "${plunks[@]}"; do
-  local plunkfile="$_ZSHRC_INSTALL_DIR/plunks/${plunk}.zsh"
-  # [[ -s ${plunkfile} ]] || zcompile "${plunkfile}"
-  source "${plunkfile}"
-done
-
-function plunkcompile {
-  autoload -U zargs
-  zargs -L1 -- $_ZSHRC_INSTALL_DIR/plunks/*.zsh -- builtin zcompile
-}
 
 # Remove chroma functions that misbehave
 unset "FAST_HIGHLIGHT[chroma-vim]"
