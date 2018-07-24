@@ -145,6 +145,7 @@ if [[ "${Z_LSBASE}" == "" ]]; then
 fi
 
 ### Load extra completions
+autoload -U compdef
 [[ -d "$_ZSHRC_INSTALL_DIR/fpath" ]] && fpath+=("$_ZSHRC_INSTALL_DIR/fpath")
 
 ### Plunks
@@ -437,10 +438,12 @@ function d () {
 }
 compdef _dirs d
 
-function cprp () {
-  rsync -r --info=progress2 --delay-updates --partial-dir=.rsync-partial "$@"
-}
-compdef _rsync cprp
+if (( ${+commands[rsync]} )); then
+  function cprp () {
+    rsync -r --info=progress2 --delay-updates --partial-dir=.rsync-partial "$@"
+  }
+  compdef _rsync cprp
+fi
 
 alias gpg-message="gpg2 -a -es -r"
 alias gpg-sign="gpg2 -a -s"
