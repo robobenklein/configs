@@ -147,6 +147,8 @@ fi
 ### Load extra completions
 autoload -U compdef
 [[ -d "$_ZSHRC_INSTALL_DIR/fpath" ]] && fpath+=("$_ZSHRC_INSTALL_DIR/fpath")
+typeset -U fpath
+export FPATH
 
 ### Plunks
 # PLugin chUNKS
