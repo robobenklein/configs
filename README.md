@@ -11,7 +11,7 @@
 | IDE (General Purpose) | Atom |
 | Terminal | Tilix |
 | Multiplexer | tmux |
-| Audio | Clementine, beets |
+| Audio | MPD, beets |
 | Monitor | htop, conky |
 | Mail | Mutt, Inbox, Thunderbird |
 | Chat | Keybase, Discord |
