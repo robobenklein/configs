@@ -5,10 +5,13 @@ if has('nvim')
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
   endif
 else
+  " Normal VIM
   if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
   endif
+
+  set directory='~/tmp//,~/.cache//,.'
 endif
 
 if has('vim_starting')

@@ -13,8 +13,8 @@
 | Multiplexer | tmux |
 | Audio | MPD, beets |
 | Monitor | htop, conky |
-| Mail | Mutt, Inbox, Thunderbird |
-| Chat | Keybase, Discord |
+| Mail | Mutt, Gmail/Inbox, Thunderbird |
+| Chat | Keybase, Discord, Hangouts |
 | Dotfile manager | Dotbot |
 | Distro | Ubuntu (+derivs) |
 | Containers | docker |

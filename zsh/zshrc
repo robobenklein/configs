@@ -314,6 +314,8 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" wait'0' lucid atload'zpcompinit'
   zplugin light zdharma/fast-syntax-highlighting
 
+  zpcompinit
+
 else
   # Try to install it
   printf '%b\n' "\033[0;31mZSHRC: Couldn't find ~/.zplugin/bin/zplugin.zsh!\033[0m"
