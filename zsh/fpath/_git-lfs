@@ -116,14 +116,14 @@ __git-lfs-checkout () {
   local curcontext="$curcontext" state line
   typeset -A opt_args
 
-  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+  # TODO
 }
 
 __git-lfs-clone () {
   local curcontext="$curcontext" state line
   typeset -A opt_args
 
-  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+  # TODO
 }
 
 __git-lfs-fetch () {
@@ -145,28 +145,28 @@ __git-lfs-install () {
   local curcontext="$curcontext" state line
   typeset -A opt_args
 
-  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+  # TODO
 }
 
 __git-lfs-lock () {
   local curcontext="$curcontext" state line
   typeset -A opt_args
 
-  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+  # TODO
 }
 
 __git-lfs-locks () {
   local curcontext="$curcontext" state line
   typeset -A opt_args
 
-  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+  # TODO
 }
 
 __git-lfs-logs () {
   local curcontext="$curcontext" state line
   typeset -A opt_args
 
-  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+  # TODO
 }
 
 __git-lfs-ls-files () {
@@ -189,14 +189,14 @@ __git-lfs-migrate () {
   local curcontext="$curcontext" state line
   typeset -A opt_args
 
-  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+  # TODO
 }
 
 __git-lfs-prune () {
   local curcontext="$curcontext" state line
   typeset -A opt_args
 
-  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+  # TODO
 }
 
 __git-lfs-push () {
@@ -215,35 +215,35 @@ __git-lfs-track () {
   local curcontext="$curcontext" state line
   typeset -A opt_args
 
-  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+  # TODO
 }
 
 __git-lfs-uninstall () {
   local curcontext="$curcontext" state line
   typeset -A opt_args
 
-  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+  # TODO
 }
 
 __git-lfs-unlock () {
   local curcontext="$curcontext" state line
   typeset -A opt_args
 
-  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+  # TODO
 }
 
 __git-lfs-untrack () {
   local curcontext="$curcontext" state line
   typeset -A opt_args
 
-  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+  # TODO
 }
 
 __git-lfs-update () {
   local curcontext="$curcontext" state line
   typeset -A opt_args
 
-  echo -e "\nZSH _git-lfs Completion: Not yet implemented."
+  # TODO
 }
 
 
@@ -282,6 +282,8 @@ __git-lfs-update () {
 #   return 0
 # }
 
+autoload -Uz +X _git
+_git &> /dev/null || true
 zstyle ':completion:*:*:git:*' user-commands lfs:'access to large file storage controls'
 _git-lfs "$@"
 
