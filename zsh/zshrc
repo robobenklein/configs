@@ -158,6 +158,7 @@ plunks=(
   presenter-mode # zsh for presenting to groups
   fancy-docker # for when you really just want a progress bar
   rtabfunc # rtab with fixes as a zsh function
+  p9k-no-sudo-test # p9k prompt_context_no_sudo_check
 )
 typeset -U plunks
 
@@ -217,7 +218,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   # More power
   zplugin env-whitelist 'POWERLEVEL9K_*'
   # ZSH_THEME="$Z_INSTALL_DETECT_POWERLINE_THEME"
-  POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable dir vcs)
+  POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context_no_sudo_check root_indicator dir_writable dir vcs)
   POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time background_jobs battery time)
   # Vim master race?
   #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS+=( vi_mode )
@@ -263,7 +264,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \${RTAB_PWD}"
     POWERLEVEL9K_CUSTOM_RTAB_DIR_FOREGROUND="black"
     POWERLEVEL9K_CUSTOM_RTAB_DIR_BACKGROUND="blue"
-    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable custom_rtab_dir vcs)
+    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context_no_sudo_check root_indicator dir_writable custom_rtab_dir vcs)
     typeset -a chpwd_functions
     chpwd_functions+=(_rtab_pwd_update)
     function _rtab_pwd_update() {
