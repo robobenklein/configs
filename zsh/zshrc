@@ -274,7 +274,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   fi
 
   zplugin ice from"gh" if'[[ "$ZSH_THEME" == "p9k" ]]'
-  zplugin light bhilburn/powerlevel9k
+  zplugin load bhilburn/powerlevel9k
 
   # zpcompinit
 
