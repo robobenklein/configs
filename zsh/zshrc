@@ -276,6 +276,14 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" if'[[ "$ZSH_THEME" == "p9k" ]]'
   zplugin load bhilburn/powerlevel9k
 
+  p10k_left=(p10ks_userhost p10ks_cwd p10ks_vcs)
+  p10k_right=(p10ks_retval p10ks_execution_time p10ks_time)
+  # typeset -gA p10k_opts
+  # p10k_opts=()
+
+  zplugin ice from"gl" if'[[ "$ZSH_THEME" == "p10k" ]]'
+  zplugin load robobenklein/p10k
+
   # zpcompinit
 
   ### Normal Plugins
