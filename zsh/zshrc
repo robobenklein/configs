@@ -278,11 +278,15 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
   p10k_left=(p10ks_userhost p10ks_cwd p10ks_vcs)
   p10k_right=(p10ks_retval p10ks_execution_time p10ks_time)
-  # typeset -gA p10k_opts
-  # p10k_opts=()
+  typeset -gA p10k_opts
+  p10k_opts=(
+    p10ks_cwd ';;;;rtab;-t;-l'
+  )
 
-  zplugin ice from"gl" if'[[ "$ZSH_THEME" == "p10k" ]]'
-  zplugin load robobenklein/p10k
+  zplugin ice from"gl" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions
+    # atinit'fpath+=($PWD/p10k_functions $PWD/segments)'
+  # zplugin load robobenklein/p10k
+  zplugin load $HOME/code/p10k
 
   # zpcompinit
 
