@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TMPDIR=/tmp/hydrausers
-TIMEOUT=10
+TIMEOUT=20
 DEBUGLOG=${TMPDIR}/debug.log
 FAILURE=0
 

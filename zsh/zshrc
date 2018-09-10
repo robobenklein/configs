@@ -136,7 +136,7 @@ if [[ "${Z_LSBASE}" == "" ]]; then
   export Z_LSARG_LONG='-l'
   export Z_LSARG_ALL='-a'
   if [[ "$platform" == "Linux" ]]; then
-    export Z_LSARG_HUMAN='--color=tty -h'
+    export Z_LSARG_HUMAN=("--color=tty" "-h")
     export Z_LSARG_FORCE_COLOR='--color=always'
   elif [[ "$platform" == "Darwin" ]]; then
     export Z_LSARG_HUMAN='-h'
@@ -283,10 +283,13 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     p10ks_cwd ';;;;rtab;-t;-l'
   )
 
-  zplugin ice from"gl" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions
-    # atinit'fpath+=($PWD/p10k_functions $PWD/segments)'
-  # zplugin load robobenklein/p10k
-  zplugin load $HOME/code/p10k
+  zplugin ice from"gl" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions \
+    atinit'fpath+=($PWD/p10k_functions $PWD/segments)'
+  [[ -d $HOME/code/p10k ]] && {
+    zplugin load $HOME/code/p10k
+  } || {
+    zplugin load robobenklein/p10k
+  }
 
   # zpcompinit
 
