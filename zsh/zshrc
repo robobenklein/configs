@@ -397,7 +397,8 @@ alias zvi=zsh_start_vi_mode
 
 if (( ${+commands[exa]} )) && command exa -v >/dev/null 2>&1; then
   export Z_LSBASE='exa'
-  export Z_LSARG_HUMAN='--git'
+  Z_LSARG_HUMAN=('--git')
+  export Z_LSARG_HUMAN
   export Z_LSARG_LONG='--long'
   export Z_LSARG_ALL='-aa'
   export Z_LSARG_DEFAULTS='-g'
