@@ -496,6 +496,14 @@ function git_branch_norm() {
   } "${(@s:/:)sr}"
 }
 
+alias o="z_and_atom"
+function z_and_atom() {
+  z "$1"
+  cdg
+  atom .
+}
+compdef _z o
+
 setopt auto_pushd
 setopt pushd_ignore_dups
 setopt pushdminus
