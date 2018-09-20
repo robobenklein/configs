@@ -502,7 +502,6 @@ function z_and_atom() {
   cdg
   atom .
 }
-compdef _z o
 
 setopt auto_pushd
 setopt pushd_ignore_dups
