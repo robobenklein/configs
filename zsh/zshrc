@@ -284,11 +284,13 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     p10ks_cwd ';;;;rtab;-t;-l'
   )
 
-  zplugin ice from"gl" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions \
-    atinit'fpath+=($PWD/p10k_functions $PWD/segments)'
   [[ -d $HOME/code/p10k ]] && {
+    zplugin ice from"gl" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions \
+      atinit'fpath+=($PWD/p10k_functions $PWD/segments)'
     zplugin load $HOME/code/p10k
   } || {
+    zplugin ice from"gl" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions \
+      atinit'fpath+=($PWD/p10k_functions $PWD/segments)'
     zplugin load robobenklein/p10k
   }
 
