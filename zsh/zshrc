@@ -111,9 +111,11 @@ case "$TERM_PROGRAM" in
   'iTerm.app'|\
   'gnome-terminal'|\
   'tmux'|\
-  'tilix'|\
-  'sshd')
+  'tilix')
     ZSH_THEME="$Z_DEFAULT_POWERLINE_THEME"
+    ;;
+  'sshd')
+    ZSH_THEME="${ZSH_THEME:-${Z_DEFAULT_POWERLINE_THEME}}"
     ;;
   'login')
     ZSH_THEME="fishy"
