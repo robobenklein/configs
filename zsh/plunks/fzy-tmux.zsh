@@ -10,11 +10,13 @@ tm() {
       (tmux new-session -d -s $1 && tmux $change -t "$1")
     }
   else
-    local session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzy ) && {
+    local session
+    session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzy -p 'tmux sessions > ' ) && {
       tmux $change -t "$session"
     } || {
-      echo "creating..."
-      tm $session
+      read -q "REPLY?Create session \"${session}\"? "
+      echo
+      [[ $REPLY == 'y' ]] && tm $session
     }
   fi
 }

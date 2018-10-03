@@ -148,7 +148,7 @@ if [[ "${Z_LSBASE}" == "" ]]; then
 fi
 
 ### Load extra completions
-autoload -U compdef
+autoload -Uz compdef
 [[ -d "$_ZSHRC_INSTALL_DIR/fpath" ]] && fpath+=("$_ZSHRC_INSTALL_DIR/fpath")
 typeset -U fpath
 export FPATH
