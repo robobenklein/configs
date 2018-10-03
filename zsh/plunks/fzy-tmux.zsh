@@ -26,4 +26,5 @@ function _fzy_tmux () {
   sessions=($(tmux list-sessions -F "#{session_name}" 2>/dev/null))
   compadd -a sessions
 }
-compdef _fzy_tmux tm
+# doesn't load on 5.0.X?
+compdef _fzy_tmux tm 2>/dev/null
