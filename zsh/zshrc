@@ -162,6 +162,7 @@ plunks=(
   fancy-docker # for when you really just want a progress bar
   rtabfunc # rtab with fixes as a zsh function
   p9k-no-sudo-test # p9k prompt_context_no_sudo_check
+  fzy-tmux # tmux fuzzy selector
 )
 typeset -U plunks
 
@@ -332,6 +333,9 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" wait'1' lucid as"program" pick"bin/git-dsf"
   zplugin load zdharma/zsh-diff-so-fancy
 
+  zplugin ice from"gh" wait'0' lucid as"program" pick"fzy" make
+  zplugin light jhawthorn/fzy
+
   zplugin ice from"gh" wait'0' lucid atload'zpcompinit'
   zplugin light zdharma/fast-syntax-highlighting
 
@@ -415,15 +419,15 @@ alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
 alias -g ......='../../../../..'
-alias 1='cd -'
-alias 2='cd -2'
-alias 3='cd -3'
-alias 4='cd -4'
-alias 5='cd -5'
-alias 6='cd -6'
-alias 7='cd -7'
-alias 8='cd -8'
-alias 9='cd -9'
+alias 1='builtin cd -1'
+alias 2='builtin cd -2'
+alias 3='builtin cd -3'
+alias 4='builtin cd -4'
+alias 5='builtin cd -5'
+alias 6='builtin cd -6'
+alias 7='builtin cd -7'
+alias 8='builtin cd -8'
+alias 9='builtin cd -9'
 alias md='mkdir -p'
 
 if [[ ${precmd_functions[(r)_z_precmd]} == "_z_precmd" ]]; then
@@ -464,6 +468,31 @@ function d () {
 }
 compdef _dirs d
 
+# auto-fzy cd
+function cd () {
+  if [[ -d $1 ]]; then
+    builtin cd "$@"
+  elif [[ -n $1 ]]; then
+    local godir=$(_z -cl "$@" 2>&1 | tac | fzy | cut -c12-) && {
+      builtin cd ${godir}
+    }
+  else
+    local godir=$(_z -l 2>&1 | tac | fzy | cut -c12- ) && {
+      builtin cd ${godir}
+    }
+  fi
+}
+compdef _z_zsh_tab_completion cd
+
+# auto-cat for dirs
+function c () {
+  if [[ -d $1 ]]; then
+    lslbntl "$@"
+  else
+    cat "$@"
+  fi
+}
+
 if (( ${+commands[rsync]} )); then
   function cprp () {
     rsync -r --info=progress2 --delay-updates --partial-dir=.rsync-partial "$@"
@@ -486,7 +515,6 @@ if command -v bfg.jar > /dev/null 2>&1 && (( ${+commands[java]} )); then
   alias bfg="java -jar $(which bfg.jar )"
 fi
 alias m="make"
-alias c="cat"
 alias pu="pushd"
 alias po="popd"
 
