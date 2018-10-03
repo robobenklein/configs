@@ -14,7 +14,8 @@ tm() {
     session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzy -p 'tmux sessions > ' ) && {
       tmux $change -t "$session"
     } || {
-      read -q "REPLY?Create session \"${session}\"? "
+      [[ ! -n "$session" ]] && return
+      read -q "REPLY?Create session \"${session}\"? [y/N] "
       echo
       [[ $REPLY == 'y' ]] && tm $session
     }
