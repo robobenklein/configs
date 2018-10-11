@@ -17,7 +17,7 @@ hydralist=$(echo hydra{0..30})
 function gethydras() {
   rm /tmp/hydrausers/hydra* 2>&1 >/dev/null
   parallel-ssh -i -t $TIMEOUT -o /tmp/hydrausers -H "${hydralist}" \
-    'users' > $DEBUGLOG
+    'users; who | {grep -v pts && print ":LOCAL" } | cut -d " " -f1 | tr -d "\n"' > $DEBUGLOG
   FAILURE+=$(grep 'FAILURE' $DEBUGLOG | wc -l)
   while read -r failedhost; do
     # skip nothing, literally
