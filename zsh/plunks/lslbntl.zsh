@@ -60,3 +60,93 @@ function lslbntl() {
     printf '%b\n' "$Z_TMP_LS_DOTSHOWN"
   fi
 }
+
+typeset -A LSLBNTL
+
+function lslbntlv2 () {
+  local mode
+  while [[ "$1" != "" ]]; do
+  case "$1" in
+    "--")
+      # stop parsing args and let cmake take the rest
+      shift
+      break
+      ;;
+    "-a")
+      mode="long"
+      ;;
+    "-T"|"--tree")
+      mode="tree"
+      ;;
+    "-s"|"--short")
+      mode="short"
+      ;;
+    "-h"|"--help")
+      while IFS="" read -r line; do printf '%b\n' "$line"; done << EOF
+${0}: lslbntl: ls long but not too long
+usage: ${0} [OPTION]... [--] [directories or files]...
+EOF
+      true
+      return
+      ;;
+    -*)
+      echo "lslbntl: Unknown option: $1"
+      false
+      return
+      ;;
+    *)
+      # non-option arg, done
+      break
+      ;;
+  esac
+  done
+
+  # find out how many files we could potentially list:
+  local -a onelevel_all
+  onelevel_all=()
+  for n in ${@:-"."}; do
+    if [[ -d ${n} ]]; then
+      onelevel_all+=( ${n}/(*|.*) )
+    elif [[ -e ${n} ]]; then
+      onelevel_all+=( ${n} )
+    else
+      builtin printf '%b\n' "lslbntl: ${n} does not exist"
+      false
+      return
+    fi
+  done
+
+  if [[ ! -n "${mode}" ]]; then
+    # if we can show everything on one screen
+    if (( ${#onelevel_all} < LINES )); then
+      # if we can show it in tree mode, do so
+      local -a tree_all
+      tree_all=()
+      for n in ${@:-"."}; do
+        echo searching $n
+        if [[ -d ${n} ]]; then
+          tree_all+=( ${n}/**/* )
+        else
+          tree_all+=(${n})
+        fi
+      done
+
+      if (( ${#tree_all} < LINES )); then
+        # show in tree form
+        mode="tree"
+      else
+        # show all non-recursively
+        echo long form
+        mode="long"
+      fi
+      echo tree ${#tree_all}
+    else
+      # we can't show it all on one screen, show short version
+      echo short form
+      mode="short"
+      echo ${#onelevel_all}
+    fi
+  fi
+
+  echo $mode
+}
