@@ -286,12 +286,12 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   )
 
   [[ -d $HOME/code/p10k ]] && {
-    zplugin ice from"gl" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions \
-      atinit'fpath+=($PWD/p10k_functions $PWD/segments)'
+    zplugin ice from"gitlab" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions \
+      atinit'fpath+=($PWD/p10k_functions $PWD/segments)' id-as'p10k'
     zplugin load $HOME/code/p10k
   } || {
-    zplugin ice from"gl" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions \
-      atinit'fpath+=($PWD/p10k_functions $PWD/segments)'
+    zplugin ice from"gitlab" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions \
+      atinit'fpath+=($PWD/p10k_functions $PWD/segments)' id-as'p10k'
     zplugin load robobenklein/p10k
   }
 
