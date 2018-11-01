@@ -214,7 +214,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     multisrc"${_ZSHRC_OMZ_SRCS}"
   zplugin load robbyrussell/oh-my-zsh
 
-  zplugin ice from"gh" blockf
+  zplugin ice from"gh" blockf nocompletions
   zplugin light zdharma/zui
 
   ### Theme
@@ -332,6 +332,9 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
   zplugin ice from"gh" wait'1' lucid as"program" pick"bin/git-dsf"
   zplugin load zdharma/zsh-diff-so-fancy
+
+  zplugin ice from"gh" wait'1' lucid
+  zplugin load zdharma/zbrowse
 
   zplugin ice from"gh" wait'0' lucid as"program" pick"fzy" make
   zplugin light jhawthorn/fzy
