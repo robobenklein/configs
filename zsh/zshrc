@@ -333,8 +333,6 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" wait'1' lucid as"program" pick"bin/git-dsf"
   zplugin load zdharma/zsh-diff-so-fancy
 
-  zplugin ice from"gh" wait'1' lucid
-  zplugin load zdharma/zbrowse
 
   zplugin ice from"gh" wait'0' lucid as"program" pick"fzy" make
   zplugin light jhawthorn/fzy
@@ -343,6 +341,14 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin light zdharma/fast-syntax-highlighting
 
   zpcompinit
+
+  function zplg-setup-zsh-dev () {
+    zplugin ice from"gh" wait'1' lucid
+    zplugin load zdharma/zbrowse
+
+    zplugin ice from"gh" wait'1' lucid as"program" pick"build/zsd*" make
+    zplugin load zdharma/zshelldoc
+  }
 
 else
   # Try to install it
