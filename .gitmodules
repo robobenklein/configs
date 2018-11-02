@@ -1,7 +1,7 @@
 [submodule "dotbot"]
 	path = dotbot
 	url = https://github.com/robobenklein/dotbot.git
-[submodule "antigen"]
-	path = antigen
-	url = https://github.com/zsh-users/antigen.git
-	ignore = untracked
+[submodule "zplugin"]
+	path = zplugin
+	url = https://github.com/zdharma/zplugin.git
+	branch = master

@@ -1,14 +1,20 @@
 #!/bin/zsh
+## vim:ft=zsh
 
-[ -d "$HOME/bin" ] && path=("$HOME/bin" $path )
+[[ -d "$HOME/bin" ]] && path=("$HOME/bin" $path )
+
+(( ${+_ZSHRC_ZPROF} )) && zmodload zsh/zprof # && printf 'Start\n' && date --iso-8601=ns
+# printf '%b\n' "\033[0;31mZSHRC: Hello! \033[0;0m"
 
 ### OS & Terminal Emulator Detection
 unamestr=`uname`
+unamearch=`uname -m`
 if [[ "$unamestr" == 'Linux' ]]; then
   # Get the terminal emulator
   platform='Linux'
   if (( $PPID > 0 )); then
-    TERM_PROGRAM=$(ps -f -o comm -p $PPID | tail -1 | sed -r 's;:.*$;;gm' | sed -r 's/[-\/]*$//g')
+    TERM_PROGRAM=$(ps -fo cmd -hwcp $PPID )
+    [[ ${TERM_PROGRAM[-1]} == '-' ]] && TERM_PROGRAM=${TERM_PROGRAM[0,-2]}
   else
     # we have no parent process
     # are we in docker?:
@@ -20,21 +26,28 @@ if [[ "$unamestr" == 'Linux' ]]; then
 elif [[ "$unamestr" == 'Darwin' ]]; then
   # TERM_PROGRAM should already be set
   platform='Darwin'
+  # Fix for some missing paths
   if [ -s /etc/paths ]; then
-    for pathitem in $(/bin/cat "/etc/paths" ); do
+    local etcpaths
+    declare -a etcpaths; etcpaths=( ${(f)"$(</etc/paths)"} )
+    for pathitem in ${etcpaths} ; do
       if [[ ! ${path[(r)$pathitem]} == "$pathitem" ]]; then
         path+=($pathitem)
       fi
     done
   fi
+else
+  # Unsupported OS!
+  printf '%b\n' "\033[0;31mZSHRC: Unsupported operating system!\
+  Some things may break, or you might be missing functionality!\033[0m"
 fi
 
 # Set zrllink utility.
-if command -v rllink >/dev/null 2>&1; then
+if (( ${+commands[rllink]} )); then
   function zrllink() {
     rllink -f $1
   }
-elif command -v readlink >/dev/null 2>&1; then
+elif (( ${+commands[readlink]} )); then
   function zrllink() {
     readlink -f $1
   }
@@ -43,12 +56,12 @@ elif command -v readlink >/dev/null 2>&1; then
       readlink $1
     }
   fi
-elif command -v perl >/dev/null 2>&1; then
+elif (( ${+commands[perl]} )); then
   function zrllink() {
     perl -MCwd -le 'print Cwd::abs_path(shift)' $1
   }
 else
-  echo -e "\033[0;31mZSHRC: Couldn't find a valid readlink! ZSHRC may not load correctly!\033[0m"
+  printf '%b\n' "\033[0;31mZSHRC: Couldn't find a valid symlink resolver! ZSHRC may not load correctly!\033[0m"
 fi
 
 ### Configs install location detection
@@ -71,19 +84,38 @@ if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
 fi
 
 ### ZSH Theme selection
+# ZSH Theme emulating the Fish shell's default prompt.
+# Note this is the barebones version just as a fallback
+
+_fishy_collapsed_wd() {
+  echo $(pwd | perl -pe '
+   BEGIN {
+      binmode STDIN,  ":encoding(UTF-8)";
+      binmode STDOUT, ":encoding(UTF-8)";
+   }; s|^$ENV{HOME}|~|g; s|/([^/.])[^/]*(?=/)|/$1|g; s|/\.([^/])[^/]*(?=/)|/.$1|g
+')
+}
+
+setopt promptsubst
+local user_color='green'; [[ $UID == 0 ]] && user_color='red'
+PROMPT='%n@%m %{$fg[$user_color]%}$(_fishy_collapsed_wd)%{$reset_color%}%(!.#.>) '
+PROMPT2='%{$fg[red]%}\ %{$reset_color%}'
+
+local return_status="%{$fg_bold[red]%}%(?..%?)%{$reset_color%}"
+
 # Powerline available theme
-Z_DEFAULT_POWERLINE_THEME="agnoster"
-# Powerline theme only activated if it's installed
-Z_INSTALL_DETECT_POWERLINE_THEME="bhilburn/powerlevel9k"
+Z_DEFAULT_POWERLINE_THEME="p9k"
 case "$TERM_PROGRAM" in
   'python2'|\
   'terminator'|\
   'iTerm.app'|\
   'gnome-terminal'|\
   'tmux'|\
-  'tilix'|\
-  'sshd')
+  'tilix')
     ZSH_THEME="$Z_DEFAULT_POWERLINE_THEME"
+    ;;
+  'sshd')
+    ZSH_THEME="${ZSH_THEME:-${Z_DEFAULT_POWERLINE_THEME}}"
     ;;
   'login')
     ZSH_THEME="fishy"
@@ -98,72 +130,251 @@ esac
 export ZSH_THEME
 
 ENABLE_CORRECTION="true"
-COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="false"
 
 if [[ "${Z_LSBASE}" == "" ]]; then
   # used for a few plunks
   export Z_LSBASE='ls'
+  export Z_LSARG_LONG='-l'
+  export Z_LSARG_ALL='-a'
   if [[ "$platform" == "Linux" ]]; then
-    export Z_LSARGEXTRA='--color=tty'
+    Z_LSARG_HUMAN=("--color=tty" "-h")
+    export Z_LSARG_HUMAN
     export Z_LSARG_FORCE_COLOR='--color=always'
   elif [[ "$platform" == "Darwin" ]]; then
-    export Z_LSARGEXTRA='-G'
+    export Z_LSARG_HUMAN='-h'
+    export Z_LSARG_FORCE_COLOR='-G'
   fi
 fi
 
 ### Load extra completions
-[ -d "$_ZSHRC_INSTALL_DIR/fpath" ] && fpath+=("$_ZSHRC_INSTALL_DIR/fpath")
+autoload -Uz compdef
+[[ -d "$_ZSHRC_INSTALL_DIR/fpath" ]] && fpath+=("$_ZSHRC_INSTALL_DIR/fpath")
+typeset -U fpath
+export FPATH
 
-### PLUGINS
-antigenplugins=(
-  # vi-mode
-  # colored-man-pages
-  # peterhurford/git-it-on.zsh
-  git
-  # git-flow
-  command-not-found
-  robobenklein/k
-  z
-  Tarrasch/zsh-bd
-  zsh-users/zsh-completions
-  zdharma/history-search-multi-word
-  zdharma/fast-syntax-highlighting
-  # zsh-users/zsh-syntax-highlighting
-)
-typeset -U antigenplugins
-plunks=( # PLugin chUNKS
+### Plunks
+# PLugin chUNKS
+plunks=(
   lca # last command arguments
   lslbntl # ls long, but not too long
   presenter-mode # zsh for presenting to groups
-  git-lfs-completion
+  fancy-docker # for when you really just want a progress bar
+  rtabfunc # rtab with fixes as a zsh function
+  p9k-no-sudo-test # p9k prompt_context_no_sudo_check
+  fzy-tmux # tmux fuzzy selector
 )
 typeset -U plunks
+
+### Load Plunks
+# little bits of plugins that I plop down
+# PLugin chUNKS
+for plunk in "${plunks[@]}"; do
+  local plunkfile="$_ZSHRC_INSTALL_DIR/plunks/${plunk}.zsh"
+  # [[ -s ${plunkfile} ]] || zcompile "${plunkfile}"
+  source "${plunkfile}"
+done
+
+function plunkcompile {
+  autoload -U zargs
+  zargs -L1 -- $_ZSHRC_INSTALL_DIR/plunks/*.zsh -- builtin zcompile
+}
+
+### Load framework
+
+# Check that zplugin is installed
+if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
+
+  source "$HOME/.zplugin/bin/zplugin.zsh"
+
+  ### Dependencies
+
+  # OMZ libraries
+  local _ZSHRC_OMZ_SRCS
+  _ZSHRC_OMZ_SRCS=(
+    # lib/compfix.zsh
+    lib/completion.zsh
+    # lib/directories.zsh
+    lib/functions.zsh
+    lib/grep.zsh
+    lib/history.zsh
+    lib/key-bindings.zsh
+    lib/misc.zsh
+    lib/spectrum.zsh
+    lib/termsupport.zsh
+    lib/theme-and-appearance.zsh
+
+    plugins/z/z.sh
+    plugins/git/git.plugin.zsh
+
+    themes/fishy.zsh-theme
+  )
+
+  zplugin ice from"gh" pick"lib/git.zsh" nocompletions blockf \
+    multisrc"${_ZSHRC_OMZ_SRCS}"
+  zplugin load robbyrussell/oh-my-zsh
+
+  zplugin ice from"gh" blockf nocompletions
+  zplugin light zdharma/zui
+
+  ### Theme
+
+  # More power
+  zplugin env-whitelist 'POWERLEVEL9K_*'
+  # ZSH_THEME="$Z_INSTALL_DETECT_POWERLINE_THEME"
+  POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context_no_sudo_check root_indicator dir_writable dir vcs)
+  POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time background_jobs battery time)
+  # Vim master race?
+  #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS+=( vi_mode )
+  POWERLEVEL9K_VI_INSERT_MODE_STRING="I"
+  POWERLEVEL9K_VI_COMMAND_MODE_STRING="CMD"
+  # Specifics
+  POWERLEVEL9K_BATTERY_LOW_THRESHOLD=30
+  POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=1
+  # User
+  DEFAULT_USER="robo"
+  POWERLEVEL9K_ALWAYS_SHOW_USER="true"
+  POWERLEVEL9K_USER_DEFAULT_FOREGROUND="white"
+  POWERLEVEL9K_USER_SUDO_FOREGROUND="gold1"
+  POWERLEVEL9K_USER_ROOT_FOREGROUND="red"
+  POWERLEVEL9K_USER_ICON=""
+  POWERLEVEL9K_ROOT_ICON=""
+  POWERLEVEL9K_SUDO_ICON=""
+  # Host
+  POWERLEVEL9K_HOST_LOCAL_FOREGROUND="grey58"
+  POWERLEVEL9K_HOST_REMOTE_FOREGROUND="white"
+  POWERLEVEL9K_HOST_ICON=""
+  POWERLEVEL9K_SSH_ICON=""
+  # Context
+  POWERLEVEL9K_ALWAYS_SHOW_CONTEXT="true"
+  POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="grey58"
+  POWERLEVEL9K_CONTEXT_SUDO_FOREGROUND="maroon"
+  POWERLEVEL9K_CONTEXT_REMOTE_FOREGROUND="white"
+  POWERLEVEL9K_CONTEXT_REMOTE_SUDO_FOREGROUND="gold1"
+  POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND="red"
+  # Single
+  POWERLEVEL9K_STATUS_ERROR_BACKGROUND="red"
+  POWERLEVEL9K_STATUS_ERROR_FOREGROUND="black"
+  POWERLEVEL9K_BATTERY_ICON=""
+  POWERLEVEL9K_BATTERY_HIDE_ABOVE_THRESHOLD="95"
+  POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
+  POWERLEVEL9K_SHORTEN_DELIMITER=""
+  POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
+  POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND="black"
+  POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND="242" # dimm gray
+  POWERLEVEL9K_EXECUTION_TIME_ICON="⧖ "
+  POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON="⇗ "
+  if (( ${+functions[rtab]} )); then
+    POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \${RTAB_PWD}"
+    POWERLEVEL9K_CUSTOM_RTAB_DIR_FOREGROUND="black"
+    POWERLEVEL9K_CUSTOM_RTAB_DIR_BACKGROUND="blue"
+    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context_no_sudo_check root_indicator dir_writable custom_rtab_dir vcs)
+    typeset -a chpwd_functions
+    chpwd_functions+=(_rtab_pwd_update)
+    function _rtab_pwd_update() {
+      export RTAB_PWD=$(rtab -l -t)
+    }
+    _rtab_pwd_update
+  fi
+
+  zplugin ice from"gh" if'[[ "$ZSH_THEME" == "p9k" ]]'
+  zplugin load bhilburn/powerlevel9k
+
+  typeset -gA p10k_opts
+  p10k_opts=(
+    p10ks_cwd ';;;;rtab;-t;-l'
+  )
+
+  [[ -d $HOME/code/p10k ]] && {
+    zplugin ice from"gitlab" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions \
+      atinit'fpath+=($PWD/p10k_functions $PWD/segments)' id-as'p10k'
+    zplugin load $HOME/code/p10k
+  } || {
+    zplugin ice from"gitlab" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions \
+      atinit'fpath+=($PWD/p10k_functions $PWD/segments)' id-as'p10k'
+    zplugin load robobenklein/p10k
+  }
+
+  [[ "$ZSH_THEME" == "p10k" ]] && prompt p10k robobenklein
+
+  # zpcompinit
+
+  ### Normal Plugins
+  # wait'0' plugins are after-prompt loaded.
+
+  zplugin ice from"gh" blockf
+  zplugin load zsh-users/zsh-completions
+
+  zplugin ice wait'1' lucid nocompletions
+  zplugin snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
+
+  # exa is only available for 64bit Linux & MacOS (by github release)
+  if [[ $unamearch == "x86_64" ]]; then
+    if [[ $unamestr == "Linux" ]]; then
+      zplugin ice nocompletions from"gh-r" bpick"*-linux-$unamearch-*" \
+        as"program" mv"exa-linux-* -> exa" pick"exa"
+    elif [[ $unamestr == "Darwin" ]]; then
+      zplugin ice nocompletions from"gh-r" bpick"*-macos-$unamearch-*" \
+        as"program" mv"exa-macos-* -> exa" pick"exa"
+    else
+      zplugin ice nocompletions from"gh-r" bpick"*-$unamestr-$unamearch-*" \
+        as"program" mv"exa-* -> exa" pick"exa"
+      printf '%b\n' "\033[0;33mZSHRC: Warning: EXA auto-install probably not available.\033[0;0m"
+    fi
+    zplugin load ogham/exa
+  fi
+
+  zplugin ice from"gh" wait'0' lucid
+  zplugin load robobenklein/k
+
+  zplugin ice from"gh" wait'0' lucid
+  zplugin load zdharma/history-search-multi-word
+
+  zplugin ice from"gh" wait'1' lucid as"program" pick"bin/git-dsf"
+  zplugin load zdharma/zsh-diff-so-fancy
+
+
+  zplugin ice from"gh" wait'0' lucid as"program" pick"fzy" make
+  zplugin light jhawthorn/fzy
+
+  zplugin ice from"gh" wait'0' lucid atload'zpcompinit'
+  zplugin light zdharma/fast-syntax-highlighting
+
+  zpcompinit
+
+  function zplg-setup-zsh-dev () {
+    zplugin ice from"gh" wait'1' lucid
+    zplugin load zdharma/zbrowse
+
+    zplugin ice from"gh" wait'1' lucid as"program" pick"build/zsd*" make
+    zplugin load zdharma/zshelldoc
+  }
+
+else
+  # Try to install it
+  printf '%b\n' "\033[0;31mZSHRC: Couldn't find ~/.zplugin/bin/zplugin.zsh!\033[0m"
+  if [ -s "$_ZSHRC_INSTALL_DIR/../install" ]; then
+    printf '%b\n' "Try installing the configs repo at $_ZSHRC_INSTALL_DIR ?"
+  fi
+fi
 
 ### User configuration
 
 # the background color for the terminal emulator
 TERM_EMULATOR_BG_DEFAULT="#444444"
 
-# Tmux plugin:
-ZSH_TMUX_FIXTERM_WITHOUT_256COLOR="screen-256color"
-ZSH_TMUX_AUTOSTART="false"
-ZSH_TMUX_AUTOCONNECT="false"
-
 [[ -s "$HOME/.pythonz/etc/bashrc" ]] && source "$HOME/.pythonz/etc/bashrc"
 
 # Go environment
-[ -d "$HOME/code/go" ] && export GOPATH="$HOME/code/go"
-[ -d "$HOME/code/go/bin" ] && path+=("$HOME/code/go/bin")
+[[ -d "$HOME/code/go" ]] && export GOPATH="$HOME/code/go"
+[[ -d "$HOME/code/go/bin" ]] && path+=("$HOME/code/go/bin")
 
 # NVM nodejs
-if [ -d "$HOME/.nvm" ]; then
+if [[ -d "$HOME/.nvm" ]]; then
   export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  [[ -s "$NVM_DIR/nvm.sh" ]] && \. "$NVM_DIR/nvm.sh"
+  [[ -s "$NVM_DIR/bash_completion" ]] && \. "$NVM_DIR/bash_completion"
 fi
-
-# added by travis gem
-[ -f "$HOME/.travis/travis.sh" ] && source "$HOME/.travis/travis.sh"
 
 # Fix that guake doesn't set TERM properly
 # it actually does have 256color...
@@ -171,99 +382,20 @@ if [[ "$TERM_PROGRAM" == "python2" ]] && [[ "$TERM" == "xterm" ]]; then
   TERM=xterm-256color
 fi
 
-### Load framework
-
-# Check that antigen is installed
-if [[ -s "$HOME/.antigen/antigen.zsh" ]]; then
-  # If powerlevel9k is installed, use it
-  if [[ -d "$HOME/.antigen/bundles/$Z_INSTALL_DETECT_POWERLINE_THEME" ]] && \
-    [[ "$ZSH_THEME" == "$Z_DEFAULT_POWERLINE_THEME" ]] || \
-    [[ "$ZSH_THEME" == "$Z_INSTALL_DETECT_POWERLINE_THEME" ]]; then
-    # More power
-    ZSH_THEME="$Z_INSTALL_DETECT_POWERLINE_THEME"
-    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable dir vcs)
-    POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time background_jobs battery time)
-    # Vim master race?
-    #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS+=( vi_mode )
-    POWERLEVEL9K_VI_INSERT_MODE_STRING="I"
-    POWERLEVEL9K_VI_COMMAND_MODE_STRING="CMD"
-    # Specifics
-    POWERLEVEL9K_BATTERY_LOW_THRESHOLD=30
-    POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=1
-    POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="white"
-    POWERLEVEL9K_BATTERY_ICON=""
-    POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
-    POWERLEVEL9K_SHORTEN_DELIMITER=""
-    POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
-    POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND="black"
-    POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND="242" # dimm gray
-    POWERLEVEL9K_EXECUTION_TIME_ICON="⧖ "
-    POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON="⇗ "
-    if command -v rtab > /dev/null 2>&1; then
-      POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \$(rtab -t -l)"
-      POWERLEVEL9K_CUSTOM_RTAB_DIR_FOREGROUND="black"
-      POWERLEVEL9K_CUSTOM_RTAB_DIR_BACKGROUND="blue"
-      POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable custom_rtab_dir vcs)
-    fi
-  fi
-  ANTIGEN_CACHE=$HOME/.antigen/init-cache-${TERM_PROGRAM}-$( echo $ZSH_THEME | tr -cd '[[:alnum:]]').zsh
-  source "$HOME/.antigen/antigen.zsh"
-  antigen use oh-my-zsh
-  for plugin in $antigenplugins; do
-    antigen bundle "$plugin"
-  done
-  antigen theme "$ZSH_THEME"
-  antigen apply
-  # Remove paths that start with $HOME/.antigen/
-  antigen_fullpath=$(zrllink "$HOME/.antigen/" )
-  path=( ${path%"${antigen_fullpath}/*"} )
-else
-  # Where did antigen go?
-  echo -e "\033[0;31mZSHRC: Couldn't find ~/.antigen/antigen.zsh!\033[0m"
-  # Do we have OMZ?
-  if [[ -s "$HOME/.oh-my-zsh/oh-my-zsh.sh" ]]; then
-    export ZSH="$HOME/.oh-my-zsh"
-    source "$ZSH/oh-my-zsh.sh"
-  fi
-fi
-
 # You may need to manually set your language environment
 #export LANG=en_US.UTF-8
 
-### Load Plunks
-# little bits of plugins that I plop down
-# PLugin chUNKS
-for plunk in "${plunks[@]}"; do
-  source "$_ZSHRC_INSTALL_DIR/plunks/${plunk}.zsh"
-done
-
-# compinit
-
-# Whitelist chroma functions because some misbehave
-FAST_HIGHLIGHT=(
-  chroma-example chroma/-example.ch
-  chroma-docker chroma/-docker.ch
-  chroma-make chroma/-make.ch
-  chroma-perl chroma/-perl.ch
-  chroma-printf chroma/-printf.ch
-
-  chroma-git chroma/-git.ch
-
-  chroma-grep chroma/-grep.ch
-  chroma-egrep chroma/-grep.ch
-  chroma-fgrep chroma/-grep.ch
-
-  chroma-awk chroma/-awk.ch
-  chroma-gawk chroma/-awk.ch
-  chroma-mawk chroma/-awk.ch
-)
+# Remove chroma functions that misbehave
+unset "FAST_HIGHLIGHT[chroma-vim]"
 
 ### Functions
 
 # function which properly sets up vi mode things in order
 function zsh_start_vi_mode() {
   export KEYTIMEOUT=1
-  antigen bundle vi-mode
+
+  zplugin snippet OMZ::plugins/vi-mode/vi-mode.plugin.zsh
+
   #bindkey -v
   POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS+=( vi_mode )
   # in vi command mode:
@@ -281,20 +413,47 @@ function zsh_start_vi_mode() {
 
 alias zvi=zsh_start_vi_mode
 
-if command -v exa > /dev/null 2>&1; then
+if (( ${+commands[exa]} )) && command exa -v >/dev/null 2>&1; then
   export Z_LSBASE='exa'
-  export Z_LSARGEXTRA='--git'
+  Z_LSARG_HUMAN=('--git')
+  export Z_LSARG_HUMAN
+  export Z_LSARG_LONG='--long'
+  export Z_LSARG_ALL='-aa'
+  export Z_LSARG_DEFAULTS='-g'
   export Z_LSARG_FORCE_COLOR='--color=always'
 fi
 
+# Dirs
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -g ......='../../../../..'
+alias 1='builtin cd -1'
+alias 2='builtin cd -2'
+alias 3='builtin cd -3'
+alias 4='builtin cd -4'
+alias 5='builtin cd -5'
+alias 6='builtin cd -6'
+alias 7='builtin cd -7'
+alias 8='builtin cd -8'
+alias 9='builtin cd -9'
+alias md='mkdir -p'
+
+if [[ ${precmd_functions[(r)_z_precmd]} == "_z_precmd" ]]; then
+  # move the _z_precmd to the prexec, so it only adds with commands executed,
+  # not with prompts drawn
+  precmd_functions=(${precmd_functions%_z_precmd})
+  preexec_functions+=(_z_precmd)
+fi
+
 # Editor
-if command -v nvim > /dev/null 2>&1; then
+if (( ${+commands[nvim]} )); then
   export EDITOR='nvim'
-elif command -v vim > /dev/null 2>&1; then
+elif (( ${+commands[vim]} )); then
   export EDITOR='vim'
-elif command -v vi > /dev/null 2>&1; then
+elif (( ${+commands[vi]} )); then
   export EDITOR='vi'
-elif command -v nano > /dev/null 2>&1; then
+elif (( ${+commands[nano]} )); then
   export EDITOR='nano'
 fi
 alias v="$EDITOR"
@@ -302,9 +461,10 @@ alias v="$EDITOR"
 # ls shortcuts
 
 alias l="lslbntl" # from the plunk
-alias ll="$Z_LSBASE $Z_LSARGEXTRA -lh"
-alias la="$Z_LSBASE $Z_LSARGEXTRA -lah"
+alias ll="$Z_LSBASE $Z_LSARG_HUMAN $Z_LSARG_LONG $Z_LSARG_DEFAULTS"
+alias la="$Z_LSBASE $Z_LSARG_HUMAN $Z_LSARG_LONG $Z_LSARG_ALL $Z_LSARG_DEFAULTS"
 
+# cannot ((${+commands})) because it is an alias
 if command -v d > /dev/null 2>&1; then
   unalias d >/dev/null 2>&1
 fi
@@ -317,27 +477,56 @@ function d () {
 }
 compdef _dirs d
 
-function cprp () {
-  rsync -r --info=progress2 --delay-updates --partial-dir=.rsync-partial "$@"
+# auto-fzy cd
+function cd () {
+  if [[ -d $1 ]]; then
+    builtin cd "$@"
+  elif [[ -n $1 ]]; then
+    local godir=$(_z -cl "$@" 2>&1 | tac | fzy | cut -c12-) && {
+      builtin cd ${godir}
+    }
+  else
+    local godir=$(_z -l 2>&1 | tac | fzy | cut -c12- ) && {
+      builtin cd ${godir}
+    }
+  fi
 }
-compdef _rsync cprp
+compdef _z_zsh_tab_completion cd
+
+# auto-cat for dirs
+function c () {
+  if [[ -d $1 ]]; then
+    lslbntl "$@"
+  else
+    cat "$@"
+  fi
+}
+
+if (( ${+commands[rsync]} )); then
+  function cprp () {
+    rsync -r --info=progress2 --delay-updates --partial-dir=.rsync-partial "$@"
+  }
+  compdef _rsync cprp
+fi
 
 alias gpg-message="gpg2 -a -es -r"
 alias gpg-sign="gpg2 -a -s"
-if command -v atom > /dev/null 2>&1; then
+if (( ${+commands[atom]} )); then
   alias a="atom"
 fi
-if command -v nautilus > /dev/null 2>&1; then
+if (( ${+commands[nautilus]} )); then
   alias n="nautilus"
 fi
-if command -v git-lfs > /dev/null 2>&1; then
+if (( ${+commands[git-lfs]} )); then
   alias glfs="git-lfs"
 fi
-if command -v bfg.jar > /dev/null 2>&1 && command -v java > /dev/null 2>&1; then
+if (( ${+commands[virtualenv]} )); then
+  alias venv="virtualenv"
+fi
+if command -v bfg.jar > /dev/null 2>&1 && (( ${+commands[java]} )); then
   alias bfg="java -jar $(which bfg.jar )"
 fi
 alias m="make"
-alias c="cat"
 alias pu="pushd"
 alias po="popd"
 
@@ -345,21 +534,42 @@ alias po="popd"
 alias cdg='cd $(git rev-parse --show-toplevel)'
 # normalized git branch name ('/' -> '_')
 function git_branch_norm() {
-  git symbolic-ref HEAD|cut -d'/' -f3-|sed -e 's;/;_;'
+  local sr=$(git symbolic-ref HEAD )
+  function {
+    echo ${(j._.)@[3,-1]}
+  } "${(@s:/:)sr}"
 }
 
+alias o="z_and_atom"
+function z_and_atom() {
+  z "$1"
+  cdg
+  atom .
+}
+
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt pushdminus
+
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
+bindkey '\e[H' beginning-of-line
+bindkey '\e[F' end-of-line
+
 ### PATH configuration
+
+builtin dirs -c # on new zsh - no previous dirstack
 
 # Keep this clean!
 typeset -U path # unique items only in path array
 
 # Add .local/bin to path with priority,
-[ -d "$HOME/.local/bin" ] && path[1,0]="$HOME/.local/bin"
+[[ -d "$HOME/.local/bin" ]] && path[1,0]="$HOME/.local/bin"
 
 # Place home bin at front of path
-[ -d "$HOME/bin" ] && path[1,0]="$HOME/bin"
+[[ -d "$HOME/bin" ]] && path[1,0]="$HOME/bin"
 
 export PATH
 
 # EOF
-ZSHRC_LOADED=1
+ZSHRC_LOADED=true

@@ -1,37 +1,41 @@
-"NeoBundle Scripts-----------------------------
+
+if has('nvim')
+  if empty(glob('~/.config/nvim/autoload/plug.vim'))
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
+else
+  " Normal VIM
+  if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
+
+  set directory='~/tmp//,~/.cache//,.'
+endif
+
 if has('vim_starting')
   if &compatible
     set nocompatible               " Be iMproved
   endif
-
-  " Required:
-  set runtimepath+=~/.config/nvim/bundle/neobundle.vim/
 endif
 
 " Required:
-call neobundle#begin(expand('~/.config/nvim/bundle'))
-
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
+call plug#begin('~/.vim/plugged')
 
 " Add or remove your Bundles here:
-NeoBundle 'bling/vim-airline'
+Plug 'bling/vim-airline'
 "NeoBundle 'edkolev/tmuxline.vim'
-NeoBundle 'nvie/vim-flake8'
-NeoBundle 'hkupty/nvimux'
-NeoBundle 'tpope/vim-fugitive'
+Plug 'nvie/vim-flake8'
+Plug 'hkupty/nvimux'
+Plug 'tpope/vim-fugitive'
 
 " Required:
-call neobundle#end()
+call plug#end()
 
 " Required:
 filetype plugin indent on
 
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
-"End NeoBundle Scripts-------------------------
 
 " Vim-airline stuff
 set laststatus=2
@@ -56,4 +60,3 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 0
 
 command! -bang -range=% -complete=file -nargs=* W <line1>,<line2>write<bang> <args>
 command! -bang Q quit<bang>
-

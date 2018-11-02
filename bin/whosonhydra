@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TMPDIR=/tmp/hydrausers
-TIMEOUT=10
+TIMEOUT=30
 DEBUGLOG=${TMPDIR}/debug.log
 FAILURE=0
 
@@ -17,7 +17,7 @@ hydralist=$(echo hydra{0..30})
 function gethydras() {
   rm /tmp/hydrausers/hydra* 2>&1 >/dev/null
   parallel-ssh -i -t $TIMEOUT -o /tmp/hydrausers -H "${hydralist}" \
-    'users' > $DEBUGLOG
+    'users; who | {grep -v pts && print ":LOCAL" } | cut -d " " -f1 | tr -d "\n"' > $DEBUGLOG
   FAILURE+=$(grep 'FAILURE' $DEBUGLOG | wc -l)
   while read -r failedhost; do
     # skip nothing, literally
@@ -34,13 +34,13 @@ for i in {0..30}; do
   if [[ $users == '!FAILURE' ]]; then
     # rip
     failures+=( ["hydra$i"]="$(cat $DEBUGLOG | grep hydra$i )" )
-  else
-    hydrausers+=( ["hydra$i"]="$(cat $TMPDIR/hydra$i )")
+  # else
   fi
+  hydrausers+=( ["hydra$i"]="$(cat $TMPDIR/hydra$i )")
 done
 
 for i in {0..30}; do
-  echo hydra$i: $(echo ${hydrausers[hydra$i]} | wc -w) users: ${hydrausers[hydra$i]}
+  echo hydra$i: $(echo ${hydrausers[hydra$i]} | grep -v '!FAILURE' | wc -w) users: ${hydrausers[hydra$i]}
 done
 
 for key in ${!failures[@]}; do

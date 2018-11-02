@@ -1,11 +1,12 @@
-FROM phusion/baseimage:0.10.1
+FROM ubuntu:14.04
 
-RUN install_clean \
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends \
  rsync file curl time wget git tmux zsh sudo vim unzip \
  software-properties-common cmake make gcc g++ python python3 gdb
 
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
-RUN install_clean git-lfs
+RUN apt-get update && apt-get install -y git-lfs
 
 # user setup
 ARG luser=robo

@@ -16,15 +16,23 @@
       create: true
       path: tmux
 
-  # Antigen
-    ~/.antigen:
+  # Zplugin
+    ~/.zplugin/bin:
       force: true
-      path: antigen
+      create: true
+      path: zplugin
 
   # Zsh
     ~/.zshrc:
       force: true
       path: zsh/zshrc
+
+  # Vim
+    ~/.vimrc:
+      path: nvim/init.vim
+    ~/.vim/colors:
+      create: true
+      path: nvim/colors
 
   # Neovim
     ~/.config/nvim/init.vim:
@@ -50,5 +58,4 @@
       force: true
 
 - shell:
-  - [git submodule update --init, Initializing submodules]
-
+  - [git submodule update --init zplugin, GSU Zplugin]
