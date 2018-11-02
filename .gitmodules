@@ -1,6 +1,6 @@
 [submodule "dotbot"]
 	path = dotbot
-	url = https://github.com/robobenklein/dotbot.git
+	url = https://github.com/anishathalye/dotbot.git
 [submodule "zplugin"]
 	path = zplugin
 	url = https://github.com/zdharma/zplugin.git
