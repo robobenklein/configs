@@ -361,6 +361,10 @@ fi
 # the background color for the terminal emulator
 TERM_EMULATOR_BG_DEFAULT="#444444"
 
+HISTSIZE=500000
+SAVEHIST=500000
+HISTFILE="$HOME/.zsh_history"
+
 [[ -s "$HOME/.pythonz/etc/bashrc" ]] && source "$HOME/.pythonz/etc/bashrc"
 
 # Go environment
