@@ -104,7 +104,7 @@ PROMPT2='%{$fg[red]%}\ %{$reset_color%}'
 local return_status="%{$fg_bold[red]%}%(?..%?)%{$reset_color%}"
 
 # Powerline available theme
-Z_DEFAULT_POWERLINE_THEME="p9k"
+Z_DEFAULT_POWERLINE_THEME="p10k"
 case "$TERM_PROGRAM" in
   'python2'|\
   'terminator'|\
@@ -285,7 +285,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     p10ks_cwd ';;;;rtab;-t;-l'
   )
 
-  zplugin ice from"gitlab" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions \
+  zplugin ice from"gh" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions \
     id-as'p10k'
   [[ -d $HOME/code/p10k ]] && {
     zplugin load $HOME/code/p10k
@@ -293,6 +293,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     zplugin load robobenklein/p10k
   }
 
+  # loads my preset
   [[ "$ZSH_THEME" == "p10k" ]] && prompt p10k robobenklein
 
   # zpcompinit
