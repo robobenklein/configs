@@ -64,22 +64,29 @@ function lslbntl() {
 typeset -A LSLBNTL
 
 function lslbntlv2 () {
+  emulate zsh
+
   local mode
+  local -aU groups
+  groups=()
   while [[ "$1" != "" ]]; do
   case "$1" in
     "--")
-      # stop parsing args and let cmake take the rest
+      # stop parsing args
       shift
       break
       ;;
     "-a")
       mode="long"
+      shift
       ;;
     "-T"|"--tree")
       mode="tree"
+      shift
       ;;
     "-s"|"--short")
       mode="short"
+      shift
       ;;
     "-h"|"--help")
       while IFS="" read -r line; do printf '%b\n' "$line"; done << EOF
@@ -127,10 +134,12 @@ EOF
         if [[ -d ${n} ]]; then
           tree_all+=( ${n}/**/* )
         else
-          tree_all+=(${n})
+          tree_all+=( ${n} )
         fi
+        (( ${#tree_all} > LINES )) && break
       done
 
+      echo tree ${#tree_all}
       if (( ${#tree_all} < LINES )); then
         # show in tree form
         mode="tree"
@@ -139,7 +148,6 @@ EOF
         echo long form
         mode="long"
       fi
-      echo tree ${#tree_all}
     else
       # we can't show it all on one screen, show short version
       echo short form
@@ -149,4 +157,40 @@ EOF
   fi
 
   echo $mode
+
+  ### perform automatic group detection
+  # "only show group if important"
+  local -aU potential_files
+  potential_files=()
+  if [[ ${mode} == "tree" ]]; then
+    potential_files=(${onelevel_all} ${tree_all})
+  else
+    potential_files=(${onelevel_all})
+  fi
+  builtin zstat -s -L -A groups +gid ${potential_files}
+  groups+=( $USER )
+  echo grps: $groups
+
+  # detect which backend and execute command
+  if (( ${+commands[exa]} )); then
+    exa_common_args=(--git )
+    if (( ${#groups} > 1 )); then
+      # show groups
+      exa_common_args+=( -g )
+      echo show groups
+    fi
+    case ${mode} in
+      tree )
+        exa ${exa_common_args} -lT "${@:-.}"
+        ;;
+      short )
+        exa ${exa_common_args} -l "${@:-.}"
+        ;;
+      long )
+        exa ${exa_common_args} -la "${@:-.}"
+        ;;
+    esac
+  elif (( ${+commands[tree]} )); then
+    #
+  fi
 }
