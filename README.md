@@ -5,7 +5,7 @@
 |-|-|
 | Shell | zsh |
 | Shell Framework | Zplugin |
-| Shell theme | Powerlevel9k, Fishy |
+| Shell theme | P10K, Powerlevel9k, Fishy |
 | DE | Gnome, Unity, i3 |
 | CLI Editor | Vim (Neovim) |
 | IDE (General Purpose) | Atom |
