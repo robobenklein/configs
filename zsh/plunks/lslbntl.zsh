@@ -63,6 +63,10 @@ function lslbntl() {
 
 typeset -A LSLBNTL
 
+if command exa -v >/dev/null 2>&1; then
+  LSLBNTL[exa_ok]=1
+fi
+
 function lslbntlv2 () {
   emulate zsh
 
@@ -172,7 +176,7 @@ EOF
   echo grps: $groups
 
   # detect which backend and execute command
-  if (( ${+commands[exa]} )); then
+  if (( ${+commands[exa]} )) && (( LSLBNTL[exa_ok] )); then
     exa_common_args=(--git )
     if (( ${#groups} > 1 )); then
       # show groups
@@ -190,7 +194,31 @@ EOF
         exa ${exa_common_args} -la "${@:-.}"
         ;;
     esac
-  elif (( ${+commands[tree]} )); then
-    #
+  elif (( ${+commands[tree]} )) && [[ ${mode} == 'tree' ]]; then
+    local -a tree_args
+    if (( ${#groups} > 1 )); then
+      tree_args=(-ug)
+    fi
+    tree -ap ${tree_args} "${@:-.}"
+  else
+    # no tree
+    local -a ls_args
+    ls_args=( --color=auto --human-readable --hyperlink=auto --classify )
+    if (( ${#groups} > 1 )); then
+      ls_args+=()
+    else
+      ls_args+=( --no-group )
+    fi
+    case ${mode} in
+      tree )
+        ls -lAh ${ls_args} --recursive "${@:-.}"
+        ;;
+      short )
+        ls -lh ${ls_args} "${@:-.}"
+        ;;
+      long )
+        ls -lah ${ls_args} "${@:-.}"
+        ;;
+    esac
   fi
 }

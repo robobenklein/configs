@@ -486,11 +486,11 @@ function cd () {
     builtin cd "$@"
   elif [[ -n $1 ]]; then
     local godir=$(_z -cl "$@" 2>&1 | tac | fzy | cut -c12-) && {
-      builtin cd ${godir}
+      [[ ! -z $godir ]] && builtin cd ${godir}
     }
   else
     local godir=$(_z -l 2>&1 | tac | fzy | cut -c12- ) && {
-      builtin cd ${godir}
+      [[ ! -z $godir ]] && builtin cd ${godir}
     }
   fi
 }
