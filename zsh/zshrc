@@ -286,7 +286,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   )
 
   zplugin ice from"gh" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions \
-    id-as'p10k'
+    id-as'p10k' atpull'prompt_p10k_compile'
   [[ -d $HOME/code/p10k ]] && {
     zplugin load $HOME/code/p10k
   } || {
