@@ -1,7 +1,7 @@
 
 ## Ubuntu system installs
 
- - tmux htop vim zsh git
+ - tmux htop vim zsh git pv
  - neovim synaptic gparted nemo baobab
  - gpick pavucontrol docker
 
