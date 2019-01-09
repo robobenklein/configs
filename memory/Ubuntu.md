@@ -2,7 +2,8 @@
 ## Ubuntu system installs
 
  - tmux htop vim zsh git
- - neovim synaptic
+ - neovim synaptic gparted nemo baobab
+ - gpick pavucontrol docker
 
 System76 Nvidia PPA
 
@@ -12,3 +13,6 @@ Steam
 
 Keybase
 
+Paper theme (icons), Numix (app/gtk) `numix-gtk-theme`
+
+DCONF Export, Shell extensions sync via Chrome ext.
