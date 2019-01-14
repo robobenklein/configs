@@ -168,16 +168,17 @@ typeset -U plunks
 
 ### Load Plunks
 # little bits of plugins that I plop down
+_ZSHRC_PLUNK_LOCATION="$_ZSHRC_INSTALL_DIR/plunks"
 # PLugin chUNKS
 for plunk in "${plunks[@]}"; do
-  local plunkfile="$_ZSHRC_INSTALL_DIR/plunks/${plunk}.zsh"
+  local plunkfile="$_ZSHRC_PLUNK_LOCATION/${plunk}.zsh"
   # [[ -s ${plunkfile} ]] || zcompile "${plunkfile}"
   source "${plunkfile}"
 done
 
 function plunkcompile {
   autoload -U zargs
-  zargs -L1 -- $_ZSHRC_INSTALL_DIR/plunks/*.zsh -- builtin zcompile
+  zargs -L1 -- $_ZSHRC_PLUNK_LOCATION/*.zsh -- builtin zcompile
 }
 
 ### Load framework
@@ -342,11 +343,22 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zpcompinit
 
   function zplg-setup-zsh-dev () {
-    zplugin ice from"gh" wait'1' lucid
+    zplugin ice from"gh" lucid
     zplugin load zdharma/zbrowse
 
-    zplugin ice from"gh" wait'1' lucid as"program" pick"build/zsd*" make
+    zplugin ice from"gh" lucid as"program" pick"build/zsd*" make
     zplugin load zdharma/zshelldoc
+  }
+
+  function zplg-setup-neovim () {
+    source $_ZSHRC_PLUNK_LOCATION/zplugin-neovim.zsh
+    function zplg-remove-neovim () {
+      zplugin unload neovim
+      rm -rf ${ZPLGM[PLUGINS_DIR]}/neovim
+    }
+  }
+  [[ -d ${ZPLGM[PLUGINS_DIR]}/neovim ]] && {
+    zplg-setup-neovim
   }
 
 else
