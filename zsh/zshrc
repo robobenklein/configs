@@ -528,6 +528,7 @@ alias gpg-message="gpg2 -a -es -r"
 alias gpg-sign="gpg2 -a -s"
 if (( ${+commands[atom]} )); then
   alias a="atom"
+  alias a.="atom ."
 fi
 if (( ${+commands[nautilus]} )); then
   alias n="nautilus"
