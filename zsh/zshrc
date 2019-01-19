@@ -534,6 +534,7 @@ ZSHRC_LOADED=true
 
 (( ${+_ZSHRC_ZPROF} )) && {
   float -g _ZSHRC_ZPROF_EPOCH_DIFF="$(( EPOCHREALTIME - _ZSHRC_ZPROF_TIME_BEGINS ))"
+  builtin printf '%b\n' "\033[0;94mZSHRC_ZPROF: total millis time, avg millis time / call, percentage time\033[0;0m"
   zprof | head -12
   echo
   builtin printf '%b ' "\033[0;31mZSHRC: Done Profiling!\033[0;0m"
