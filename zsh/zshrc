@@ -73,13 +73,13 @@ _ZSHRC_INSTALL_DIR="${_ZSHRC_INSTALL_LOC%/*}"
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
   # on Ubuntu it's in vte-2.91.sh sometimes for whatever reason?
   if [[ -s '/etc/profile.d/vte.sh' ]]; then
-    Z_VTE_CONF_SETUP_FILE='/etc/profile.d/vte.sh'
+    _ZSHRC_VTE_CONF_SETUP_FILE='/etc/profile.d/vte.sh'
   elif [[ -s '/etc/profile.d/vte-2.91.sh' ]]; then
-    Z_VTE_CONF_SETUP_FILE='/etc/profile.d/vte-2.91.sh'
+    _ZSHRC_VTE_CONF_SETUP_FILE='/etc/profile.d/vte-2.91.sh'
   fi
 
-  if [[ -n "$Z_VTE_CONF_SETUP_FILE" ]]; then
-    source $Z_VTE_CONF_SETUP_FILE
+  if [[ -n "$_ZSHRC_VTE_CONF_SETUP_FILE" ]]; then
+    source $_ZSHRC_VTE_CONF_SETUP_FILE
   fi
 fi
 
@@ -118,6 +118,7 @@ case "$TERM_PROGRAM" in
     ZSH_THEME="${ZSH_THEME:-${Z_DEFAULT_POWERLINE_THEME}}"
     ;;
   'login')
+    # this is common for linux vttys, so no symbols pls
     ZSH_THEME="fishy"
     ;;
   'zsh'|*)
@@ -161,7 +162,6 @@ plunks=(
   presenter-mode # zsh for presenting to groups
   fancy-docker # for when you really just want a progress bar
   rtabfunc # rtab with fixes as a zsh function
-  p9k-no-sudo-test # p9k prompt_context_no_sudo_check
   fzy-tmux # tmux fuzzy selector
 )
 typeset -U plunks
@@ -220,66 +220,9 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
   ### Theme
 
-  # More power
-  zplugin env-whitelist 'POWERLEVEL9K_*'
-  # ZSH_THEME="$Z_INSTALL_DETECT_POWERLINE_THEME"
-  POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context_no_sudo_check root_indicator dir_writable dir vcs)
-  POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time background_jobs battery time)
-  # Vim master race?
-  #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS+=( vi_mode )
-  POWERLEVEL9K_VI_INSERT_MODE_STRING="I"
-  POWERLEVEL9K_VI_COMMAND_MODE_STRING="CMD"
-  # Specifics
-  POWERLEVEL9K_BATTERY_LOW_THRESHOLD=30
-  POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=1
-  # User
-  DEFAULT_USER="robo"
-  POWERLEVEL9K_ALWAYS_SHOW_USER="true"
-  POWERLEVEL9K_USER_DEFAULT_FOREGROUND="white"
-  POWERLEVEL9K_USER_SUDO_FOREGROUND="gold1"
-  POWERLEVEL9K_USER_ROOT_FOREGROUND="red"
-  POWERLEVEL9K_USER_ICON=""
-  POWERLEVEL9K_ROOT_ICON=""
-  POWERLEVEL9K_SUDO_ICON=""
-  # Host
-  POWERLEVEL9K_HOST_LOCAL_FOREGROUND="grey58"
-  POWERLEVEL9K_HOST_REMOTE_FOREGROUND="white"
-  POWERLEVEL9K_HOST_ICON=""
-  POWERLEVEL9K_SSH_ICON=""
-  # Context
-  POWERLEVEL9K_ALWAYS_SHOW_CONTEXT="true"
-  POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="grey58"
-  POWERLEVEL9K_CONTEXT_SUDO_FOREGROUND="maroon"
-  POWERLEVEL9K_CONTEXT_REMOTE_FOREGROUND="white"
-  POWERLEVEL9K_CONTEXT_REMOTE_SUDO_FOREGROUND="gold1"
-  POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND="red"
-  # Single
-  POWERLEVEL9K_STATUS_ERROR_BACKGROUND="red"
-  POWERLEVEL9K_STATUS_ERROR_FOREGROUND="black"
-  POWERLEVEL9K_BATTERY_ICON=""
-  POWERLEVEL9K_BATTERY_HIDE_ABOVE_THRESHOLD="95"
-  POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
-  POWERLEVEL9K_SHORTEN_DELIMITER=""
-  POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
-  POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND="black"
-  POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND="242" # dimm gray
-  POWERLEVEL9K_EXECUTION_TIME_ICON="⧖ "
-  POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON="⇗ "
-  if (( ${+functions[rtab]} )); then
-    POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \${RTAB_PWD}"
-    POWERLEVEL9K_CUSTOM_RTAB_DIR_FOREGROUND="black"
-    POWERLEVEL9K_CUSTOM_RTAB_DIR_BACKGROUND="blue"
-    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context_no_sudo_check root_indicator dir_writable custom_rtab_dir vcs)
-    typeset -a chpwd_functions
-    chpwd_functions+=(_rtab_pwd_update)
-    function _rtab_pwd_update() {
-      export RTAB_PWD=$(rtab -l -t)
-    }
-    _rtab_pwd_update
+  if [[ "$ZSH_THEME" == "p9k" ]]; then
+    source $_ZSHRC_PLUNK_LOCATION/zplugin-powerlevel9k.zsh
   fi
-
-  zplugin ice from"gh" if'[[ "$ZSH_THEME" == "p9k" ]]'
-  zplugin load bhilburn/powerlevel9k
 
   typeset -gA p10k_opts
   p10k_opts=(
@@ -305,7 +248,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" blockf
   zplugin load zsh-users/zsh-completions
 
-  zplugin ice wait'1' lucid nocompletions
+  zplugin ice wait'0' lucid nocompletions
   zplugin snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
 
   # exa is only available for 64bit Linux & MacOS (by github release)
@@ -333,14 +276,11 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" wait'1' lucid as"program" pick"bin/git-dsf"
   zplugin load zdharma/zsh-diff-so-fancy
 
-
   zplugin ice from"gh" wait'0' lucid as"program" pick"fzy" make
   zplugin light jhawthorn/fzy
 
   zplugin ice from"gh" wait'0' lucid atload'zpcompinit'
   zplugin light zdharma/fast-syntax-highlighting
-
-  zpcompinit
 
   function zplg-setup-zsh-dev () {
     zplugin ice from"gh" lucid
@@ -360,6 +300,8 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   [[ -d ${ZPLGM[PLUGINS_DIR]}/neovim ]] && {
     zplg-setup-neovim
   }
+
+  zpcompinit
 
 else
   # Try to install it
@@ -480,7 +422,7 @@ alias ll="$Z_LSBASE $Z_LSARG_HUMAN $Z_LSARG_LONG $Z_LSARG_DEFAULTS"
 alias la="$Z_LSBASE $Z_LSARG_HUMAN $Z_LSARG_LONG $Z_LSARG_ALL $Z_LSARG_DEFAULTS"
 
 # cannot ((${+commands})) because it is an alias
-if command -v d > /dev/null 2>&1; then
+if (( ${+aliases[d]} )); then
   unalias d >/dev/null 2>&1
 fi
 function d () {
@@ -489,8 +431,11 @@ function d () {
   else
     dirs -v | head -10
   fi
+  (( ${+functions[_d]} )) || {
+    function _d() { _dirs "$@" }
+    compdef d=dirs
+  }
 }
-compdef _dirs d
 
 # auto-fzy cd
 function cd () {
@@ -554,13 +499,6 @@ function git_branch_norm() {
   function {
     echo ${(j._.)@[3,-1]}
   } "${(@s:/:)sr}"
-}
-
-alias o="z_and_atom"
-function z_and_atom() {
-  z "$1"
-  cdg
-  atom .
 }
 
 setopt auto_pushd
