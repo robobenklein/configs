@@ -3,8 +3,12 @@
 
 [[ -d "$HOME/bin" ]] && path=("$HOME/bin" $path )
 
-(( ${+_ZSHRC_ZPROF} )) && zmodload zsh/zprof # && printf 'Start\n' && date --iso-8601=ns
-# printf '%b\n' "\033[0;31mZSHRC: Hello! \033[0;0m"
+(( ${+_ZSHRC_ZPROF} )) && {
+  zmodload zsh/zprof
+  zmodload zsh/datetime
+  builtin printf '%b\n' "\033[0;31mZSHRC: Profiling!\033[0;0m"
+  float -g _ZSHRC_ZPROF_TIME_BEGINS="${EPOCHREALTIME}"
+}
 
 ### OS & Terminal Emulator Detection
 unamestr=`uname`
@@ -527,3 +531,15 @@ export PATH
 
 # EOF
 ZSHRC_LOADED=true
+
+(( ${+_ZSHRC_ZPROF} )) && {
+  float -g _ZSHRC_ZPROF_EPOCH_DIFF="$(( EPOCHREALTIME - _ZSHRC_ZPROF_TIME_BEGINS ))"
+  zprof | head -12
+  echo
+  builtin printf '%b ' "\033[0;31mZSHRC: Done Profiling!\033[0;0m"
+  builtin print -f 'Load time: %.6f\n' "${_ZSHRC_ZPROF_EPOCH_DIFF}"
+  (( ${+functions[zplugin]} )) && {
+    builtin printf '%b ' "\033[0;31mZSHRC: Zplugin non-async plugins:\033[0;0m"
+    zplugin times
+  }
+}
