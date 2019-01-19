@@ -203,6 +203,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     lib/functions.zsh
     lib/grep.zsh
     lib/history.zsh
+    # lib/key-bindings.zsh
     lib/misc.zsh
     lib/spectrum.zsh
     lib/termsupport.zsh
@@ -210,6 +211,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
     plugins/z/z.sh
     plugins/git/git.plugin.zsh
+    plugins/command-not-found/command-not-found.plugin.zsh
 
     themes/fishy.zsh-theme
   )
@@ -251,9 +253,6 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" blockf
   zplugin load zsh-users/zsh-completions
 
-  zplugin ice wait'0' lucid nocompletions
-  zplugin snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
-
   # exa is only available for 64bit Linux & MacOS (by github release)
   if [[ $unamearch == "x86_64" ]]; then
     if [[ $unamestr == "Linux" ]]; then
@@ -282,7 +281,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" wait'0' lucid as"program" pick"fzy" make
   zplugin light jhawthorn/fzy
 
-  zplugin ice from"gh" wait'0' lucid atload'zpcompinit'
+  zplugin ice from"gh" atload'zpcompinit' wait'0' lucid
   zplugin light zdharma/fast-syntax-highlighting
 
   function zplg-setup-zsh-dev () {
@@ -522,6 +521,10 @@ bindkey '\e[F' end-of-line
 # ctrl-left/right
 bindkey '^[[1;5C' forward-word
 bindkey '^[[1;5D' backward-word
+# edit line in editor
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '\C-x\C-e' edit-command-line
 
 ### PATH configuration
 
