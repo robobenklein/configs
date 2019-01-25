@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.10.1
+FROM phusion/baseimage:0.11
 
 RUN install_clean \
  rsync file curl time wget git tmux zsh sudo vim unzip \
