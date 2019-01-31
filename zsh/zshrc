@@ -292,16 +292,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     zplugin load zdharma/zshelldoc
   }
 
-  function zplg-setup-neovim () {
-    source $_ZSHRC_PLUNK_LOCATION/zplugin-neovim.zsh
-    function zplg-remove-neovim () {
-      zplugin unload neovim
-      rm -rf ${ZPLGM[PLUGINS_DIR]}/neovim
-    }
-  }
-  [[ -d ${ZPLGM[PLUGINS_DIR]}/neovim ]] && {
-    zplg-setup-neovim
-  }
+  source $_ZSHRC_PLUNK_LOCATION/zplugin-neovim.zsh
 
   zpcompinit
 
