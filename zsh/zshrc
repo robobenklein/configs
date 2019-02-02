@@ -153,7 +153,7 @@ if [[ "${Z_LSBASE}" == "" ]]; then
 fi
 
 ### Load extra completions
-autoload -Uz compdef
+# autoload -Uz compdef
 [[ -d "$_ZSHRC_INSTALL_DIR/fpath" ]] && fpath+=("$_ZSHRC_INSTALL_DIR/fpath")
 typeset -U fpath
 export FPATH
@@ -207,7 +207,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     lib/misc.zsh
     lib/spectrum.zsh
     lib/termsupport.zsh
-    lib/theme-and-appearance.zsh
+    # lib/theme-and-appearance.zsh
 
     plugins/z/z.sh
     plugins/git/git.plugin.zsh
@@ -217,7 +217,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   )
 
   zplugin ice from"gh" pick"lib/git.zsh" nocompletions blockf \
-    multisrc"${_ZSHRC_OMZ_SRCS}"
+    multisrc"${_ZSHRC_OMZ_SRCS}" compile"${_ZSHRC_OMZ_SRCS}"
   zplugin load robbyrussell/oh-my-zsh
 
   zplugin ice from"gh" blockf nocompletions
@@ -244,8 +244,6 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
   # loads my preset
   [[ "$ZSH_THEME" == "p10k" ]] && prompt p10k robobenklein
-
-  # zpcompinit
 
   ### Normal Plugins
   # wait'0' plugins are after-prompt loaded.
@@ -275,13 +273,13 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" wait'0' lucid
   zplugin load zdharma/history-search-multi-word
 
-  zplugin ice from"gh" wait'1' lucid as"program" pick"bin/git-dsf"
+  zplugin ice from"gh" wait'0' lucid as"program" pick"bin/git-dsf"
   zplugin load zdharma/zsh-diff-so-fancy
 
   zplugin ice from"gh" wait'0' lucid as"program" pick"fzy" make
   zplugin light jhawthorn/fzy
 
-  zplugin ice from"gh" atload'zpcompinit' wait'0' lucid
+  zplugin ice from"gh" atload'zpcompinit; zpcdreplay' wait'1' lucid
   zplugin light zdharma/fast-syntax-highlighting
 
   function zplg-setup-zsh-dev () {
@@ -294,7 +292,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
   source $_ZSHRC_PLUNK_LOCATION/zplugin-neovim.zsh
 
-  zpcompinit
+  # zpcompinit
 
 else
   # Try to install it
@@ -309,6 +307,7 @@ fi
 # the background color for the terminal emulator
 TERM_EMULATOR_BG_DEFAULT="#444444"
 
+# History
 HISTSIZE=500000
 SAVEHIST=500000
 HISTFILE="$HOME/.zsh_history"
@@ -334,9 +333,6 @@ fi
 
 # You may need to manually set your language environment
 #export LANG=en_US.UTF-8
-
-# Remove chroma functions that misbehave
-unset "FAST_HIGHLIGHT[chroma-vim]"
 
 ### Functions
 
@@ -426,9 +422,9 @@ function d () {
   fi
   (( ${+functions[_d]} )) || {
     function _d() { _dirs "$@" }
-    compdef d=dirs
   }
 }
+compdef d=dirs
 
 # auto-fzy cd
 function cd () {
@@ -512,6 +508,8 @@ bindkey '\e[F' end-of-line
 # ctrl-left/right
 bindkey '^[[1;5C' forward-word
 bindkey '^[[1;5D' backward-word
+# force shift-tab to work as expected in completions
+bindkey -M menuselect '^[[Z' reverse-menu-complete
 # edit line in editor
 autoload -U edit-command-line
 zle -N edit-command-line
