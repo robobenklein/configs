@@ -425,17 +425,29 @@ compdef d=dirs
 function cd () {
   if [[ -d $1 ]]; then
     builtin cd "$@"
-  elif [[ -n $1 ]]; then
-    local godir=$(_z -cl "$@" 2>&1 | tac | fzy | cut -c12-) && {
-      [[ ! -z $godir ]] && builtin cd ${godir}
-    }
   else
-    local godir=$(_z -l 2>&1 | tac | fzy | cut -c12- ) && {
+    local -a locations
+    local val
+    val=0
+    if [[ -n $1 ]]; then
+      locations+=(
+        "${(@f)$(_z -cl "$@" 2>&1 | tac)}"
+      )
+      # locations+=("${(r:10:)val} $HOME")
+    else
+      locations+=("${(r:10:)val} $HOME")
+      locations+=(
+        "${(@f)$(_z -l 2>&1 | tac)}"
+      )
+    fi
+    local godir=($(builtin print ${(j.\n.)locations} | fzy)) && {
+      (( #godir > 0 )) || return 0
+      shift godir
       [[ ! -z $godir ]] && builtin cd ${godir}
     }
   fi
 }
-compdef _z_zsh_tab_completion cd
+# compdef _z_zsh_tab_completion cd
 
 # auto-cat for dirs
 function c () {
@@ -486,6 +498,7 @@ function git_branch_norm() {
 }
 
 setopt auto_pushd
+setopt autocd
 setopt pushd_ignore_dups
 setopt pushdminus
 
