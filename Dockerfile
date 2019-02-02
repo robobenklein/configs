@@ -1,11 +1,8 @@
 FROM phusion/baseimage:0.11
 
 RUN install_clean \
- rsync file curl time wget git tmux zsh sudo vim unzip \
+ rsync file curl time wget git git-lfs tmux zsh sudo neovim unzip \
  software-properties-common cmake make gcc g++ python python3 gdb
-
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
-RUN install_clean git-lfs
 
 # user setup
 ARG luser=robo
@@ -33,4 +30,4 @@ COPY zsh/skel-virus-robo.zsh /etc/skel/.zshrc
 RUN /home/${LUSER}/code/configs/install -v
 WORKDIR /home/${LUSER}
 RUN touch ~/.z
-RUN zsh -i -c -- '-zplg-scheduler burst || true'
+RUN ZSH_THEME=p10k zsh -i -c -- '-zplg-scheduler burst || true'

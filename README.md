@@ -26,3 +26,12 @@
 
 `robobenklein/home` is a docker container with a base system set up (phusion baseimage) that has general utilities and programs installed, along with the configs from this repo.
 
+If you have docker and just want to try out these configs without changing anything on your machine,
+
+```
+docker pull robobenklein/home
+docker run --rm -it robobenklein/home:latest zsh -i
+# by default it starts without a powerline prompt,
+# but if you have powerline fonts:
+docker run --rm --env ZSH_THEME=p10k -it robobenklein/home:latest zsh -i
+```
