@@ -220,26 +220,18 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     multisrc"${_ZSHRC_OMZ_SRCS}" compile"${_ZSHRC_OMZ_SRCS}"
   zplugin load robbyrussell/oh-my-zsh
 
-  zplugin ice from"gh" blockf nocompletions
-  zplugin light zdharma/zui
-
   ### Theme
 
   if [[ "$ZSH_THEME" == "p9k" ]]; then
     source $_ZSHRC_PLUNK_LOCATION/zplugin-powerlevel9k.zsh
   fi
 
-  typeset -gA p10k_opts
-  p10k_opts=(
-    p10ks_cwd ';;;;rtab;-t;-l'
-  )
-
   zplugin ice from"gh" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions \
     id-as'p10k' atpull'prompt_p10k_compile' compile"{p10k_functions/*,segments/*,p10k.zsh}"
   [[ -d $HOME/code/p10k ]] && {
     zplugin load $HOME/code/p10k
   } || {
-    zplugin load robobenklein/p10k
+    zplugin light robobenklein/p10k
   }
 
   # loads my preset
@@ -247,9 +239,6 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
   ### Normal Plugins
   # wait'0' plugins are after-prompt loaded.
-
-  zplugin ice from"gh" blockf
-  zplugin load zsh-users/zsh-completions
 
   # exa is only available for 64bit Linux & MacOS (by github release)
   if [[ $unamearch == "x86_64" ]]; then
@@ -267,6 +256,9 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     zplugin load ogham/exa
   fi
 
+  zplugin ice from"gh" wait'0' blockf
+  zplugin load zsh-users/zsh-completions
+
   zplugin ice from"gh" wait'0' lucid
   zplugin load robobenklein/k
 
@@ -276,13 +268,16 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" wait'0' lucid as"program" pick"bin/git-dsf"
   zplugin load zdharma/zsh-diff-so-fancy
 
-  zplugin ice from"gh" wait'0' lucid as"program" pick"fzy" make
+  zplugin ice from"gh" lucid as"program" pick"fzy" make
   zplugin light jhawthorn/fzy
 
   zplugin ice from"gh" atload'zpcompinit; zpcdreplay' wait'1' lucid
   zplugin light zdharma/fast-syntax-highlighting
 
   function zplg-setup-zsh-dev () {
+    zplugin ice from"gh" blockf nocompletions
+    zplugin light zdharma/zui
+
     zplugin ice from"gh" lucid
     zplugin load zdharma/zbrowse
 
