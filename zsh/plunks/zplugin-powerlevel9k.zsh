@@ -1,39 +1,9 @@
 # More power
 
-###
-# !!!
-# https://github.com/bhilburn/powerlevel9k/issues/852
-prompt_context_no_sudo_check () {
-  local current_state="DEFAULT"
-  typeset -AH context_states
-  context_states=("ROOT" "yellow" "SUDO" "red" "DEFAULT" "white" "REMOTE" "green" "REMOTE_SUDO" "yellow")
-  local content=""
-  if [[ "$POWERLEVEL9K_ALWAYS_SHOW_CONTEXT" == true ]] || [[ "$(whoami)" != "$DEFAULT_USER" ]] || [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
-    content="${POWERLEVEL9K_CONTEXT_TEMPLATE}"
-  elif [[ "$POWERLEVEL9K_ALWAYS_SHOW_USER" == true ]]; then
-    content="$(whoami)"
-  else
-    return
-  fi
-  if [[ $(print -P "%#") == '#' ]]; then
-    current_state="ROOT"
-  elif [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
-    # if sudo -n true 2> /dev/null
-    # then
-    # 	current_state="REMOTE_SUDO"
-    # else
-    current_state="REMOTE"
-    # fi
-  # elif sudo -n true 2> /dev/null; then
-  #   current_state="SUDO"
-  fi
-  "$1_prompt_segment" "${0}_${current_state}" "$2" "$DEFAULT_COLOR" "${context_states[$current_state]}" "${content}"
-}
-
 zplugin env-whitelist 'POWERLEVEL9K_*'
 
 # ZSH_THEME="$Z_INSTALL_DETECT_POWERLINE_THEME"
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context_no_sudo_check root_indicator dir_writable dir vcs)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable dir vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time background_jobs battery time)
 # Vim master race?
 #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS+=( vi_mode )
