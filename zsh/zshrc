@@ -240,6 +240,9 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   ### Normal Plugins
   # wait'0' plugins are after-prompt loaded.
 
+  zplugin ice atclone"dircolors -b LS_COLORS > clrs.zsh" atpull'%atclone' pick"clrs.zsh"
+  zplugin light trapd00r/LS_COLORS
+
   # exa is only available for 64bit Linux & MacOS (by github release)
   if [[ $unamearch == "x86_64" ]]; then
     if [[ $unamestr == "Linux" ]]; then
