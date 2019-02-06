@@ -297,6 +297,7 @@ else
   printf '%b\n' "\033[0;31mZSHRC: Couldn't find ~/.zplugin/bin/zplugin.zsh!\033[0m"
   if [ -s "$_ZSHRC_INSTALL_DIR/../install" ]; then
     printf '%b\n' "Try installing the configs repo at $_ZSHRC_INSTALL_DIR ?"
+    printf '%b\n' "\033[0;31mZSHRC: Zplugin not found!\033[0m"
   fi
 fi
 
