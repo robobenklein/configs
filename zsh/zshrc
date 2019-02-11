@@ -310,6 +310,9 @@ TERM_EMULATOR_BG_DEFAULT="#444444"
 HISTSIZE=500000
 SAVEHIST=500000
 HISTFILE="$HOME/.zsh_history"
+setopt nohistignoredups
+setopt no_incappendhistory no_incappendhistory_time
+setopt sharehistory
 
 [[ -s "$HOME/.pythonz/etc/bashrc" ]] && source "$HOME/.pythonz/etc/bashrc"
 
@@ -501,10 +504,14 @@ function git_branch_norm() {
   } "${(@s:/:)sr}"
 }
 
+# dirs
 setopt auto_pushd
 setopt autocd
 setopt pushd_ignore_dups
 setopt pushdminus
+
+# other options
+setopt mail_warning
 
 # up/down history search
 autoload -Uz +X up-line-or-beginning-search
