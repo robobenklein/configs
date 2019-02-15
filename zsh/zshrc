@@ -235,7 +235,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   }
 
   # loads my preset
-  [[ "$ZSH_THEME" == "p10k" ]] && prompt p10k robobenklein
+  [[ "$ZSH_THEME" == "p10k" ]] && prompt_p10k_setup robobenklein
 
   ### Normal Plugins
   # wait'0' plugins are after-prompt loaded.
