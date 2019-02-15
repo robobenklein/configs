@@ -310,8 +310,10 @@ TERM_EMULATOR_BG_DEFAULT="#444444"
 HISTSIZE=500000
 SAVEHIST=500000
 HISTFILE="$HOME/.zsh_history"
+setopt extendedhistory
 setopt nohistignoredups
-setopt no_incappendhistory no_incappendhistory_time
+setopt no_incappendhistory
+is-at-least 5.5 && setopt no_incappendhistory_time
 setopt sharehistory
 
 [[ -s "$HOME/.pythonz/etc/bashrc" ]] && source "$HOME/.pythonz/etc/bashrc"
