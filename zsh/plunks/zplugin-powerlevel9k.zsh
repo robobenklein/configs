@@ -49,7 +49,7 @@ if (( ${+functions[rtab]} )); then
   POWERLEVEL9K_CUSTOM_RTAB_DIR="echo \${RTAB_PWD}"
   POWERLEVEL9K_CUSTOM_RTAB_DIR_FOREGROUND="black"
   POWERLEVEL9K_CUSTOM_RTAB_DIR_BACKGROUND="blue"
-  POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context_no_sudo_check root_indicator dir_writable custom_rtab_dir vcs)
+  POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable custom_rtab_dir vcs)
   typeset -a chpwd_functions
   chpwd_functions+=(_rtab_pwd_update)
   function _rtab_pwd_update() {
