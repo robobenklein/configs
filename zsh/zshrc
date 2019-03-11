@@ -226,7 +226,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     source $_ZSHRC_PLUNK_LOCATION/zplugin-powerlevel9k.zsh
   fi
 
-  zplugin ice from"gh" if'[[ "$ZSH_THEME" == "zinc" ]]' nocompletions \
+  zplugin ice from"gl" if'[[ "$ZSH_THEME" == "zinc" ]]' nocompletions \
     id-as'zinc' atpull'prompt_zinc_compile' compile"{zinc_functions/*,segments/*,zinc.zsh}"
   [[ -d $HOME/code/zinc ]] && {
     zplugin load $HOME/code/zinc
