@@ -524,6 +524,8 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
+bindkey '\eOA' up-line-or-beginning-search # or ^[OA
+bindkey '\eOB' down-line-or-beginning-search # or ^[OB
 # ctrl-E
 bindkey '\e[H' beginning-of-line
 # ctrl-H
