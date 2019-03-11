@@ -108,7 +108,7 @@ PROMPT2='%{$fg[red]%}\ %{$reset_color%}'
 local return_status="%{$fg_bold[red]%}%(?..%?)%{$reset_color%}"
 
 # Powerline available theme
-Z_DEFAULT_POWERLINE_THEME="p10k"
+Z_DEFAULT_POWERLINE_THEME="zinc"
 case "$TERM_PROGRAM" in
   'python2'|\
   'terminator'|\
@@ -226,16 +226,15 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     source $_ZSHRC_PLUNK_LOCATION/zplugin-powerlevel9k.zsh
   fi
 
-  zplugin ice from"gh" if'[[ "$ZSH_THEME" == "p10k" ]]' nocompletions \
-    id-as'p10k' atpull'prompt_p10k_compile' compile"{p10k_functions/*,segments/*,p10k.zsh}"
-  [[ -d $HOME/code/p10k ]] && {
-    zplugin load $HOME/code/p10k
+  zplugin ice from"gh" if'[[ "$ZSH_THEME" == "zinc" ]]' nocompletions \
+    id-as'zinc' atpull'prompt_zinc_compile' compile"{zinc_functions/*,segments/*,zinc.zsh}"
+  [[ -d $HOME/code/zinc ]] && {
+    zplugin load $HOME/code/zinc
+    prompt_zinc_setup dev robobenklein
   } || {
-    zplugin light robobenklein/p10k
+    zplugin light robobenklein/zinc
+    prompt_zinc_setup robobenklein
   }
-
-  # loads my preset
-  [[ "$ZSH_THEME" == "p10k" ]] && prompt_p10k_setup robobenklein
 
   ### Normal Plugins
   # wait'0' plugins are after-prompt loaded.
@@ -270,6 +269,9 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
   zplugin ice from"gh" wait'0' lucid as"program" pick"bin/git-dsf"
   zplugin load zdharma/zsh-diff-so-fancy
+
+  zplugin ice from"gh" #wait'0'
+  zplugin load romkatv/gitstatus
 
   zplugin ice from"gh" lucid as"program" pick"fzy" make
   zplugin light jhawthorn/fzy
