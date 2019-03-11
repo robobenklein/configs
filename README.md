@@ -5,7 +5,7 @@
 |-|-|
 | Shell | zsh |
 | Shell Framework | Zplugin |
-| Shell theme | P10K, Powerlevel9k, Fishy |
+| Shell theme | ZINC, Powerlevel9k, Fishy |
 | DE | Gnome, Unity, i3 |
 | CLI Editor | Vim (Neovim) |
 | IDE (General Purpose) | Atom |
@@ -16,7 +16,7 @@
 | Mail | Mutt, Gmail/Inbox, Thunderbird |
 | Chat | Keybase, Discord, Hangouts |
 | Dotfile manager | Dotbot |
-| Distro | Ubuntu (+derivs) |
+| Distro | Ubuntu (+debian derivs) |
 | Containers | docker |
 | Chroot | firejail |
 | VMs | Virtualbox, libVirt (QEMU, KVM)  |
@@ -33,5 +33,5 @@ docker pull robobenklein/home
 docker run --rm -it robobenklein/home:latest zsh -i
 # by default it starts without a powerline prompt,
 # but if you have powerline fonts:
-docker run --rm --env ZSH_THEME=p10k -it robobenklein/home:latest zsh -i
+docker run --rm --env ZSH_THEME=zinc -it robobenklein/home:latest zsh -i
 ```
