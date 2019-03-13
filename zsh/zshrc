@@ -540,6 +540,16 @@ autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '\C-x\C-e' edit-command-line
 
+### After the last of the compdefs
+
+{ # idea totally stolen from prezto
+  # Compile the completion dump to increase startup speed.
+  zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
+  if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
+    zcompile "$zcompdump"
+  fi
+} &!
+
 ### PATH configuration
 
 builtin dirs -c # on new zsh - no previous dirstack
