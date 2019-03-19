@@ -270,7 +270,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" wait'0' lucid as"program" pick"bin/git-dsf"
   zplugin load zdharma/zsh-diff-so-fancy
 
-  zplugin ice from"gh" #wait'0'
+  zplugin ice from"gh" wait'1' atload'zinc_restart_silent_background'
   zplugin load romkatv/gitstatus
 
   zplugin ice from"gh" lucid as"program" pick"fzy" make
