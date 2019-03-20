@@ -167,6 +167,7 @@ plunks=(
   fancy-docker # for when you really just want a progress bar
   rtabfunc # rtab with fixes as a zsh function
   fzy-tmux # tmux fuzzy selector
+  command-not-found # less of omz
 )
 typeset -U plunks
 
@@ -192,6 +193,12 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
   source "$HOME/.zplugin/bin/zplugin.zsh"
 
+  ### ZSH Module
+  if [[ -d "$HOME/.zplugin/bin/zmodules/Src" ]]; then
+    module_path+=( "$HOME/.zplugin/bin/zmodules/Src" )
+    zmodload zdharma/zplugin
+  fi
+
   ### Dependencies
 
   # OMZ libraries
@@ -211,7 +218,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
     plugins/z/z.sh
     plugins/git/git.plugin.zsh
-    plugins/command-not-found/command-not-found.plugin.zsh
+    # plugins/command-not-found/command-not-found.plugin.zsh
 
     themes/fishy.zsh-theme
   )
