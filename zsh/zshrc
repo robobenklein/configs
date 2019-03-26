@@ -194,7 +194,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   source "$HOME/.zplugin/bin/zplugin.zsh"
 
   ### ZSH Module
-  if [[ -d "$HOME/.zplugin/bin/zmodules/Src" ]]; then
+  if [[ -s "$HOME/.zplugin/bin/zmodules/Src/zdharma/zplugin.so" ]]; then
     module_path+=( "$HOME/.zplugin/bin/zmodules/Src" )
     zmodload zdharma/zplugin
   fi
