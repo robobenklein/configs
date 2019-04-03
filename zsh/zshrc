@@ -103,9 +103,8 @@ _fishy_collapsed_wd() {
 setopt promptsubst
 local user_color='green'; [[ $UID == 0 ]] && user_color='red'
 PROMPT='%n@%m %{$fg[$user_color]%}$(_fishy_collapsed_wd)%{$reset_color%}%(!.#.>) '
-PROMPT2='%{$fg[red]%}\ %{$reset_color%}'
-
 local return_status="%{$fg_bold[red]%}%(?..%?)%{$reset_color%}"
+PROMPT2="%{$fg[red]%}$return_status\ %{$reset_color%}"
 
 # Powerline available theme
 Z_DEFAULT_POWERLINE_THEME="zinc"
@@ -233,15 +232,17 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     source $_ZSHRC_PLUNK_LOCATION/zplugin-powerlevel9k.zsh
   fi
 
-  zplugin ice from"gl" if'[[ "$ZSH_THEME" == "zinc" ]]' nocompletions \
-    id-as'zinc' atpull'prompt_zinc_compile' compile"{zinc_functions/*,segments/*,zinc.zsh}"
-  [[ -d $HOME/code/zinc ]] && {
-    zplugin load $HOME/code/zinc
-    prompt_zinc_setup dev robobenklein
-  } || {
-    zplugin light robobenklein/zinc
-    prompt_zinc_setup robobenklein
-  }
+  if [[ "$ZSH_THEME" == "zinc" ]]; then
+    zplugin ice from"gl" if'[[ "$ZSH_THEME" == "zinc" ]]' nocompletions \
+      id-as'zinc' atpull'prompt_zinc_compile' compile"{zinc_functions/*,segments/*,zinc.zsh}"
+    [[ -d $HOME/code/zinc ]] && {
+      zplugin load $HOME/code/zinc
+      prompt_zinc_setup dev robobenklein
+    } || {
+      zplugin light robobenklein/zinc
+      prompt_zinc_setup robobenklein
+    }
+  fi
 
   ### Normal Plugins
   # wait'0' plugins are after-prompt loaded.
