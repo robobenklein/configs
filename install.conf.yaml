@@ -57,5 +57,13 @@
       glob: true
       force: true
 
+  # Firejail
+    ~/.config/firejail:
+      if: 'firejail --version'
+      create: false
+      path: firejail
+      force: true
+
+
 - shell:
   - [git submodule update --init zplugin, GSU Zplugin]
