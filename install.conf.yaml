@@ -64,6 +64,5 @@
       path: firejail
       force: true
 
-
 - shell:
   - [git submodule update --init zplugin, GSU Zplugin]
