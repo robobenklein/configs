@@ -6,16 +6,23 @@ function fire {
     return 1
   }
 
-  case "$1" in
+  prog="$1"
+  shift
+  case "$prog" in
     "discord" )
       export GTK_IM_MODULE=xim
-      firejail --profile=discord --join-or-start=discord --x11=xorg discord-canary --disable-smooth-scrolling
+      firejail --join-or-start=discord --x11=xorg discord-canary --disable-smooth-scrolling
       ;;
     "steam" )
-      firejail --join-or-start=steam steam
+      firejail --join-or-start=steam "$@" steam
       ;;
-    "steam-nocontroller" )
-      firejail --join-or-start=steam '--blacklist=/dev/usb' '--blacklist=/dev/bus' '--blacklist=/dev/hidraw*' steam
+    "steam-sc-only" )
+      firejail --noprofile --join-or-start=steam '--blacklist=/dev/usb' '--blacklist=/dev/bus' '--blacklist=/dev/hidraw*' "$@" steam
+      ;;
+    * )
+      echo "$prog" "$@"
+      echo "???"
+      return 1
       ;;
   esac
 }
