@@ -18,14 +18,14 @@ noblacklist ${HOME}/.cargo/registry
 #caps.drop all
 # net none
 netfilter
-nodbus
+#nodbus
 nodvd
 nogroups
 nonewprivs
 noroot
 nosound
 notv
-nou2f
+#nou2f
 novideo
 protocol unix,inet,inet6,netlink
 seccomp
