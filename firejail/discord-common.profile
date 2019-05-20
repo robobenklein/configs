@@ -13,7 +13,7 @@ include disable-passwdmgr.inc
 
 #whitelist ${DOWNLOADS}
 
-caps.drop all
+#caps.drop all
 #netfilter
 nodvd
 nogroups
@@ -31,4 +31,4 @@ nou2f
 #private-tmp
 
 #noexec ${HOME}
-noexec /tmp
+#noexec /tmp

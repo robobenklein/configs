@@ -11,7 +11,7 @@ function fire {
   case "$prog" in
     "discord" )
       export GTK_IM_MODULE=xim
-      firejail --join-or-start=discord --x11=xorg discord-canary --disable-smooth-scrolling
+      firejail "$@" --join-or-start=discord --x11=xorg discord-canary --disable-smooth-scrolling
       ;;
     "steam" )
       firejail --join-or-start=steam "$@" steam
