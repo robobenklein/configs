@@ -296,6 +296,13 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
     zplugin ice from"gh" lucid as"program" pick"build/zsd*" make
     zplugin load zdharma/zshelldoc
+
+    zplugin ice from"gh" lucid as"program" pick"revolver"
+    zplugin load molovo/revolver
+
+    zplugin ice from"gh" lucid as"program" pick"zunit" \
+      atclone"cd zunit && ./build.zsh && chmod u+x ./zunit" atpull"%atclone"
+    zplugin load zunit-zsh/zunit
   }
 
   source $_ZSHRC_PLUNK_LOCATION/zplugin-neovim.zsh
