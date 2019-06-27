@@ -64,5 +64,13 @@
       path: firejail
       force: true
 
+  # Beets
+    ~/.config/beets/:
+      if: 'beet --version'
+      create: true
+      path: beets/*
+      glob: true
+      force: true
+
 - shell:
   - [git submodule update --init zplugin, GSU Zplugin]
