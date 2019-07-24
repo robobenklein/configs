@@ -594,4 +594,4 @@ ZSHRC_LOADED=true
     builtin printf '%b ' "\033[0;31mZSHRC: Zplugin non-async plugins:\033[0;0m"
     zplugin times
   }
-}
+} || true
