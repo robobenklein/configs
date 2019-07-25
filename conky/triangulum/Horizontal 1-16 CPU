@@ -1,0 +1,65 @@
+conky.config = {
+-- "CPU Panel (Horizontal graph 1total, 8cores, GHz)"
+
+	background = true,
+	double_buffer = true,
+
+	alignment = 'bottom_left',
+
+	border_width = 0,
+	cpu_avg_samples = 2,
+	default_color = 'white',
+	default_outline_color = 'white',
+	default_shade_color = 'white',
+	draw_borders = false,
+	draw_graph_borders = true,
+	draw_outline = false,
+	draw_shades = false,
+
+	gap_x = 150,
+	gap_y = 0,
+	net_avg_samples = 2,
+	no_buffers = true,
+	out_to_console = false,
+	out_to_stderr = false,
+	extra_newline = false,
+
+	own_window = true,
+	own_window_type = 'desktop',
+	own_window_transparent = true,
+	own_window_colour = '#000000',
+	own_window_argb_visual = true,
+	own_window_argb_value = 0,
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+
+	minimum_width = 1000, minimum_height = 140,
+	maximum_width = 1000,
+	stippled_borders = 0,
+	update_interval = 1.0,
+	uppercase = false,
+	use_spacer = 'none',
+
+	show_graph_scale = false,
+	show_graph_range = false,
+
+	use_xft = true,
+	xftalpha = 0.1,
+	font = 'Ubuntu:size=12',
+	color0 = 'white',
+	color1 = '#EAEAEA',
+	color2 = '#ED2024',
+	color3 = 'grey',
+
+};
+
+conky.text = [[
+${goto 0}${cpugraph cpu0 100,200}#
+${goto 200}${cpugraph cpu1 50,100}${cpugraph cpu2 50,100}${cpugraph cpu3 50,100}${cpugraph cpu4 50,100}${cpugraph cpu5 50,100}${cpugraph cpu6 50,100}${cpugraph cpu7 50,100}${cpugraph cpu8 50,100}#
+${goto 200}${voffset 50}${cpugraph cpu9 50,100}${cpugraph cpu10 50,100}${cpugraph cpu11 50,100}${cpugraph cpu12 50,100}${cpugraph cpu13 50,100}${cpugraph cpu14 50,100}${cpugraph cpu15 50,100}${cpugraph cpu16 50,100}${voffset -50}#
+${goto 0}${voffset 112}${color3}${cpubar cpu0 10,1000}${voffset -112}#
+${goto 200}${font Ubuntu:size=10}${voffset 10}${color3}#
+${voffset 10}#
+${goto 68}${freq_g }GHz#
+${voffset -20}#
+${goto 20}${voffset -70}${font Ubuntu:size=14}${voffset -12}${color2}CPU#
+]];
