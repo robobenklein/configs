@@ -10,7 +10,7 @@ function fire {
   shift
   case "$prog" in
     "discord" )
-      export GTK_IM_MODULE=xim
+      #export GTK_IM_MODULE=xim
       firejail "$@" --join-or-start=discord --x11=xorg discord-canary --disable-smooth-scrolling
       ;;
     "steam" )
