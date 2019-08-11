@@ -10,14 +10,22 @@ function fire {
   shift
   case "$prog" in
     "discord" )
-      #export GTK_IM_MODULE=xim
-      firejail "$@" --join-or-start=discord --x11=xorg discord-canary --disable-smooth-scrolling
+      if (( ${+commands[discord-canary]} )); then
+        firejail "$@" --join-or-start=discord discord-canary --disable-smooth-scrolling
+      else
+        firejail "$@" --join-or-start=discord discord --disable-smooth-scrolling
+      fi
       ;;
     "steam" )
       firejail --join-or-start=steam "$@" steam
       ;;
     "steam-sc-only" )
-      firejail --noprofile --join-or-start=steam '--blacklist=/dev/usb' '--blacklist=/dev/bus' '--blacklist=/dev/hidraw*' "$@" steam
+      # prevents usb device access
+      firejail --join-or-start=steam \
+       '--blacklist=/dev/usb' \
+       '--blacklist=/dev/bus' \
+       '--blacklist=/dev/hidraw*' \
+       "$@" steam
       ;;
     * )
       echo "$prog" "$@"

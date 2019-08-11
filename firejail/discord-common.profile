@@ -6,7 +6,7 @@ include discord-common.local
 # already included by caller profile
 #include globals.local
 
-#include disable-common.inc
+include disable-common.inc
 #include disable-devel.inc
 include disable-passwdmgr.inc
 #include disable-programs.inc
@@ -16,10 +16,10 @@ include disable-passwdmgr.inc
 #caps.drop all
 #netfilter
 nodvd
-nogroups
+#nogroups
 nonewprivs
 noroot
-#notv
+notv
 nou2f
 #novideo
 #protocol unix,inet,inet6,netlink
