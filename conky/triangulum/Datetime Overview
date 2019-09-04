@@ -18,7 +18,7 @@ conky.config = {
 
 	double_buffer = true,
 	--minimum_size 250 5
-	--maximum_width 500
+	maximum_width = 700,
 	draw_shades = false,
 	draw_outline = false,
 	draw_borders = false,
