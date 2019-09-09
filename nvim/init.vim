@@ -34,6 +34,7 @@ Plug 'vim-airline/vim-airline'
 " Plug 'edkolev/tmuxline.vim'
 Plug 'nvie/vim-flake8'
 " Plug 'tpope/vim-fugitive'
+Plug 'maxboisvert/vim-simple-complete'
 
 " Required:
 call plug#end()
