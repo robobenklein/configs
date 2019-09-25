@@ -307,6 +307,8 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
 
   source $_ZSHRC_PLUNK_LOCATION/zplugin-neovim.zsh
 
+  source $_ZSHRC_PLUNK_LOCATION/zplugin-bat.zsh
+
   # zpcompinit
 
 else
