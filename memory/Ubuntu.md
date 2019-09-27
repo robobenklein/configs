@@ -4,6 +4,7 @@
  - tmux htop vim zsh git pv
  - neovim synaptic gparted nemo baobab
  - gpick pavucontrol docker
+ - nautilus-admin
 
 System76 Nvidia PPA
 
