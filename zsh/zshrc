@@ -278,8 +278,8 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" wait'0' lucid as"program" pick"bin/git-dsf"
   zplugin load zdharma/zsh-diff-so-fancy
 
-  zplugin ice from"gh" wait'1' atload'zinc_optional_depenency_loaded'
-  zplugin load romkatv/gitstatus
+  #zplugin ice from"gh" wait'1' atload'zinc_optional_depenency_loaded'
+  #zplugin load romkatv/gitstatus
 
   zplugin ice from"gh" lucid as"program" pick"fzy" make
   zplugin light jhawthorn/fzy
