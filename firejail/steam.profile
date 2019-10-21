@@ -25,6 +25,7 @@ noblacklist ${HOME}/.local/share/Terraria
 noblacklist ${HOME}/.local/share/vpltd
 noblacklist ${HOME}/.local/share/vulkan
 noblacklist ${HOME}/.steam
+whitelist ${HOME}/.steam
 noblacklist ${HOME}/.steampath
 noblacklist ${HOME}/.steampid
 # with >=llvm-4 mesa drivers need llvm stuff
@@ -73,3 +74,5 @@ protocol unix,inet,inet6,netlink
 # private-etc breaks a small selection of games on some systems, comment to support those
 #private-etc asound.conf,ca-certificates,dbus-1,drirc,fonts,group,gtk-2.0,gtk-3.0,host.conf,hostname,hosts,ld.so.cache,ld.so.preload,ld.so.conf,ld.so.conf.d,localtime,lsb-release,machine-id,mime.types,passwd,pulse,resolv.conf,ssl,pki,services,crypto-policies,alternatives
 private-tmp
+
+include /etc/firejail/disable-programs.inc
