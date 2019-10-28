@@ -49,20 +49,19 @@
       path: conky/unseptium
       force: true
 
-  # TF2
-    ~/unhexium/SteamLibrary/steamapps/common/Team Fortress 2/tf/cfg/:
-      if: '[[ -d ~/unhexium/SteamLibrary/steamapps/common/Team\ Fortress\ 2 ]]'
-      create: false # don't want this created on any other systems
-      path: tf2/*
-      glob: true
-      force: true
-
   # Firejail
     ~/.config/firejail:
       if: 'firejail --version'
       create: false
       path: firejail
       force: true
+
+- sync:
+  # TF2
+    ~/unhexium/SteamLibrary/steamapps/common/Team Fortress 2/tf/cfg:
+      create: false # don't want this created on any other systems
+      path: tf/cfg
+      options: ['--safe-links']
 
 - shell:
   - [git submodule update --init zplugin, GSU Zplugin]

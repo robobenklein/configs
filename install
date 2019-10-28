@@ -16,4 +16,4 @@ if [[ ! -d ./dotbot ]] || git --work-tree="${DOTBOT_DIR}" --git-dir="${DOTBOT_DI
   git submodule sync --recursive
 fi
 
-"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
+"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" -p sync.py "${@}"

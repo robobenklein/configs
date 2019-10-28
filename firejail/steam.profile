@@ -30,7 +30,6 @@ noblacklist ${HOME}/code/configs
 noblacklist /mnt/stor
 noblacklist ${HOME}/unhexium
 noblacklist ${HOME}/f
-whitelist ${HOME}/.steam
 noblacklist ${HOME}/.steampath
 noblacklist ${HOME}/.steampid
 # with >=llvm-4 mesa drivers need llvm stuff
@@ -39,6 +38,10 @@ noblacklist /usr/lib/llvm*
 noblacklist /sbin
 noblacklist /bin
 noblacklist /usr/bin
+
+whitelist ${HOME}/.steam
+whitelist ${HOME}/.steampath
+whitelist ${HOME}/.steampid
 
 # Allow access to java
 noblacklist ${PATH}/java
