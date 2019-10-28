@@ -56,12 +56,5 @@
       path: firejail
       force: true
 
-- sync:
-  # TF2
-    ~/unhexium/SteamLibrary/steamapps/common/Team Fortress 2/tf/cfg:
-      create: false # don't want this created on any other systems
-      path: tf/cfg
-      options: ['--safe-links']
-
 - shell:
   - [git submodule update --init zplugin, GSU Zplugin]

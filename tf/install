@@ -1,0 +1,8 @@
+#!/bin/zsh
+
+if [ $# -lt 1 ]; then
+  echo "USAGE: $0 path/to/Steam/TF2/tf/cfg"
+  exit 1
+fi
+
+rsync --backup --suffix .bkp.old cfg/*.cfg $1
