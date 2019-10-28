@@ -555,6 +555,8 @@ bindkey '^[[1;5C' forward-word
 bindkey '^[[1;5D' backward-word
 # force shift-tab to work as expected in completions
 bindkey -M menuselect '^[[Z' reverse-menu-complete
+# enter on numpad
+bindkey -s "^[OM" "^M"
 # edit line in editor
 autoload -U edit-command-line
 zle -N edit-command-line

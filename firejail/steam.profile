@@ -19,12 +19,17 @@ noblacklist ${HOME}/.local/share/3909/PapersPlease
 noblacklist ${HOME}/.local/share/aspyr-media
 noblacklist ${HOME}/.local/share/cdprojektred
 noblacklist ${HOME}/.local/share/feral-interactive
+noblacklist ${HOME}/.local/share/Rocket League
 noblacklist ${HOME}/.local/share/Steam
 noblacklist ${HOME}/.local/share/SuperHexagon
 noblacklist ${HOME}/.local/share/Terraria
 noblacklist ${HOME}/.local/share/vpltd
 noblacklist ${HOME}/.local/share/vulkan
 noblacklist ${HOME}/.steam
+noblacklist ${HOME}/code/configs
+noblacklist /mnt/stor
+noblacklist ${HOME}/unhexium
+noblacklist ${HOME}/f
 whitelist ${HOME}/.steam
 noblacklist ${HOME}/.steampath
 noblacklist ${HOME}/.steampid
