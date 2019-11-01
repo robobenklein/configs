@@ -4,15 +4,6 @@ include /etc/firejail/steam.local
 # Persistent global definitions
 include /etc/firejail/globals.local
 
-include /etc/firejail/disable-common.inc
-#include /etc/firejail/disable-devel.inc
-#include /etc/firejail/disable-interpreters.inc
-include /etc/firejail/disable-passwdmgr.inc
-#include /etc/firejail/disable-programs.inc
-
-include /etc/firejail/whitelist-var-common.inc
-
-
 noblacklist ${HOME}/.java
 noblacklist ${HOME}/.killingfloor
 noblacklist ${HOME}/.local/share/3909/PapersPlease
@@ -52,19 +43,19 @@ noblacklist /usr/share/java
 # steam was spamming about this
 whitelist /var/lib/usbutils
 
-caps.drop all
+#caps.drop all
 #ipc-namespace
 #netfilter
 # nodbus disabled as it breaks appindicator support
 #nodbus
-nodvd
+#nodvd
 #nogroups
-nonewprivs
+#nonewprivs
 noroot
-notv
+#notv
 # novideo should be commented for VR
 #novideo
-protocol unix,inet,inet6,netlink
+#protocol unix,inet,inet6,netlink
 #seccomp
 #shell none
 # tracelog disabled as it breaks integrated browser
@@ -81,6 +72,14 @@ protocol unix,inet,inet6,netlink
 #private-dev
 # private-etc breaks a small selection of games on some systems, comment to support those
 #private-etc asound.conf,ca-certificates,dbus-1,drirc,fonts,group,gtk-2.0,gtk-3.0,host.conf,hostname,hosts,ld.so.cache,ld.so.preload,ld.so.conf,ld.so.conf.d,localtime,lsb-release,machine-id,mime.types,passwd,pulse,resolv.conf,ssl,pki,services,crypto-policies,alternatives
-private-tmp
+#private-tmp
 
-include /etc/firejail/disable-programs.inc
+#include /etc/firejail/disable-programs.inc
+#include /etc/firejail/disable-common.inc
+#include /etc/firejail/disable-devel.inc
+#include /etc/firejail/disable-interpreters.inc
+include /etc/firejail/disable-passwdmgr.inc
+#include /etc/firejail/disable-programs.inc
+
+include /etc/firejail/whitelist-var-common.inc
+
