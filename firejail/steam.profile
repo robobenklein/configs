@@ -6,16 +6,6 @@ include /etc/firejail/globals.local
 
 noblacklist ${HOME}/.java
 noblacklist ${HOME}/.killingfloor
-noblacklist ${HOME}/.local/share/3909/PapersPlease
-noblacklist ${HOME}/.local/share/aspyr-media
-noblacklist ${HOME}/.local/share/cdprojektred
-noblacklist ${HOME}/.local/share/feral-interactive
-noblacklist ${HOME}/.local/share/Rocket League
-noblacklist ${HOME}/.local/share/Steam
-noblacklist ${HOME}/.local/share/SuperHexagon
-noblacklist ${HOME}/.local/share/Terraria
-noblacklist ${HOME}/.local/share/vpltd
-noblacklist ${HOME}/.local/share/vulkan
 noblacklist ${HOME}/.steam
 noblacklist ${HOME}/code/configs
 noblacklist /mnt/stor
@@ -33,6 +23,7 @@ noblacklist /usr/bin
 whitelist ${HOME}/.steam
 whitelist ${HOME}/.steampath
 whitelist ${HOME}/.steampid
+whitelist ${HOME}/.local/share
 
 # Allow access to java
 noblacklist ${PATH}/java
