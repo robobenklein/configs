@@ -24,6 +24,7 @@ whitelist ${HOME}/.steam
 whitelist ${HOME}/.steampath
 whitelist ${HOME}/.steampid
 whitelist ${HOME}/.local/share
+whitelist ${HOME}/.factorio
 
 # Allow access to java
 noblacklist ${PATH}/java
