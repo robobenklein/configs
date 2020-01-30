@@ -320,6 +320,7 @@ else
     pushd $_ZSHRC_INSTALL_DIR/../
     ./install
     popd
+    zsh -i -c -- '-zplg-scheduler burst || true'
   fi
 fi
 
@@ -453,7 +454,7 @@ function d () {
 compdef d=dirs
 
 # auto-fzy cd
-function cd () {
+function cdaf () {
   if [[ -d $1 ]]; then
     builtin cd "$@"
   else
@@ -479,6 +480,7 @@ function cd () {
   fi
 }
 # compdef _z_zsh_tab_completion cd
+alias cd=cdaf
 
 # auto-cat for dirs
 function c () {
@@ -575,6 +577,8 @@ bindkey '\C-x\C-e' edit-command-line
 ### PATH configuration
 
 builtin dirs -c # on new zsh - no previous dirstack
+
+[[ -d "$HOME/code/configs/sbin" ]] && hash -d sa="$HOME/code/configs/sbin"
 
 # Keep this clean!
 typeset -U path # unique items only in path array

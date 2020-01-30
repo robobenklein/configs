@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/zsh
+
+(( ${+commands[parallel-ssh]} )) || echo "Need parallel-ssh" && exit 1
 
 TMPDIR=/tmp/hydrausers
 TIMEOUT=30

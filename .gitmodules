@@ -5,3 +5,6 @@
 	path = zplugin
 	url = https://github.com/zdharma/zplugin.git
 	branch = master
+[submodule "sbin/sysadmin"]
+	path = sbin/sysadmin
+	url = https://github.com/skx/sysadmin-util.git
