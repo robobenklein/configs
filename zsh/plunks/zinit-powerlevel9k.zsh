@@ -1,6 +1,6 @@
 # More power
 
-zplugin env-whitelist 'POWERLEVEL9K_*'
+zinit env-whitelist 'POWERLEVEL9K_*'
 
 # ZSH_THEME="$Z_INSTALL_DETECT_POWERLINE_THEME"
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context root_indicator dir_writable dir vcs)
@@ -58,5 +58,5 @@ if (( ${+functions[rtab]} )); then
   _rtab_pwd_update
 fi
 
-zplugin ice from"gh"
-zplugin load bhilburn/powerlevel9k
+zinit ice from"gh"
+zinit load bhilburn/powerlevel9k

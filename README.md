@@ -4,7 +4,7 @@
 | Sv | At |
 |-|-|
 | Shell | zsh |
-| Shell Framework | Zplugin |
+| Shell Framework | Zinit |
 | Shell theme | ZINC, Powerlevel9k, Fishy |
 | DE | Gnome, Unity, i3 |
 | CLI Editor | Vim (Neovim) |

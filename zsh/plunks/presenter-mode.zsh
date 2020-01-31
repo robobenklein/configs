@@ -27,8 +27,8 @@ function zsh_presenter_mode_start() {
   # switch toggle command
   alias zsh-presenter-toggle=zsh_presenter_mode_stop
   # load the as-you-type expansion:
-  zplugin ice from"gh"
-  zplugin load "simnalamburt/zsh-expand-all"
+  zinit ice from"gh"
+  zinit load "simnalamburt/zsh-expand-all"
   ZSH_EXPAND_ALL_DISABLE=word
   sleep 1
   clear
@@ -49,7 +49,7 @@ function zsh_presenter_mode_stop() {
     unset Z_PRESENTER_PREEXEC_FUNCTIONS_BACKUP
     unset Z_PRESENTER_PRECMD_FUNCTIONS_BACKUP
     alias zsh-presenter-toggle=zsh_presenter_mode_start
-    zplugin unload "simnalamburt/zsh-expand-all"
+    zinit unload "simnalamburt/zsh-expand-all"
   else
     >&2 echo "Presenter mode not enabled."
     return 1

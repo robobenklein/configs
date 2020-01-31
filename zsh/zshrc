@@ -187,15 +187,15 @@ function plunkcompile {
 
 ### Load framework
 
-# Check that zplugin is installed
-if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
+# Check that zinit is installed
+if [[ -s "$HOME/.zinit/bin/zinit.zsh" ]]; then
 
-  source "$HOME/.zplugin/bin/zplugin.zsh"
+  source "$HOME/.zinit/bin/zinit.zsh"
 
   ### ZSH Module
-  if [[ -s "$HOME/.zplugin/bin/zmodules/Src/zdharma/zplugin.so" ]]; then
-    module_path+=( "$HOME/.zplugin/bin/zmodules/Src" )
-    zmodload zdharma/zplugin
+  if [[ -s "$HOME/.zinit/bin/zmodules/Src/zdharma/zinit.so" ]]; then
+    module_path+=( "$HOME/.zinit/bin/zmodules/Src" )
+    zmodload zdharma/zinit
   fi
 
   ### Dependencies
@@ -222,24 +222,24 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
     themes/fishy.zsh-theme
   )
 
-  zplugin ice from"gh" pick"lib/git.zsh" nocompletions blockf \
+  zinit ice from"gh" pick"lib/git.zsh" nocompletions blockf \
     multisrc"${_ZSHRC_OMZ_SRCS}" compile"${_ZSHRC_OMZ_SRCS}"
-  zplugin load robbyrussell/oh-my-zsh
+  zinit load robbyrussell/oh-my-zsh
 
   ### Theme
 
   if [[ "$ZSH_THEME" == "p9k" ]]; then
-    source $_ZSHRC_PLUNK_LOCATION/zplugin-powerlevel9k.zsh
+    source $_ZSHRC_PLUNK_LOCATION/zinit-powerlevel9k.zsh
   fi
 
   if [[ "$ZSH_THEME" == "zinc" ]]; then
-    zplugin ice from"gl" if'[[ "$ZSH_THEME" == "zinc" ]]' nocompletions \
+    zinit ice from"gl" if'[[ "$ZSH_THEME" == "zinc" ]]' nocompletions \
       id-as'zinc' atpull'prompt_zinc_compile' compile"{zinc_functions/*,segments/*,zinc.zsh}"
     [[ -d $HOME/code/zinc ]] && {
-      zplugin load $HOME/code/zinc
+      zinit load $HOME/code/zinc
       prompt_zinc_setup dev robobenklein
     } || {
-      zplugin light robobenklein/zinc
+      zinit light robobenklein/zinc
       prompt_zinc_setup robobenklein
     }
   fi
@@ -247,80 +247,80 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   ### Normal Plugins
   # wait'0' plugins are after-prompt loaded.
 
-  zplugin ice atclone"dircolors -b LS_COLORS > clrs.zsh" atpull'%atclone' pick"clrs.zsh"
-  zplugin light trapd00r/LS_COLORS
+  zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" atpull'%atclone' pick"clrs.zsh"
+  zinit light trapd00r/LS_COLORS
 
   # exa is only available for 64bit Linux & MacOS (by github release)
   if [[ $unamearch == "x86_64" ]]; then
     if [[ $unamestr == "Linux" ]]; then
-      zplugin ice nocompletions from"gh-r" bpick"*-linux-$unamearch-*" \
+      zinit ice nocompletions from"gh-r" bpick"*-linux-$unamearch-*" \
         as"program" mv"exa-linux-* -> exa" pick"exa"
     elif [[ $unamestr == "Darwin" ]]; then
-      zplugin ice nocompletions from"gh-r" bpick"*-macos-$unamearch-*" \
+      zinit ice nocompletions from"gh-r" bpick"*-macos-$unamearch-*" \
         as"program" mv"exa-macos-* -> exa" pick"exa"
     else
-      zplugin ice nocompletions from"gh-r" bpick"*-$unamestr-$unamearch-*" \
+      zinit ice nocompletions from"gh-r" bpick"*-$unamestr-$unamearch-*" \
         as"program" mv"exa-* -> exa" pick"exa"
       printf '%b\n' "\033[0;33mZSHRC: Warning: EXA auto-install probably not available.\033[0;0m"
     fi
-    zplugin load ogham/exa
+    zinit load ogham/exa
   fi
 
-  zplugin ice from"gh" wait'0' blockf
-  zplugin load zsh-users/zsh-completions
+  zinit ice from"gh" wait'0' blockf
+  zinit load zsh-users/zsh-completions
 
-  zplugin ice from"gh" wait'0' lucid
-  zplugin load robobenklein/k
+  zinit ice from"gh" wait'0' lucid
+  zinit load robobenklein/k
 
-  zplugin ice from"gh" wait'0' lucid
-  zplugin load zdharma/history-search-multi-word
+  zinit ice from"gh" wait'0' lucid
+  zinit load zdharma/history-search-multi-word
 
-  zplugin ice from"gh" wait'0' lucid as"program" pick"bin/git-dsf"
-  zplugin load zdharma/zsh-diff-so-fancy
+  zinit ice from"gh" wait'0' lucid as"program" pick"bin/git-dsf"
+  zinit load zdharma/zsh-diff-so-fancy
 
-  zplugin ice from"gh" wait'1' atload'zinc_optional_depenency_loaded'
-  zplugin load romkatv/gitstatus
+  zinit ice from"gh" wait'1' atload'zinc_optional_depenency_loaded'
+  zinit load romkatv/gitstatus
 
-  zplugin ice from"gh" lucid as"program" pick"fzy" make
-  zplugin light jhawthorn/fzy
+  zinit ice from"gh" lucid as"program" pick"fzy" make
+  zinit light jhawthorn/fzy
 
-  zplugin ice from"gh" atload'zpcompinit; zpcdreplay' wait'1'
-  zplugin light zdharma/fast-syntax-highlighting
+  zinit ice from"gh" atload'zpcompinit; zpcdreplay' wait'1'
+  zinit light zdharma/fast-syntax-highlighting
 
-  function zplg-setup-zsh-dev () {
-    zplugin ice from"gh" blockf nocompletions
-    zplugin light zdharma/zui
+  function zinit-setup-zsh-dev () {
+    zinit ice from"gh" blockf nocompletions
+    zinit light zdharma/zui
 
-    zplugin ice from"gh" lucid
-    zplugin load zdharma/zbrowse
+    zinit ice from"gh" lucid
+    zinit load zdharma/zbrowse
 
-    zplugin ice from"gh" lucid as"program" pick"build/zsd*" make
-    zplugin load zdharma/zshelldoc
+    zinit ice from"gh" lucid as"program" pick"build/zsd*" make
+    zinit load zdharma/zshelldoc
 
-    zplugin ice from"gh" lucid as"program" pick"revolver"
-    zplugin load molovo/revolver
+    zinit ice from"gh" lucid as"program" pick"revolver"
+    zinit load molovo/revolver
 
-    zplugin ice from"gh" lucid as"program" pick"zunit" \
+    zinit ice from"gh" lucid as"program" pick"zunit" \
       atclone"cd zunit && ./build.zsh && chmod u+x ./zunit" atpull"%atclone"
-    zplugin load zunit-zsh/zunit
+    zinit load zunit-zsh/zunit
   }
 
-  source $_ZSHRC_PLUNK_LOCATION/zplugin-neovim.zsh
+  source $_ZSHRC_PLUNK_LOCATION/zinit-neovim.zsh
 
-  source $_ZSHRC_PLUNK_LOCATION/zplugin-bat.zsh
+  source $_ZSHRC_PLUNK_LOCATION/zinit-bat.zsh
 
   # zpcompinit
 
 else
   # Try to install it
-  printf '%b\n' "\033[0;31mZSHRC: Couldn't find ~/.zplugin/bin/zplugin.zsh!\033[0m"
+  printf '%b\n' "\033[0;31mZSHRC: Couldn't find ~/.zinit/bin/zinit.zsh!\033[0m"
   if [ -s "$_ZSHRC_INSTALL_DIR/../install" ]; then
-    printf '%b\n' "\033[0;31mZSHRC: Zplugin not found!\033[0m"
+    printf '%b\n' "\033[0;31mZSHRC: zinit not found!\033[0m"
     printf '%b\n' "Trying installing the configs repo at $_ZSHRC_INSTALL_DIR ..."
     pushd $_ZSHRC_INSTALL_DIR/../
     ./install
     popd
-    zsh -i -c -- '-zplg-scheduler burst || true'
+    zsh -i -c -- '@zinit-scheduler burst || true'
   fi
 fi
 
@@ -367,7 +367,7 @@ fi
 function zsh_start_vi_mode() {
   export KEYTIMEOUT=1
 
-  zplugin snippet OMZ::plugins/vi-mode/vi-mode.plugin.zsh
+  zinit snippet OMZ::plugins/vi-mode/vi-mode.plugin.zsh
 
   #bindkey -v
   POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS+=( vi_mode )
@@ -601,8 +601,8 @@ ZSHRC_LOADED=true
   echo
   builtin printf '%b ' "\033[0;31mZSHRC: Done Profiling!\033[0;0m"
   builtin print -f 'Load time: %.6f\n' "${_ZSHRC_ZPROF_EPOCH_DIFF}"
-  (( ${+functions[zplugin]} )) && {
-    builtin printf '%b ' "\033[0;31mZSHRC: Zplugin non-async plugins:\033[0;0m"
-    zplugin times
+  (( ${+functions[zinit]} )) && {
+    builtin printf '%b ' "\033[0;31mZSHRC: zinit non-async plugins:\033[0;0m"
+    zinit times
   }
 } || true

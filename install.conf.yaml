@@ -16,11 +16,11 @@
       create: true
       path: tmux
 
-  # Zplugin
-    ~/.zplugin/bin:
+  # Zinit
+    ~/.zinit/bin:
       force: true
       create: true
-      path: zplugin
+      path: zinit
 
   # Zsh
     ~/.zshrc:
@@ -57,4 +57,4 @@
       force: true
 
 - shell:
-  - [git submodule update --init zplugin, GSU Zplugin]
+  - [git submodule update --init zinit, GSU Zinit]
