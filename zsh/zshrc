@@ -284,7 +284,7 @@ if [[ -s "$HOME/.zplugin/bin/zplugin.zsh" ]]; then
   zplugin ice from"gh" lucid as"program" pick"fzy" make
   zplugin light jhawthorn/fzy
 
-  zplugin ice from"gh" atload'zpcompinit; zpcdreplay' wait'1' lucid
+  zplugin ice from"gh" atload'zpcompinit; zpcdreplay' wait'1'
   zplugin light zdharma/fast-syntax-highlighting
 
   function zplg-setup-zsh-dev () {
