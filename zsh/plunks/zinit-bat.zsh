@@ -13,11 +13,11 @@ function zinit-setup-bat () {
 
   function zplg-remove-bat () {
     zinit unload bat
-    rm -rf ${ZPLGM[PLUGINS_DIR]}/bat
+    rm -rf ${ZINIT[PLUGINS_DIR]}/bat
     rehash
   }
 }
 # manage it if it's already there
-[[ -d ${ZPLGM[PLUGINS_DIR]}/bat ]] && {
+[[ -d ${ZINIT[PLUGINS_DIR]}/bat ]] && {
   zinit-setup-bat
 }

@@ -1,5 +1,5 @@
 
-function zplg-setup-neovim () {
+function zinit-setup-neovim () {
   # neovim linux appimage on x64
   if [[ $unamearch == "x86_64" ]]; then
     if [[ $unamestr == "Linux" ]]; then
@@ -11,13 +11,13 @@ function zplg-setup-neovim () {
     fi
   fi
 
-  function zplg-remove-neovim () {
+  function zinit-remove-neovim () {
     zinit unload neovim
-    rm -rf ${ZPLGM[PLUGINS_DIR]}/neovim
+    rm -rf ${ZINIT[PLUGINS_DIR]}/neovim
     rehash
   }
 }
 # manage it if it's already there
-[[ -d ${ZPLGM[PLUGINS_DIR]}/neovim ]] && {
-  zplg-setup-neovim
+[[ -d ${ZINIT[PLUGINS_DIR]}/neovim ]] && {
+  zinit-setup-neovim
 }
