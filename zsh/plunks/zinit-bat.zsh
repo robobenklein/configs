@@ -11,7 +11,7 @@ function zinit-setup-bat () {
     fi
   fi
 
-  function zplg-remove-bat () {
+  function zinit-remove-bat () {
     zinit unload bat
     rm -rf ${ZINIT[PLUGINS_DIR]}/bat
     rehash
