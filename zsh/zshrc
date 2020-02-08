@@ -167,6 +167,7 @@ plunks=(
   rtabfunc # rtab with fixes as a zsh function
   fzy-tmux # tmux fuzzy selector
   command-not-found # less of omz
+  zinit-zsh # zsh itself
 )
 typeset -U plunks
 
