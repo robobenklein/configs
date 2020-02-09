@@ -16,3 +16,4 @@ if command -v zsh; then
   touch ~/.z
   echo | zsh -i -c -- '@zinit-scheduler burst' || true
 fi
+echo provision complete

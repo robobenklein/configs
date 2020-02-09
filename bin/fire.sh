@@ -2,7 +2,7 @@
 
 function fire {
   (( ${+commands[firejail]} )) || {
-    printf 'Nope.'
+    printf 'Nope. No firejail.'
     return 1
   }
 

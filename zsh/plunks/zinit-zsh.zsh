@@ -14,7 +14,7 @@ function zinit-setup-yodl () {
   zinit id-as"zsh-dep-yodl" from"gl" nocompile \
     nocompletions as"program" pick'$ZPFX/usr/bin/*' \
     atclone"cd yodl && sed -i 's;= \"/usr\";= \"\$ZPFX\";' INSTALL.im && sed -i '1s;/usr/bin/icmake;/usr/bin/env -S icmake;' build && ./build programs && ./build install programs '\$ZPFX'" \
-        for @fbb-git/yodl
+    atpull"%atclone" for @fbb-git/yodl
 }
 
 function zinit-setup-zsh () {

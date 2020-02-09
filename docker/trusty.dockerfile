@@ -34,4 +34,4 @@ COPY zsh/skel-virus-robo.zsh /etc/skel/.zshrc
 RUN /home/${LUSER}/code/configs/install -v
 WORKDIR /home/${LUSER}
 RUN touch ~/.z
-RUN zsh -i -c -- '@zinit-scheduler burst'
+RUN /home/${LUSER}/code/configs/provision.sh

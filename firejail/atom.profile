@@ -23,7 +23,7 @@ nodvd
 nogroups
 nonewprivs
 noroot
-nosound
+#nosound
 notv
 #nou2f
 novideo

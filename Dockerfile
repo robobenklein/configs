@@ -2,7 +2,7 @@ FROM phusion/baseimage:0.11
 
 RUN install_clean \
  rsync file curl time wget git git-lfs tmux zsh sudo neovim unzip \
- software-properties-common cmake make gcc g++ python python3 gdb
+ software-properties-common cmake make gcc g++ python python3 virtualenv gdb
 
 # user setup
 ARG luser=robo

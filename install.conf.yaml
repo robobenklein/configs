@@ -42,13 +42,6 @@
       create: true
       path: nvim/colors
 
-  # Conky
-    ~/.conky/unseptium:
-      if: 'conky --version && [[ $(hostname) == "robo-unseptium" ]]'
-      create: false
-      path: conky/unseptium
-      force: true
-
   # Firejail
     ~/.config/firejail:
       if: 'firejail --version'
