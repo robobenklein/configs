@@ -8,7 +8,7 @@ pushd ~/code
 }
 pushd configs
 git submodule update --init --recursive
-./install
+./install -v
 popd
 popd
 # this installs the bundles for first-time operation

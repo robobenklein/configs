@@ -27,7 +27,6 @@ RUN git remote set-url origin https://gitlab.com/robobenklein/configs.git
 RUN git remote add github https://github.com/robobenklein/configs.git
 RUN git fetch --all
 COPY zsh/skel-virus-robo.zsh /etc/skel/.zshrc
-RUN /home/${LUSER}/code/configs/install -v
 WORKDIR /home/${LUSER}
 RUN touch ~/.z
 RUN /home/${LUSER}/code/configs/provision.sh
