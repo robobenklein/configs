@@ -30,4 +30,4 @@ COPY zsh/skel-virus-robo.zsh /etc/skel/.zshrc
 RUN /home/${LUSER}/code/configs/install -v
 WORKDIR /home/${LUSER}
 RUN touch ~/.z
-RUN zsh -i -c -- '@zinit-scheduler burst || true'
+RUN "/bin/zsh -i -c -- '@zinit-scheduler burst || true'"
