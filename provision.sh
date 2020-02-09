@@ -14,5 +14,5 @@ popd
 # this installs the bundles for first-time operation
 if command -v zsh; then
   touch ~/.z
-  zsh -i -c -- '@zinit-scheduler burst'
+  echo | zsh -i -c -- '@zinit-scheduler burst' || true
 fi
