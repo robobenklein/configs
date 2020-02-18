@@ -13,7 +13,8 @@ include disable-passwdmgr.inc
 
 #whitelist ${DOWNLOADS}
 
-caps.drop all
+#caps.drop all
+caps.keep sys_admin,sys_chroot
 netfilter
 nodvd
 #nogroups
@@ -23,13 +24,13 @@ notv
 nou2f
 #novideo
 #protocol unix,inet,inet6,netlink
-#seccomp
+seccomp
 dns 1.1.1.1 8.8.8.8
 
 #private-bin sh,xdg-mime,tr,sed,echo,head,cut,xdg-open,grep,egrep,bash,zsh
 private-dev
 #private-etc fonts,machine-id,localtime,ld.so.cache,ca-certificates,ssl,pki,crypto-policies,resolv.conf
-#private-tmp
+private-tmp # because /tmp/discord.sock
 
 #noexec ${HOME}
 noexec /tmp
