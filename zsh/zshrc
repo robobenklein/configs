@@ -223,9 +223,9 @@ if [[ -s "$HOME/.zinit/bin/zinit.zsh" ]]; then
     themes/fishy.zsh-theme
   )
 
-  zinit ice from"gh" pick"lib/git.zsh" nocompletions blockf \
-    multisrc"${_ZSHRC_OMZ_SRCS}" compile"${_ZSHRC_OMZ_SRCS}"
-  zinit load robbyrussell/oh-my-zsh
+  zinit from"gh" pick"lib/git.zsh" nocompletions blockf \
+    multisrc"${_ZSHRC_OMZ_SRCS}" compile"${_ZSHRC_OMZ_SRCS}" \
+    for @robbyrussell/oh-my-zsh
 
   ### Theme
 
@@ -248,8 +248,8 @@ if [[ -s "$HOME/.zinit/bin/zinit.zsh" ]]; then
   ### Normal Plugins
   # wait'0' plugins are after-prompt loaded.
 
-  zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" atpull'%atclone' pick"clrs.zsh"
-  zinit light trapd00r/LS_COLORS
+  zinit atclone"dircolors -b LS_COLORS > clrs.zsh" atpull'%atclone' pick"clrs.zsh" \
+    for @trapd00r/LS_COLORS
 
   # exa is only available for 64bit Linux & MacOS (by github release)
   if [[ $unamearch == "x86_64" ]]; then
@@ -267,43 +267,43 @@ if [[ -s "$HOME/.zinit/bin/zinit.zsh" ]]; then
     zinit load ogham/exa
   fi
 
-  zinit ice from"gh" wait'0' blockf
-  zinit load zsh-users/zsh-completions
+  zinit from"gh" wait'0' blockf \
+    for @zsh-users/zsh-completions
 
-  zinit ice from"gh" wait'0' lucid
-  zinit load robobenklein/k
+  zinit from"gh" wait'0' lucid \
+    for @robobenklein/k
 
-  zinit ice from"gh" wait'0' lucid
-  zinit load zdharma/history-search-multi-word
+  zinit from"gh" wait'0' lucid \
+    for @zdharma/history-search-multi-word
 
-  zinit ice from"gh" wait'0' lucid as"program" pick"bin/git-dsf"
-  zinit load zdharma/zsh-diff-so-fancy
+  zinit from"gh" wait'0' lucid as"program" pick"bin/git-dsf" \
+    for @zdharma/zsh-diff-so-fancy
 
-  zinit ice from"gh" wait'1' atload'zinc_optional_depenency_loaded'
-  zinit load romkatv/gitstatus
+  zinit from"gh" wait'1' atload'zinc_optional_depenency_loaded' \
+    for @romkatv/gitstatus
 
-  zinit ice from"gh" lucid as"program" pick"fzy" make
-  zinit light jhawthorn/fzy
+  zinit from"gh" lucid as"program" pick"fzy" make light-mode \
+    for @jhawthorn/fzy
 
-  zinit ice from"gh" atload'zpcompinit; zpcdreplay' wait'1'
-  zinit light zdharma/fast-syntax-highlighting
+  zinit from"gh" atload'zpcompinit; zpcdreplay' wait'1' \
+    for @zdharma/fast-syntax-highlighting
 
   function zinit-setup-zsh-dev () {
-    zinit ice from"gh" blockf nocompletions
-    zinit light zdharma/zui
+    zinit from"gh" blockf nocompletions \
+      for @zdharma/zui
 
-    zinit ice from"gh" lucid
-    zinit load zdharma/zbrowse
+    zinit from"gh" lucid \
+      for @zdharma/zbrowse
 
-    zinit ice from"gh" lucid as"program" pick"build/zsd*" make
-    zinit load zdharma/zshelldoc
+    zinit from"gh" lucid as"program" pick"build/zsd*" make \
+      for @zdharma/zshelldoc
 
-    zinit ice from"gh" lucid as"program" pick"revolver"
-    zinit load molovo/revolver
+    zinit from"gh" lucid as"program" pick"revolver" \
+      for @molovo/revolver
 
-    zinit ice from"gh" lucid as"program" pick"zunit" \
-      atclone"cd zunit && ./build.zsh && chmod u+x ./zunit" atpull"%atclone"
-    zinit load zunit-zsh/zunit
+    zinit from"gh" lucid as"program" pick"zunit" \
+      atclone"cd zunit && ./build.zsh && chmod u+x ./zunit" atpull"%atclone" \
+      for @zunit-zsh/zunit
   }
 
   source $_ZSHRC_PLUNK_LOCATION/zinit-neovim.zsh
