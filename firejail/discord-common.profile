@@ -24,13 +24,13 @@ notv
 nou2f
 #novideo
 #protocol unix,inet,inet6,netlink
-seccomp
+#seccomp
 dns 1.1.1.1 8.8.8.8
 
 #private-bin sh,xdg-mime,tr,sed,echo,head,cut,xdg-open,grep,egrep,bash,zsh
 private-dev
 #private-etc fonts,machine-id,localtime,ld.so.cache,ca-certificates,ssl,pki,crypto-policies,resolv.conf
-private-tmp # because /tmp/discord.sock
-
+private-tmp
+ 
 #noexec ${HOME}
 noexec /tmp
