@@ -274,10 +274,10 @@ if [[ -s "$HOME/.zinit/bin/zinit.zsh" ]]; then
     for @robobenklein/k
 
   zinit from"gh" wait'0' lucid \
-    for @zdharma/history-search-multi-word
+    for @robobenklein/zdharma---history-search-multi-word
 
-  zinit from"gh" wait'0' lucid as"program" pick"bin/git-dsf" \
-    for @zdharma/zsh-diff-so-fancy
+  # zinit from"gh" wait'0' lucid as"program" pick"bin/git-dsf" \
+  #   for @zdharma/zsh-diff-so-fancy
 
   zinit from"gh" wait'1' atload'zinc_optional_depenency_loaded' \
     for @romkatv/gitstatus
@@ -286,17 +286,17 @@ if [[ -s "$HOME/.zinit/bin/zinit.zsh" ]]; then
     for @jhawthorn/fzy
 
   zinit from"gh" atload'zpcompinit; zpcdreplay' wait'1' \
-    for @zdharma/fast-syntax-highlighting
+    for @robobenklein/zdharma---fast-syntax-highlighting
 
   function zinit-setup-zsh-dev () {
-    zinit from"gh" blockf nocompletions \
-      for @zdharma/zui
-
-    zinit from"gh" lucid \
-      for @zdharma/zbrowse
-
-    zinit from"gh" lucid as"program" pick"build/zsd*" make \
-      for @zdharma/zshelldoc
+    # zinit from"gh" blockf nocompletions \
+    #   for @zdharma/zui
+    #
+    # zinit from"gh" lucid \
+    #   for @zdharma/zbrowse
+    #
+    # zinit from"gh" lucid as"program" pick"build/zsd*" make \
+    #   for @zdharma/zshelldoc
 
     zinit from"gh" lucid as"program" pick"revolver" \
       for @molovo/revolver
