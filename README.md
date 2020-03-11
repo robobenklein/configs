@@ -16,7 +16,7 @@
 | Mail | Mutt, Gmail/Inbox, Thunderbird |
 | Chat | Keybase, Discord, Hangouts |
 | Dotfile manager | Dotbot |
-| Distro | Ubuntu (+debian derivs) |
+| Distro | Pop\_OS! (Ubuntu on servers, Debian derivatives elsewhere) |
 | Containers | docker |
 | Chroot | firejail |
 | VMs | Virtualbox, libVirt (QEMU, KVM)  |
