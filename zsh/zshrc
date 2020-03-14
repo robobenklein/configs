@@ -236,15 +236,20 @@ if [[ -s "$HOME/.zinit/bin/zinit.zsh" ]]; then
   if [[ "$ZSH_THEME" == "zinc" ]]; then
     zinit ice from"gl" if'[[ "$ZSH_THEME" == "zinc" ]]' nocompletions \
       id-as'zinc' atpull'prompt_zinc_compile' compile"{zinc_functions/*,segments/*,zinc.zsh}"
-    [[ -d $HOME/code/zinc ]] && {
+    if [[ -d $HOME/code/zinc ]]; then
       zinit load $HOME/code/zinc
       prompt_zinc_setup dev robobenklein
-    } || {
+    else
       zinit light robobenklein/zinc
       prompt_zinc_setup robobenklein
-    }
+    fi
   fi
-
+  if [[ "$ZSH_THEME" == "zinc2" ]]; then
+    zinit ice from"gl" if'[[ "$ZSH_THEME" == "zinc2" ]]' nocompletions \
+      id-as'zinc2' atpull'prompt_zinc_compile' compile"{zinc_functions/*,segments/*,zinc.zsh}"
+    zinit load $HOME/code/zinc2
+    prompt_zinc_setup dev robobenklein
+  fi
   ### Normal Plugins
   # wait'0' plugins are after-prompt loaded.
 
