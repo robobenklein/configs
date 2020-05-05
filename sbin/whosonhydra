@@ -45,8 +45,8 @@ for i in {0..30}; do
   echo hydra$i: $(echo ${hydrausers[hydra$i]} | grep -v '!FAILURE' | wc -w) users: ${hydrausers[hydra$i]}
 done
 
-for key in ${!failures[@]}; do
-    echo ${key} ${failures[${key}]}
+for key in ${(k)failures}; do
+  echo ${key} ${failures[${key}]}
 done
 
 # Total number of unique users:
