@@ -30,7 +30,7 @@ dns 1.1.1.1 8.8.8.8
 #private-bin sh,xdg-mime,tr,sed,echo,head,cut,xdg-open,grep,egrep,bash,zsh
 private-dev
 #private-etc fonts,machine-id,localtime,ld.so.cache,ca-certificates,ssl,pki,crypto-policies,resolv.conf
-private-tmp
+#private-tmp
  
 #noexec ${HOME}
 noexec /tmp
