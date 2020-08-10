@@ -25,7 +25,7 @@ nou2f
 #novideo
 #protocol unix,inet,inet6,netlink
 #seccomp
-dns 1.1.1.1 8.8.8.8
+#dns 1.1.1.1 8.8.8.8
 
 #private-bin sh,xdg-mime,tr,sed,echo,head,cut,xdg-open,grep,egrep,bash,zsh
 private-dev
