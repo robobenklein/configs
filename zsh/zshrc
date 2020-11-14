@@ -493,11 +493,12 @@ function cdaf () {
 alias cd=cdaf
 
 # auto-cat for dirs
+(( ${+commands[bat]} )) && _c_cat_cmd=('bat' '-pp') || _c_cat_cmd=('cat')
 function c () {
   if [[ -d $1 ]]; then
     lslbntl "$@"
   else
-    cat "$@"
+    $_c_cat_cmd "$@"
   fi
 }
 
