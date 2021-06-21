@@ -485,7 +485,7 @@ function cdaf () {
     local godir=($(builtin print ${(j.\n.)locations} | fzy)) && {
       (( #godir > 0 )) || return 0
       shift godir
-      [[ ! -z $godir ]] && builtin cd ${godir}
+      [[ ! -z $godir ]] && builtin cd "${godir}"
     }
   fi
 }
