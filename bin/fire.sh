@@ -6,6 +6,9 @@ function fire {
     return 1
   }
 
+  # fix Error: too long environment variables
+  unset LS_COLORS
+
   prog="$1"
   shift
   case "$prog" in
