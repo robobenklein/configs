@@ -1,14 +1,36 @@
 #!/bin/zsh
 
 repo_uri="$1"
-target_path="$2"
+shift
+target_paths=($@)
+extra_opts=( --stats --progress )
 
-if [[ -z $repo_uri ]] || [[ ! -d $target_path ]]; then
+if [[ -z $repo_uri ]]; then
   echo "$0 user@host:/path/to/repo /folder"
   exit 0
 fi
+(( ${#target_paths} )) && {
+  path_names=()
+  for d in $target_paths ; do
+    fromroot="${d#/}"
+    path_names+=("${fromroot//\//}")
+  done
+  archive_name="${(j.,.)path_names}"
+} || {
+  archive_name="robo-system-script"
+  extra_opts+=( --one-file-system )
+  target_paths=( /boot /etc /home /opt /root /srv /usr /var )
+  # some paths are just links into /usr (on some systems)
+  if_present_paths=( /bin /lib /lib32 /lib64 /libx32 /sbin )
+  for dir in $if_present_paths; do
+    [[ -e $dir ]] && target_paths+=("$dir")
+  done
+}
 
-cmd="sudo nice borg create --stats --progress '${repo_uri}::{hostname}-{now:%Y-%m-%d}-${target_path//\//-}' $target_path"
+echo "Target paths: ${target_paths}"
+echo "Archive name: ${archive_name}"
+
+cmd="sudo nice borg create ${extra_opts} '${repo_uri}::{hostname}-{now:%Y-%m-%d}-${archive_name//\//-}' ${target_paths}"
 echo "$cmd"
 printf '%s' 'Run command? [y/n]'
 
