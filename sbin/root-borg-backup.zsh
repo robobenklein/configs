@@ -13,7 +13,7 @@ fi
   path_names=()
   for d in $target_paths ; do
     fromroot="${d#/}"
-    path_names+=("${fromroot//\//}")
+    path_names+=("${fromroot//\//_}")
   done
   archive_name="${(j.,.)path_names}"
 } || {
