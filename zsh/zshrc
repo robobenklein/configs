@@ -278,7 +278,8 @@ if [[ -s "$HOME/.zinit/bin/zinit.zsh" ]]; then
   zinit from"gh" wait'0' lucid \
     for @robobenklein/k
 
-  zinit from"gh" wait'0' lucid \
+  # zinit from"gh" wait'0' lucid \
+  zinit from"gh" lucid \
     for @robobenklein/zdharma-history-search-multi-word
 
   # zinit from"gh" wait'0' lucid as"program" pick"bin/git-dsf" \
@@ -574,6 +575,9 @@ bindkey -s "^[OM" "^M"
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '\C-x\C-e' edit-command-line
+
+bindkey '^K' kill-line
+bindkey '^Q' push-line
 
 ### After the last of the compdefs
 
