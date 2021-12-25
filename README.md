@@ -6,21 +6,20 @@
 | Shell | zsh |
 | Shell Framework | Zinit |
 | Shell theme | ZINC, Fishy |
-| DE | Pop Shell, Gnome, Unity, i3 |
+| DE | Gnome + Pop Shell |
 | CLI Editor | Vim (Neovim) |
-| IDE (General Purpose) | Atom (CodeRibbon) |
+| IDE | Atom (CodeRibbon) |
 | Terminal | Tilix |
 | Multiplexer | tmux |
-| Audio | MPD, Picard |
+| Audio | MPD, Picard, Jellyfin |
 | Monitoring | htop, conky, Prometheus/Influx/Grafana |
-| Mail | Mutt, Gmail, Thunderbird |
-| Chat | Matrix, Keybase, Discord, ~~Hangouts~~ |
+| Mail | Mutt, Gmail, Thunderbird, Protonmail |
+| Chat | Matrix, Keybase, Discord |
 | Dotfile manager | Dotbot |
-| Distro | Pop\_OS! (Ubuntu on servers, Debian derivatives elsewhere) |
+| Distro | Pop!\_OS (Ubuntu on servers, Debian derivatives elsewhere) |
 | Containers | docker |
 | Chroot | firejail |
-| VMs | Virtualbox, libVirt (QEMU, KVM) |
-| Games | Steam, Itch, Humble |
+| Games | Steam, Itch, Humble, Lutris |
 
 ### Docker
 
