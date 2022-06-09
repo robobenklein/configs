@@ -48,6 +48,7 @@ function fancy-docker() {
   echo "Output: ${tmpout}/docker.log"
   echo "Steps: ${tmpout}/steps.log"
 }
+(( ${+functions[compdef]} )) || autoload -Uz compinit && compinit -u
 compdef _docker fancy-docker
 
 fi

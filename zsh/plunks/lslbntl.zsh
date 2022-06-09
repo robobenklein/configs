@@ -222,3 +222,7 @@ EOF
     esac
   fi
 }
+
+if (( ${+_zsh_presenter_overrides} )); then
+  _zsh_presenter_overrides[lslbntl]="ls"
+fi

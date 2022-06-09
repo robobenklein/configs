@@ -161,8 +161,8 @@ export FPATH
 # PLugin chUNKS
 plunks=(
   lca # last command arguments
-  lslbntl # ls long, but not too long
   presenter-mode # zsh for presenting to groups
+  lslbntl # ls long, but not too long
   fancy-docker # for when you really just want a progress bar
   rtabfunc # rtab with fixes as a zsh function
   fzy-tmux # tmux fuzzy selector

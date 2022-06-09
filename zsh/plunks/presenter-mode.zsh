@@ -1,4 +1,7 @@
 
+typeset -A _zsh_presenter_overrides
+_zsh_presenter_overrides=()
+
 # function which sets up the terminal for use during demos and explainers
 function zsh_presenter_mode_start() {
   # function that prints the expanded command right-aligned before running it
@@ -29,7 +32,7 @@ function zsh_presenter_mode_start() {
   # load the as-you-type expansion:
   zinit ice from"gh"
   zinit load "simnalamburt/zsh-expand-all"
-  ZSH_EXPAND_ALL_DISABLE=word
+  ZSH_EXPAND_ALL_DISABLE="word"
   sleep 1
   clear
   echo ""
