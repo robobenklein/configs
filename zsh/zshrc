@@ -359,11 +359,18 @@ if [[ -d "$HOME/.nvm" ]]; then
   [[ -s "$NVM_DIR/bash_completion" ]] && \. "$NVM_DIR/bash_completion"
 fi
 
-# Add RVM to PATH for scripting.
-if [[ -d "$HOME/.rvm" ]]; then
-  # export PATH="$PATH:$HOME/.rvm/bin"
-  path+=("$HOME/.rvm/bin")
-fi
+# # Add RVM to PATH for scripting.
+# if [[ -d "$HOME/.rvm" ]]; then
+#   # export PATH="$PATH:$HOME/.rvm/bin"
+#   path+=("$HOME/.rvm/bin")
+# fi
+
+# Place rbenv bin at front of path
+[[ -e "$HOME/.rbenv/bin/rbenv" ]] && {
+  path[1,0]="$HOME/.rbenv/bin/rbenv"
+  rehash
+  eval "$(rbenv init -)"
+}
 
 if [[ -d "$HOME/.cargo/bin" ]]; then
   path+=("$HOME/.cargo/bin")
