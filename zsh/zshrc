@@ -285,8 +285,8 @@ if [[ -s "$HOME/.zinit/bin/zinit.zsh" ]]; then
   # zinit from"gh" wait'0' lucid as"program" pick"bin/git-dsf" \
   #   for @zdharma/zsh-diff-so-fancy
 
-  #zinit from"gh" wait'1' atload'zinc_optional_depenency_loaded' \
-  #  for @romkatv/gitstatus
+  zinit from"gh" wait'1' atload'zinc_optional_depenency_loaded' \
+    for @romkatv/gitstatus
 
   zinit from"gh" lucid as"program" pick"fzy" make light-mode \
     for @jhawthorn/fzy
