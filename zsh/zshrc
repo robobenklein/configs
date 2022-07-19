@@ -366,9 +366,7 @@ fi
 # fi
 
 # Place rbenv bin at front of path
-[[ -e "$HOME/.rbenv/bin/rbenv" ]] && {
-  path[1,0]="$HOME/.rbenv/bin/rbenv"
-  rehash
+[[ -e "$HOME/.rbenv/" ]] && (( ${+commands[rbenv]} )) && {
   eval "$(rbenv init -)"
 }
 
