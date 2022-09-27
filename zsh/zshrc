@@ -325,9 +325,11 @@ else
     printf '%b\n' "\033[0;31mZSHRC: zinit not found!\033[0m"
     printf '%b\n' "Trying installing the configs repo at $_ZSHRC_INSTALL_DIR ..."
     pushd $_ZSHRC_INSTALL_DIR/../
-    ./install
+    # make sure this only execs on success
+    ./install && exec zsh -i -c -- '@zinit-scheduler burst || true'
     popd
-    zsh -i -c -- '@zinit-scheduler burst || true'
+    printf '%b\n' "Install of configs failed?"
+    # zsh -i -c -- '@zinit-scheduler burst || true'
   fi
 fi
 
