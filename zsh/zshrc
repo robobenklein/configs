@@ -216,7 +216,7 @@ if [[ -s "$HOME/.zinit/bin/zinit.zsh" ]]; then
     lib/termsupport.zsh
     # lib/theme-and-appearance.zsh
 
-    plugins/z/z.sh
+    plugins/z/z.plugin.zsh
     plugins/git/git.plugin.zsh
     # plugins/command-not-found/command-not-found.plugin.zsh
 
@@ -497,7 +497,7 @@ function cdaf () {
     else
       locations+=("${(r:10:)val} $HOME")
       locations+=(
-        "${(@f)$(_z -l 2>&1 | tac)}"
+        "${(@f)$(zshz -l 2>&1 | tac)}"
       )
     fi
     local godir=($(builtin print ${(j.\n.)locations} | fzy)) && {
