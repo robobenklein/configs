@@ -259,14 +259,15 @@ if [[ -s "$HOME/.zinit/bin/zinit.zsh" ]]; then
   # exa is only available for 64bit Linux & MacOS (by github release)
   if [[ $unamearch == "x86_64" ]]; then
     if [[ $unamestr == "Linux" ]]; then
-      zinit ice nocompletions from"gh-r" bpick"*-linux-$unamearch-*" \
-        as"program" mv"exa-linux-* -> exa" pick"exa"
+      zinit ice nocompletions from"gh-r" bpick"*-linux-$unamearch-musl-*.zip" \
+        extract"" as"command" mv"bin/exa-linux-* -> exa" pick"exa" ver"v0.10.1"
     elif [[ $unamestr == "Darwin" ]]; then
+      printf '%b\n' "\033[0;33mZSHRC: Warning: EXA auto-install untested on macos.\033[0;0m"
       zinit ice nocompletions from"gh-r" bpick"*-macos-$unamearch-*" \
-        as"program" mv"exa-macos-* -> exa" pick"exa"
+        extract as"command" mv"bin/exa-macos-* -> exa" pick"exa"
     else
       zinit ice nocompletions from"gh-r" bpick"*-$unamestr-$unamearch-*" \
-        as"program" mv"exa-* -> exa" pick"exa"
+        extract as"command" mv"bin/exa-* -> exa" pick"exa"
       printf '%b\n' "\033[0;33mZSHRC: Warning: EXA auto-install probably not available.\033[0;0m"
     fi
     zinit load ogham/exa
