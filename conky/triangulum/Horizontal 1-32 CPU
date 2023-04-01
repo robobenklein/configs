@@ -7,7 +7,7 @@ conky.config = {
 	alignment = 'bottom_left',
 
 	border_width = 0,
-	cpu_avg_samples = 2,
+	cpu_avg_samples = 1,
 	default_color = 'white',
 	default_outline_color = 'white',
 	default_shade_color = 'white',
@@ -52,16 +52,22 @@ conky.config = {
 
 };
 
-conky.text = [[
+conky.text = [[#
 ${goto 0}${cpugraph cpu0 100,200}#
-${goto 200}${cpugraph cpu1 25,100}${cpugraph cpu2 25,100}${cpugraph cpu3 25,100}${cpugraph cpu4 25,100}${cpugraph cpu5 25,100}${cpugraph cpu6 25,100}${cpugraph cpu7 25,100}${cpugraph cpu8 25,100}#
+${goto 200}${voffset 0}${cpugraph cpu1 25,100}${cpugraph cpu2 25,100}${cpugraph cpu3 25,100}${cpugraph cpu4 25,100}${cpugraph cpu5 25,100}${cpugraph cpu6 25,100}${cpugraph cpu7 25,100}${cpugraph cpu8 25,100}#
 ${goto 200}${voffset 25}${cpugraph cpu9 25,100}${cpugraph cpu10 25,100}${cpugraph cpu11 25,100}${cpugraph cpu12 25,100}${cpugraph cpu13 25,100}${cpugraph cpu14 25,100}${cpugraph cpu15 25,100}${cpugraph cpu16 25,100}${voffset -25}#
 ${goto 200}${voffset 50}${cpugraph cpu17 25,100}${cpugraph cpu18 25,100}${cpugraph cpu19 25,100}${cpugraph cpu20 25,100}${cpugraph cpu21 25,100}${cpugraph cpu22 25,100}${cpugraph cpu23 25,100}${cpugraph cpu24 25,100}${voffset -50}#
 ${goto 200}${voffset 75}${cpugraph cpu25 25,100}${cpugraph cpu26 25,100}${cpugraph cpu27 25,100}${cpugraph cpu28 25,100}${cpugraph cpu29 25,100}${cpugraph cpu30 25,100}${cpugraph cpu31 25,100}${cpugraph cpu32 25,100}${voffset -75}#
 ${goto 0}${voffset 112}${color3}${cpubar cpu0 10,1000}${voffset -112}#
 ${goto 200}${font Ubuntu:size=10}${voffset 10}${color3}#
-${voffset 10}#
-${goto 68}${freq_g }GHz#
+${voffset 0}#
+${goto 68}total#
+${color2}#
 ${voffset -20}#
 ${goto 20}${voffset -70}${font Ubuntu:size=14}${voffset -12}${color2}CPU#
 ]];
+-- apparently per-core freqs are not correct
+-- ${goto 210}${voffset 00}${freq_g cpu1}${goto 310}${freq_g cpu2}${goto 410}${freq_g cpu3}${goto 510}${freq_g cpu4}${goto 610}${freq_g cpu5}${goto 710}${freq_g cpu6}${goto 810}${freq_g cpu7}${goto 910}${freq_g cpu8}#
+-- ${goto 210}${voffset 25}${freq_g cpu9}${goto 310}${freq_g cpu10}${goto 410}${freq_g cpu11}${goto 510}${freq_g cpu12}${goto 610}${freq_g cpu13}${goto 710}${freq_g cpu14}${goto 810}${freq_g cpu15}${goto 910}${freq_g cpu16}${voffset -25}#
+-- ${goto 210}${voffset 50}${freq_g cpu17}${goto 310}${freq_g cpu18}${goto 410}${freq_g cpu19}${goto 510}${freq_g cpu20}${goto 610}${freq_g cpu21}${goto 710}${freq_g cpu22}${goto 810}${freq_g cpu23}${goto 910}${freq_g cpu24}${voffset -50}#
+-- ${goto 210}${voffset 75}${freq_g cpu25}${goto 310}${freq_g cpu26}${goto 410}${freq_g cpu27}${goto 510}${freq_g cpu28}${goto 610}${freq_g cpu29}${goto 710}${freq_g cpu30}${goto 810}${freq_g cpu31}${goto 910}${freq_g cpu32}${voffset -75}#
