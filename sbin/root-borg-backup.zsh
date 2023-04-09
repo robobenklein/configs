@@ -3,7 +3,7 @@
 repo_uri="$1"
 shift
 target_paths=($@)
-extra_opts=( --stats --progress --exclude "$HOME/.cache" )
+extra_opts=( --stats --progress --exclude '/home/*/.cache' --exclude '/root/.cache' )
 
 if [[ -z $repo_uri ]]; then
   echo "$0 user@host:/path/to/repo /folder"
