@@ -30,13 +30,13 @@ fi
 echo "Target paths: ${target_paths}"
 echo "Archive name: ${archive_name}"
 
-cmd="sudo nice borg create ${extra_opts} '${repo_uri}::{hostname}-{now:%Y-%m-%d}-${archive_name//\//-}' ${target_paths}"
+cmd=(sudo nice borg create ${extra_opts} "${repo_uri}"'::{hostname}-{now:%Y-%m-%d}-'"${archive_name//\//-}" ${target_paths})
 echo "$cmd"
 printf '%s' 'Run command? [y/n]'
 
 if read -q accept; then
   echo
-  zsh -ic $cmd
+  ${cmd[@]}
 else
   echo ""
 fi
