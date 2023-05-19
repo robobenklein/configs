@@ -629,7 +629,7 @@ typeset -U path # unique items only in path array
 [[ -d "$HOME/.local/bin" ]] && path[1,0]="$HOME/.local/bin"
 
 # if pyenv is used, it needs to come before .local/bin for shims to work
-[[ -d "${PYENV_ROOT}/bin" ]] && path[1,0]="${PYENV_ROOT}/bin"
+[[ -d "${PYENV_ROOT}" ]] && path[1,0]="${PYENV_ROOT}/bin"
 
 # Place home bin at front of path, highest priority
 [[ -d "$HOME/bin" ]] && path[1,0]="$HOME/bin"
