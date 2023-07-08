@@ -13,7 +13,7 @@ function fire {
   shift
   case "$prog" in
     "discord" )
-      export GTK_IM_MODULE=xim
+      export GTK_IM_MODULE=uim
       if (( ${+commands[discord-canary]} )); then
         firejail "$@" --join-or-start=discord discord-canary --disable-smooth-scrolling
       else
