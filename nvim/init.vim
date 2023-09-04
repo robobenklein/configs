@@ -84,5 +84,8 @@ EOF
 " Fixes the weird characters
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 0
 
+" yaml comment annoyance:
+autocmd BufEnter *.yaml,*.yml :set indentkeys-=0#
+
 " End Neovim-only config section
 endif
