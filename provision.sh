@@ -1,6 +1,5 @@
 #!/bin/bash
 # curl -fsSL https://raw.githubusercontent.com/robobenklein/configs/master/provision.sh | bash
-NOW="$(date --rfc-3339=date)"
 mkdir -p ~/code
 pushd ~/code
 [[ ! -d configs ]] && {
