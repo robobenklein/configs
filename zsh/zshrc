@@ -256,23 +256,6 @@ if [[ -s "$HOME/.zinit/bin/zinit.zsh" ]]; then
   zinit atclone"dircolors -b LS_COLORS > clrs.zsh" atpull'%atclone' pick"clrs.zsh" \
     for @trapd00r/LS_COLORS
 
-  # exa is only available for 64bit Linux & MacOS (by github release)
-  if [[ $unamearch == "x86_64" ]]; then
-    if [[ $unamestr == "Linux" ]]; then
-      zinit ice nocompletions from"gh-r" bpick"*-linux-$unamearch-musl-*.zip" \
-        extract"" as"command" pick"bin/exa" ver"v0.10.1"
-    elif [[ $unamestr == "Darwin" ]]; then
-      printf '%b\n' "\033[0;33mZSHRC: Warning: EXA auto-install untested on macos.\033[0;0m"
-      zinit ice nocompletions from"gh-r" bpick"*-macos-$unamearch-*" \
-        extract as"command" mv"bin/exa-macos-* -> exa" pick"exa"
-    else
-      zinit ice nocompletions from"gh-r" bpick"*-$unamestr-$unamearch-*" \
-        extract as"command" mv"bin/exa-* -> exa" pick"exa"
-      printf '%b\n' "\033[0;33mZSHRC: Warning: EXA auto-install probably not available.\033[0;0m"
-    fi
-    zinit load ogham/exa
-  fi
-
   zinit from"gh" wait'0' blockf \
     for @zsh-users/zsh-completions
 
@@ -417,8 +400,8 @@ function zsh_start_vi_mode() {
 
 alias zvi=zsh_start_vi_mode
 
-if (( ${+commands[exa]} )) && command exa -v >/dev/null 2>&1; then
-  export Z_LSBASE='exa'
+if (( ${+commands[eza]} )) && command eza -v >/dev/null 2>&1; then
+  export Z_LSBASE='eza'
   Z_LSARG_HUMAN=('--git')
   export Z_LSARG_HUMAN
   export Z_LSARG_LONG='--long'
@@ -551,6 +534,9 @@ if (( ${+commands[virtualenv]} )); then
 fi
 if (( ${+commands[bundle]} )); then
   alias bexec="bundle exec"
+fi
+if (( ${+commands[tig]} )); then
+  alias tigi="tig --date-order --all --remotes"
 fi
 if command -v bfg.jar > /dev/null 2>&1 && (( ${+commands[java]} )); then
   alias bfg="java -jar $(which bfg.jar )"

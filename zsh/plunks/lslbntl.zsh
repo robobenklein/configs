@@ -39,10 +39,10 @@ function lslbntl() {
     # display group if there are differences
     if (( ${#Z_TMP_STAT_GIDU} > 1 )) || [[ ${Z_TMP_STAT_GIDU[1]} != $USER ]]; then
       Z_TMP_GRP=''
-      [[ $Z_LSBASE == 'exa' ]] && Z_TMP_GRP='-g'
+      [[ $Z_LSBASE == 'eza' ]] && Z_TMP_GRP='-g'
     else
       Z_TMP_GRP='-g'
-      [[ $Z_LSBASE == 'exa' ]] && Z_TMP_GRP=''
+      [[ $Z_LSBASE == 'eza' ]] && Z_TMP_GRP=''
     fi
     # force color on
     Z_TMP_LS_DOTSHOWN=$($Z_LSBASE $Z_TMP_GRP $Z_LSARG_HUMAN $Z_LSARG_LONG $Z_LSARG_ALL $Z_LSARG_FORCE_COLOR "$@" 2>&1 )
@@ -63,8 +63,8 @@ function lslbntl() {
 
 typeset -A LSLBNTL
 
-if command exa -v >/dev/null 2>&1; then
-  LSLBNTL[exa_ok]=1
+if command eza -v >/dev/null 2>&1; then
+  LSLBNTL[eza_ok]=1
 fi
 
 function lslbntlv2 () {
@@ -176,22 +176,22 @@ EOF
   echo grps: $groups
 
   # detect which backend and execute command
-  if (( ${+commands[exa]} )) && (( LSLBNTL[exa_ok] )); then
-    exa_common_args=(--git )
+  if (( ${+commands[eza]} )) && (( LSLBNTL[eza_ok] )); then
+    eza_common_args=(--git )
     if (( ${#groups} > 1 )); then
       # show groups
-      exa_common_args+=( -g )
+      eza_common_args+=( -g )
       echo show groups
     fi
     case ${mode} in
       tree )
-        exa ${exa_common_args} -lT "${@:-.}"
+        eza ${eza_common_args} -lT "${@:-.}"
         ;;
       short )
-        exa ${exa_common_args} -l "${@:-.}"
+        eza ${eza_common_args} -l "${@:-.}"
         ;;
       long )
-        exa ${exa_common_args} -la "${@:-.}"
+        eza ${eza_common_args} -la "${@:-.}"
         ;;
     esac
   elif (( ${+commands[tree]} )) && [[ ${mode} == 'tree' ]]; then
