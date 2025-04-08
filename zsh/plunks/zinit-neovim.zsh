@@ -4,7 +4,7 @@ function zinit-setup-neovim () {
   if [[ $unamearch == "x86_64" ]]; then
     if [[ $unamestr == "Linux" ]]; then
       zinit ice nocompletions from"gh-r" bpick"*.appimage" \
-        as"program" mv"nvim.appimage -> nvim" pick"nvim" id-as'neovim'
+        as"program" mv"nvim-linux-x86_64.appimage -> nvim" pick"nvim" id-as'neovim'
       zinit load neovim/neovim
     elif [[ $unamestr == "Darwin" ]]; then
       # not yet implemented

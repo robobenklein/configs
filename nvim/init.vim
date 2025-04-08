@@ -16,6 +16,7 @@ if has('nvim')
 
   " Neovim-only plugins:
   Plug 'Vigemus/nvimux'
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 else
   " Normal VIM
   if empty(glob('~/.vim/autoload/plug.vim'))
@@ -89,3 +90,5 @@ autocmd BufEnter *.yaml,*.yml :set indentkeys-=0#
 
 " End Neovim-only config section
 endif
+
+set mouse=
