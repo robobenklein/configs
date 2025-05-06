@@ -359,7 +359,11 @@ fi
 
 # Place rbenv bin at front of path
 [[ -e "$HOME/.rbenv/" ]] && (( ${+commands[rbenv]} )) && {
-  eval "$(rbenv init -)"
+  if [[ -e "$HOME/.rbenv/bin/rbenv" ]]; then
+    eval "$($HOME/.rbenv/bin/rbenv init -)"
+  else
+    eval "$(rbenv init -)"
+  fi
 }
 
 if [[ -d "$HOME/.cargo/bin" ]]; then
