@@ -46,7 +46,7 @@
     ~/.config/autostart/gnome-keyring-ssh.desktop:
       create: true
       path: xdg-autostart/gnome-keyring-ssh.desktop
-      if: '[ $DESKTOP_SESSION = "gnome-xorg" ]'
+      if: '[ $DESKTOP_SESSION = "gnome-xorg" ] || [ $DESKTOP_SESSION = "gnome" ]'
 
   # Firejail
     ~/.config/firejail:
