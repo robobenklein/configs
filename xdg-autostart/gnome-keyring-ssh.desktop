@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=SSH Key Agent
+Comment=GNOME Keyring: SSH Agent
+Exec=echo /usr/bin/gnome-keyring-daemon --start --components=ssh
+X-GNOME-Autostart-Phase=PreDisplayServer
+X-GNOME-AutoRestart=false
+X-GNOME-Autostart-Notify=true
+
+# I do not want Gnome to handle my SSH keys, therefore:
+Hidden=true
+# should disable it from automatic startup
