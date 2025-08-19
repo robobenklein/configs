@@ -8,3 +8,6 @@
 	path = zinit
 	url = https://github.com/robobenklein/zinit.git
 	branch = master
+[submodule "powerline-fonts"]
+	path = powerline-fonts
+	url = https://github.com/powerline/fonts.git
