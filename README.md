@@ -6,20 +6,20 @@
 | Shell | zsh |
 | Shell Framework | Zinit |
 | Shell theme | ZINC, Fishy |
-| DE | Gnome + Pop Shell |
+| DE | Gnome |
 | CLI Editor | Vim (Neovim) |
 | IDE | Atom (CodeRibbon) |
 | Terminal | Tilix |
 | Multiplexer | tmux |
-| Audio | MPD, Picard, Jellyfin |
-| Monitoring | htop, conky, Prometheus/Influx/Grafana |
-| Mail | Mutt, Gmail, Thunderbird, Protonmail |
+| Audio | Jellyfin, MPD, Picard |
+| Monitoring | htop, conky, Telegraf/Influx/Grafana |
+| Mail | Thunderbird, Protonmail |
 | Chat | Matrix, Keybase, Discord |
 | Dotfile manager | Dotbot |
-| Distro | Pop!\_OS (Ubuntu on servers, Debian derivatives elsewhere) |
+| Distro | Debian & derivatives |
 | Containers | docker |
 | Chroot | firejail |
-| Games | Steam, Itch, Humble, Lutris |
+| Games | Steam, Itch, Lutris |
 
 ### Docker
 
@@ -28,7 +28,6 @@
 If you have docker and just want to try out these configs without changing anything on your machine,
 
 ```
-docker pull robobenklein/home
 docker run --rm -it robobenklein/home:latest zsh -i
 # by default it starts without a powerline prompt,
 # but if you have powerline fonts:

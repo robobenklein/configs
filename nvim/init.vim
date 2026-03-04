@@ -89,7 +89,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 0
 autocmd BufEnter *.yaml,*.yml :set indentkeys-=0#
 
 " treesitter highlighting
-lua require'nvim-treesitter.configs'.setup{highlight={enable=true}}
+lua require'nvim-treesitter.config'.setup{highlight={enable=true}}
 
 " End Neovim-only config section
 endif

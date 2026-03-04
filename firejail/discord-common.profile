@@ -8,7 +8,7 @@ include discord-common.local
 
 include disable-common.inc
 #include disable-devel.inc
-include disable-passwdmgr.inc
+#include disable-passwdmgr.inc
 #include disable-programs.inc
 
 #whitelist ${DOWNLOADS}
