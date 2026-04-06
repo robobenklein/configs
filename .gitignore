@@ -1,2 +1,8 @@
 *.zwc
 *.pyc
+
+# nix
+/outputs
+result
+result-*
+flake-regressions
