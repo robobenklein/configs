@@ -24,7 +24,7 @@
   let
     # TODO something more dynamic? what is the nix convention for this one?
     username = "robo";
-    # TODO support other archs
+    # TODO how to support other archs
     system = "x86_64-linux";
   in
   {
