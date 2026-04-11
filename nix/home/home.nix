@@ -5,7 +5,15 @@
   programs.plasma = {
     enable = true;
     shortcuts = {
-      kwin.Overview = ["Meta" "Meta+Space" "Meta+W"];
+      kwin = {
+        Overview = ["Meta" "Meta+Space" "Meta+W"];
+        "Grid View" = "Meta+G";
+        "Switch One Desktop to the Left" = ["Meta+PgUp" "Meta+Ctrl+Left"];
+        "Switch One Desktop to the Right" = ["Meta+PgDown" "Meta+Ctrl+Right"];
+      };
+      ksmserver = {
+        "Lock Session" = "Meta+Escape";
+      };
     };
     configFile = {
       kwinrc."org.kde.kdecoration2".ButtonsOnLeft = "X";
