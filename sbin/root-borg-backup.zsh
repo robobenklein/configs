@@ -30,6 +30,7 @@ fi
 
 echo "Target paths: ${target_paths}"
 echo "Archive name: ${archive_name}"
+echo "Borg version: $($borg_cmd --version)"
 
 cmd=(sudo nice $borg_cmd create ${extra_opts} "${repo_uri}"'::{hostname}-{now:%Y-%m-%d}-'"${archive_name//\//-}" ${target_paths})
 echo "$cmd"
