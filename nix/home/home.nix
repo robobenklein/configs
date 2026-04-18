@@ -29,10 +29,10 @@ in
 {
   home.stateVersion = "25.11";
 
-  #home.packages = [
-  #  dynamicWorkspaces
-  #  virtualDesktopsOnlyOnPrimary
-  #];
+  home.packages = [
+    dynamicWorkspaces
+    virtualDesktopsOnlyOnPrimary
+  ];
 
   programs.plasma = {
     enable = true;
@@ -169,17 +169,17 @@ in
       kded5rc.Module-device_automounter.autoload = false;
       kded6rc.Module-device_automounter.autoload = false;
 
-      #kwinrc.Plugins.dynamic_workspacesEnabled = true;
-      #kwinrc.Plugins."virtual-desktops-only-on-primaryEnabled" = true;
+      kwinrc.Plugins.dynamic_workspacesEnabled = true;
+      kwinrc.Plugins."virtual-desktops-only-on-primaryEnabled" = true;
 
-      #kwinrc."Script-dynamic_workspaces" = {
-      #  keepEmptyMiddleDesktops = false;
-      #};
+      kwinrc."Script-dynamic_workspaces" = {
+        keepEmptyMiddleDesktops = false;
+      };
 
-      #kwinrc."Script-virtual-desktops-only-on-primary" = {
-      #  primaryOutputIndex = 0;
-      #  numberOfScreens = 3;
-      #};
+      kwinrc."Script-virtual-desktops-only-on-primary" = {
+        primaryOutputIndex = 0;
+        numberOfScreens = 3;
+      };
     };
   };
 }
