@@ -44,7 +44,7 @@ in
       titlebarButtons.left = [ "close" ];
       titlebarButtons.right = [ ];
       virtualDesktops.rows = 1;
-      effects.desktopSwitching.animation = "fade";
+      effects.desktopSwitching.animation = "slide";
       effects.windowOpenClose.animation = "glide";
     };
 
@@ -65,39 +65,41 @@ in
       {
         screen = 0;
         location = "left";
-        floating = true;
-        opacity = "adaptive";
-        height = 48;
-        lengthMode = "fit";
+        floating = false;
+        opacity = "translucent";
+        height = 64;
+        lengthMode = "fill";
         hiding = "dodgewindows";
 
         widgets = [
           {
             iconTasks = {
               iconsOnly = true;
-              launchers = [
-                "applications:org.kde.konsole.desktop"
-                "preferred://browser"
-                "applications:org.kde.dolphin.desktop"
-                "applications:code.desktop"
-              ];
+              #launchers = [
+              #  "applications:org.kde.konsole.desktop"
+              #  "preferred://browser"
+              #  "applications:org.kde.dolphin.desktop"
+              #  "applications:code.desktop"
+              #];
 
               appearance = {
                 showTooltips = true;
                 highlightWindows = true;
                 indicateAudioStreams = true;
-                fill = false;
+                fill = true;
                 iconSpacing = "small";
               };
+
+              settings.General.wheelEnabled = "TaskOnly";
 
               behavior = {
                 grouping = {
                   method = "byProgramName";
-                  clickAction = "cycle";
+                  clickAction = "showTooltips";
                 };
                 sortingMethod = "manually";
                 middleClickAction = "newInstance";
-                wheel.switchBetweenTasks = false;
+                #wheel.switchBetweenTasks = false;
                 showTasks = {
                   onlyInCurrentScreen = false;
                   onlyInCurrentDesktop = false;
@@ -114,21 +116,27 @@ in
       {
         screen = 0;
         location = "top";
-        floating = true;
-        opacity = "adaptive";
+        floating = false;
+        opacity = "opaque";
         height = 32;
-        lengthMode = "fit";
+        lengthMode = "fill";
 
         widgets = [
           {
-            pager.general = {
-              showWindowOutlines = true;
-              showApplicationIconsOnWindowOutlines = false;
-              showOnlyCurrentScreen = true;
-              navigationWrapsAround = true;
-              displayedText = "none";
-              selectingCurrentVirtualDesktop = "doNothing";
+            pager = {
+              general = {
+                showWindowOutlines = true;
+                showApplicationIconsOnWindowOutlines = false;
+                showOnlyCurrentScreen = true;
+                navigationWrapsAround = false;
+                displayedText = "none";
+                selectingCurrentVirtualDesktop = "doNothing";
+              };
             };
+          }
+
+          {
+            panelSpacer = {};
           }
 
           {
@@ -136,17 +144,20 @@ in
               date = {
                 enable = true;
                 format.custom = "ddd MMM d";
-                position = "adaptive";
+                position = "besideTime";
               };
               time = {
                 format = "24h";
-                showSeconds = "onlyInTooltip";
+                showSeconds = "always";
               };
               calendar = {
-                firstDayOfWeek = "monday";
-                showWeekNumbers = false;
+                showWeekNumbers = true;
               };
             };
+          }
+
+          {
+            panelSpacer = {};
           }
 
           {
