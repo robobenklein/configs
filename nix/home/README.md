@@ -14,11 +14,11 @@ getting a KDE configuration I'm happy with declaratively defined
 
 # usage
 
-requires: nix, home-manager already installed
+requires: nix, home-manager already installed, qdbus CLI
 
-`home-manager build --flake .`
+`nix run home-manager build --flake .`
 
-`home-manager switch --flake .`
+`nix run home-manager switch --flake .`
 
 
 # TODOs
@@ -33,7 +33,7 @@ requires: nix, home-manager already installed
     - Is there an even easier option? (does plasma-manager expose colors as config?)
   - Still possibly open to other dock/panel alteratives
 - Top center date:
-  - Change to custom format? Perhaps using a strftime?
+  - how to get rid of the `|` separator
 - Top right:
   - "Application Launcher" tap target too small
   - Something else that gives power / login controls?
