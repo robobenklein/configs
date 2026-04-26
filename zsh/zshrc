@@ -276,7 +276,7 @@ if [[ -s "$HOME/.zinit/bin/zinit.zsh" ]]; then
   zinit from"gh" lucid as"program" pick"fzy" make light-mode \
     for @jhawthorn/fzy
 
-  zinit from"gh" atload'zpcompinit; zpcdreplay' wait'0' \
+  zinit from"gh" atload'zpcompinit; zpcdreplay; FAST_HIGHLIGHT[chroma-git]="→chroma/-subcommand.ch"' wait'0' \
     for @robobenklein/zdharma-fast-syntax-highlighting
 
   function zinit-setup-zsh-dev () {
