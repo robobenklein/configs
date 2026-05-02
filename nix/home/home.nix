@@ -32,7 +32,8 @@ in
   home.packages = [
     dynamicWorkspaces
     virtualDesktopsOnlyOnPrimary
-  ];
+    pkgs.plasma-panel-colorizer
+  ] ++ lib.optional (pkgs ? kdePackages && pkgs.kdePackages ? qttools) pkgs.kdePackages.qttools;
 
   programs.plasma = {
     enable = true;
@@ -66,21 +67,24 @@ in
         screen = 0;
         location = "left";
         floating = false;
-        opacity = "translucent";
+        opacity = "transparent";
         height = 64;
         lengthMode = "fill";
         hiding = "dodgewindows";
 
         widgets = [
+          # Panel Colorizer is installed from nixpkgs and inserted into the left
+          # panel so the panel appearance can be made fully transparent instead
+          # of relying only on Plasma's partial/adaptive panel opacity.
+          #
+          # Plasma Manager also knows this plasmoid by plugin id, so leaving it
+          # in the panel list keeps the custom widget part reviewable in Nix.
+          "luisbocanegra.panel.colorizer"
+
           {
             iconTasks = {
               iconsOnly = true;
-              #launchers = [
-              #  "applications:org.kde.konsole.desktop"
-              #  "preferred://browser"
-              #  "applications:org.kde.dolphin.desktop"
-              #  "applications:code.desktop"
-              #];
+              #launchers = favoriteLaunchers;
 
               appearance = {
                 showTooltips = true;
@@ -90,6 +94,7 @@ in
                 iconSpacing = "small";
               };
 
+              # TODO: version dependent?
               settings.General.wheelEnabled = "TaskOnly";
 
               behavior = {
@@ -123,15 +128,13 @@ in
 
         widgets = [
           {
-            pager = {
-              general = {
-                showWindowOutlines = true;
-                showApplicationIconsOnWindowOutlines = false;
-                showOnlyCurrentScreen = true;
-                navigationWrapsAround = false;
-                displayedText = "none";
-                selectingCurrentVirtualDesktop = "doNothing";
-              };
+            pager.general = {
+              showWindowOutlines = true;
+              showApplicationIconsOnWindowOutlines = false;
+              showOnlyCurrentScreen = true;
+              navigationWrapsAround = false;
+              displayedText = "none";
+              selectingCurrentVirtualDesktop = "doNothing";
             };
           }
 
