@@ -67,7 +67,7 @@ in
         screen = 0;
         location = "left";
         floating = false;
-        opacity = "transparent";
+        opacity = "translucent";
         height = 64;
         lengthMode = "fill";
         hiding = "dodgewindows";
