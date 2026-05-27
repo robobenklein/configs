@@ -73,13 +73,26 @@ in
         hiding = "dodgewindows";
 
         widgets = [
-          # Panel Colorizer is installed from nixpkgs and inserted into the left
-          # panel so the panel appearance can be made fully transparent instead
-          # of relying only on Plasma's partial/adaptive panel opacity.
-          #
-          # Plasma Manager also knows this plasmoid by plugin id, so leaving it
-          # in the panel list keeps the custom widget part reviewable in Nix.
-          "luisbocanegra.panel.colorizer"
+          {
+            # Panel Colorizer is installed from nixpkgs and inserted into the left
+            # panel so the panel appearance can be made fully transparent instead
+            # of relying only on Plasma's partial/adaptive panel opacity.
+            #
+            # Plasma Manager also knows this plasmoid by plugin id, so leaving it
+            # in the panel list keeps the custom widget part reviewable in Nix.
+            name = "luisbocanegra.panel.colorizer";
+            config.General = {
+              globalSettings = builtins.toJSON {
+                nativePanel.background = {
+                  enabled = false;
+                  opacity = 0.0;
+                  shadow = false;
+                };
+                panel.normal.enabled = false;
+              };
+              hideWidget = true;
+            };
+          }
 
           {
             iconTasks = {
