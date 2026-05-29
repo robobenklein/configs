@@ -1,5 +1,6 @@
 #!/bin/bash
 # curl -fsSL https://raw.githubusercontent.com/robobenklein/configs/master/provision.sh | bash
+set -e
 mkdir -p ~/code
 pushd ~/code
 [[ ! -d configs ]] && {
