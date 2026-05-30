@@ -25,6 +25,89 @@ let
     pname = "virtual-desktops-only-on-primary";
     version = "0.4.5";
   };
+
+  defaultFavoriteApps = [
+    {
+      id = "files";
+      name = "Files";
+      launcher = "applications:org.kde.dolphin.desktop";
+      command = "gtk-launch org.kde.dolphin";
+    }
+    {
+      id = "browser";
+      name = "Browser";
+      launcher = "preferred://browser";
+      command = "kioclient5 exec preferred://browser --new-window";
+    }
+    {
+      id = "terminal";
+      name = "Tilix";
+      launcher = "applications:com.gexperts.Tilix.desktop";
+      command = "tilix";
+    }
+  ];
+
+  # Optional per-machine favorites file. This file intentionally lives outside
+  # the repo, so a machine can keep its own dock/shortcut choices without
+  # changing shared config. With flakes, reading an arbitrary local file requires
+  # an impure evaluation, e.g.
+  #
+  #   PLASMA_FAVORITES_FILE=$HOME/.config/plasma-favorites.nix \
+  #     home-manager switch --flake . --impure
+  #
+  # If no local file is available, the default list above is used.
+  localFavoritesPathString =
+    let
+      explicit = builtins.getEnv "PLASMA_FAVORITES_FILE";
+      home = builtins.getEnv "HOME";
+    in
+      if explicit != "" then explicit
+      else if home != "" then "${home}/.config/plasma-favorites.nix"
+      else "";
+
+  localFavoritesPath =
+    if localFavoritesPathString == ""
+    then null
+    else /. + localFavoritesPathString;
+
+  localFavoritesRaw =
+    if localFavoritesPath == null || !(builtins.pathExists localFavoritesPath)
+    then { }
+    else import localFavoritesPath;
+
+  localFavorites =
+    if builtins.isList localFavoritesRaw
+    then { favoriteApps = localFavoritesRaw; }
+    else localFavoritesRaw;
+
+  favoriteAppOverrides = localFavorites.appOverrides or { };
+
+  mergeFavoriteApp = app:
+    app // (
+      if builtins.hasAttr app.id favoriteAppOverrides
+      then favoriteAppOverrides.${app.id}
+      else { }
+    );
+
+  favoriteApps =
+    if localFavorites ? favoriteApps
+    then localFavorites.favoriteApps
+    else (map mergeFavoriteApp defaultFavoriteApps) ++ (localFavorites.extraFavoriteApps or [ ]);
+
+  favoriteLaunchers = map (app: app.launcher) favoriteApps;
+
+  favoriteHotkeys =
+    lib.listToAttrs
+      (lib.imap0
+        (index: app: {
+          name = "favorite-${toString (index + 1)}";
+          value = {
+            name = "Favorite ${toString (index + 1)} - ${app.name}";
+            key = "Ctrl+Meta+${toString (index + 1)}";
+            command = app.command;
+          };
+        })
+        favoriteApps);
 in
 {
   home.stateVersion = "25.11";
@@ -38,6 +121,10 @@ in
   programs.plasma = {
     enable = true;
     overrideConfig = true;
+
+    session = {
+      sessionRestore.restoreOpenApplicationsOnLogin = "startWithEmptySession";
+    };
 
     kwin = {
       edgeBarrier = 0;
@@ -61,6 +148,8 @@ in
         "Lock Session" = "Meta+Escape";
       };
     };
+
+    hotkeys.commands = favoriteHotkeys;
 
     panels = [
       {
@@ -97,7 +186,7 @@ in
           {
             iconTasks = {
               iconsOnly = true;
-              #launchers = favoriteLaunchers;
+              launchers = favoriteLaunchers;
 
               appearance = {
                 showTooltips = true;
