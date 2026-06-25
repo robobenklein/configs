@@ -39,6 +39,10 @@ in
     enable = true;
     overrideConfig = true;
 
+    session = {
+      sessionRestore.restoreOpenApplicationsOnLogin = "startWithEmptySession";
+    };
+
     kwin = {
       edgeBarrier = 0;
       cornerBarrier = false;
