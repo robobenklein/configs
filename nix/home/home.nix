@@ -212,5 +212,16 @@ in
         numberOfScreens = 3;
       };
     };
+
+    desktop.layout = "Desktop";
+
+    # TODO disable acceleration for all mice inputs
+    #input = {
+    #  mice = [
+    #    {
+    #      acceleration = 0.0;
+    #    }
+    #  ];
+    #};
   };
 }

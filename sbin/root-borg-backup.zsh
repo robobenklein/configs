@@ -4,7 +4,7 @@
 repo_uri="$1"
 shift
 target_paths=($@)
-extra_opts=( --stats --progress --exclude '/home/*/.cache' --exclude '/root/.cache' --exclude '/home/*/.local/share/Trash' )
+extra_opts=(--exclude-caches --stats --progress --exclude '/home/*/.cache' --exclude '/root/.cache' --exclude '/home/*/.local/share/Trash' )
 borg_cmd=${BORG_COMMAND:-borg}
 
 if [[ -z $repo_uri ]]; then
