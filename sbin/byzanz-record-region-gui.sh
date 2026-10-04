@@ -25,7 +25,8 @@ beep() {
 }
 
 # Custom recording duration as set by user
-USERDUR=$(gdialog --title "Duration?" --inputbox "Please enter the screencast duration in seconds" 200 100 2>&1)
+#USERDUR=$(gdialog --title "Duration?" --inputbox "Please enter the screencast duration in seconds" 200 100 2>&1)
+USERDUR=${1}
 
 # Duration and output file
 if (( USERDUR > 0 )); then
