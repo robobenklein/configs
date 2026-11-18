@@ -207,6 +207,7 @@ if [[ -s "$HOME/.zinit/bin/zinit.zsh" ]]; then
   _ZSHRC_OMZ_SRCS=(
     # lib/compfix.zsh
     lib/completion.zsh
+    lib/async_prompt.zsh
     # lib/directories.zsh
     lib/functions.zsh
     lib/grep.zsh
@@ -270,7 +271,7 @@ if [[ -s "$HOME/.zinit/bin/zinit.zsh" ]]; then
   # zinit from"gh" wait'0' lucid as"program" pick"bin/git-dsf" \
   #   for @zdharma/zsh-diff-so-fancy
 
-  zinit from"gh" wait'1' atload'zinc_optional_depenency_loaded' \
+  zinit from"gh" wait'1' atload'[[ -n $_ZINC_SCRIPTPATH ]] && zinc_optional_depenency_loaded' \
     for @romkatv/gitstatus
 
   zinit from"gh" lucid as"program" pick"fzy" make light-mode \
